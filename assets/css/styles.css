@@ -8,6 +8,25 @@ body {
     background-size: 100%;
 }
 
+
+.branch {              
+    text-align: center;
+    font-size: 25px;
+    border-style: solid;
+    border-radius: 10px;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    margin-left: 400px;
+    margin-right: 400px;
+    padding: 30px 50px 0px 50px;
+
+}
+
+.white{               /* white font */
+    color:white
+}
+
+
 /* ADMISSION CSS GUMALAW KOTONG */
 *{
     padding:0px;
@@ -66,3 +85,10 @@ button{
     padding:15px;
 }
 /* CSS NG ADMISSION SA TAAS */
+
+/* ENROLLMENT CSS GUMALAW KOTONG */
+
+.selectbox{
+    height: 20px;
+    width: 100px;
+}

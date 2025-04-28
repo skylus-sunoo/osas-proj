@@ -30,7 +30,7 @@
                     begins on NOVEMBER 18, 2024. SCAN THE QR CODE OR FOLLOW THE LINK TO APPLY
                     <br> <br>
                     Start of Application: November 18, 2024. <br> <br>
-                    CvSU MAIN CAMPUS: </b> </h2> 
+                    CvSU MAIN CAMPUS: </b> </h2>
             <p> <a href="https://admission.cvsu.edu.ph/"> https://admission.cvsu.edu.ph/ </a> <br> <br>
                 For more information, please read and follow the instructions in the photos provided.
                 To know more about Frequently Asked Questions, check this link below:
@@ -38,7 +38,10 @@
                 <br> <br>
             </p>
             <h4>
-                <button> <b> ENROLL NOW! </b></button>
+                <form action="enrollment1.php" method="GET">
+                    <button> <b> ENROLL NOW! </b></button>
+                </form>
+
             </h4>
 
         </div>
