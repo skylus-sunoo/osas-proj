@@ -15,9 +15,9 @@ $router->add("/", function () {
 });
 
 $router->add("/incidents/list", function () {
-    include_once 'public/include/header.php';
+    include_once 'views/admin/include/header.php';
 
-    include_once 'public/incidents/list.php';
+    include_once 'views/admin/incidents/list.php';
 });
 
 $router->add("/incidents/list/delete", function () {
@@ -30,10 +30,10 @@ $router->add("/incidents/list/delete", function () {
 });
 
 $router->add("/incidents/create", function () {
-    include_once 'public/include/header.php';
+    include_once 'views/admin/include/header.php';
     
-    include_once 'public/incidents/list.php';
-    include_once 'public/incidents/create.php';
+    include_once 'views/admin/incidents/list.php';
+    include_once 'views/admin/incidents/create.php';
 });
 
 $router->add("/incidents/submit", function () {
