@@ -1,94 +1,54 @@
 :root {
     --primary-yellow: #eead2b;
+    --primary-green: 11, 61, 46;
+    /* RGB values for #0b3d2e */
+    --primary-green-dark: #001E08;
+    --primary-green-light: #005214;
+    --primary-blue-dark: 32, 30, 38;
 }
 
 body {
+    background-color: var(--primary-green-light);
     background-image: url('../img/bg.png');
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
+    background-attachment: fixed;
 }
 
-
-.branch {              
-    text-align: center;
-    font-size: 25px;
-    border-style: solid;
-    border-radius: 10px;
-    margin-top: 50px;
-    margin-bottom: 100px;
-    margin-left: 400px;
-    margin-right: 400px;
-    padding: 30px 50px 0px 50px;
-
+.public-main {
+    padding-inline: 5rem;
+    padding-top: 1rem;
 }
 
-.white{               /* white font */
-    color:white
+.public-header>h2 {
+    color: var(--primary-yellow);
+    font-family: 'Gotham';
 }
 
-
-/* ADMISSION CSS GUMALAW KOTONG */
-*{
-    padding:0px;
-    margin:0px;
-    box-sizing: content-box;
-}
-
-.head{
-    margin: 10px 50px 0px 50px;
+.public-header>hr {
+    border: solid white 1px;
 
 }
 
-.head > hr{
-    border: solid white 1px; 
-    
-}
-
-.head > h4{
-    color:white;
+.public-header>h4 {
+    color: white;
     padding-bottom: 10px;
+    font-family: 'Gotham';
+    font-weight: 300;
 }
 
-.head > h2{
-    color:orange;
+.primary-button {
+    background-color: var(--primary-yellow);
+    border-style: none;
+    border-radius: 1rem;
+    padding: 1rem;
+    padding-inline: 1.5rem;
+    font-family: 'Gotham';
+    font-size: 1rem;
+    cursor: pointer;
 }
 
-
-.container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 20px;
-    padding: 10px;
-    margin: 10px 40px 0px 40px;
-  
-}
-
-.container img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-}
-
-.container div {
-    color: white; /* font color */
-    font-size: 15px;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-button{
-    background-color: orange;
-    border-radius: 5px;
-    padding:15px;
-}
-/* CSS NG ADMISSION SA TAAS */
-
-/* ENROLLMENT CSS GUMALAW KOTONG */
-
-.selectbox{
-    height: 20px;
-    width: 100px;
+.primary-button:hover {
+    background-color: rgb(var(--primary-green));
+    color: white;
 }

@@ -1,0 +1,130 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: content-box;
+}
+
+.home-body {
+    margin: 0;
+    background-color: #014421;
+    font-family: 'NotoSans', sans-serif;
+    color: white;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom right, #005c2a, #a1d68b);
+}
+
+.home-main {
+    display: flex;
+    gap: 20px;
+}
+
+.home-admissions {
+    /* background: rgba(0, 0, 0, 0.5); */
+    /* padding: 20px; */
+    flex: 2;
+}
+
+.home-admission-card {
+    background: rgba(var(--primary-blue-dark), 0.5);
+    border-color: rgba(219, 219, 219, 0.5);
+    border-style: solid;
+    border-width: 2px;
+    margin-bottom: 20px;
+    border-radius: 30px;
+    color: rgb(219, 219, 219);
+
+    padding-inline: 1.5rem;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+}
+
+.home-admission-card h3 {
+    font-size: 1.5rem;
+    margin-top: 0;
+    text-decoration: underline;
+    
+}
+
+.home-admission-card p {
+    margin-top: 1.5rem;
+    text-align: justify;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+.home-news {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    flex: 1;
+
+    font-family: 'Gotham', sans-serif;
+}
+
+.home-news h2 {
+    border-bottom: 2px solid #ffffff;
+    padding-bottom: 1rem;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.home-news-item {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.home-news-item img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    display: block;
+    margin-bottom: 10px;
+
+    height: 15rem;
+    object-position: top;
+}
+
+.home-news-item h4 {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    text-align: left;
+    font-size: 16px;
+    margin: 5px 0;
+    color: white;
+    font-weight: bold;
+}
+
+.home-news-item p {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: white;
+    margin: 0;
+}
+
+.read-more {
+    background: #ffcc00;
+    color: #000;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.button-container {
+    text-align: right;
+}

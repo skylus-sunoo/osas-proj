@@ -1,0 +1,57 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: content-box;
+}
+
+.enrollment-branch {
+    text-align: center;
+    font-size: 25px;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 1px;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    margin-left: 400px;
+    margin-right: 400px;
+    padding: 30px 50px 30px 50px;
+
+    color: white;
+    background-color: rgba(var(--primary-blue-dark), 0.75);
+
+    font-family: 'Gotham';
+}
+
+.enrollment-branch h4 {
+    margin-bottom: 20px;
+    font-size: 3rem;
+}
+
+#branch {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    background-color: white;
+    font-size: 1rem;
+    font-family: 'Gotham';
+    color: #333;
+    border: none;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon fill='%23999' points='70,90 40,50 100,50'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 12px;
+}
+
+#branch:focus {
+    box-shadow: 0 0 0 3px var(--primary-yellow);
+    background-color: #f9f9f9;
+}
+
+#branch option {
+    font-family: 'Gotham';
+    padding: 10px;
+}

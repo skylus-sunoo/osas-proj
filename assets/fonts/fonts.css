@@ -1,3 +1,13 @@
+.font-NotoSans {
+    font-family: 'NotoSans';
+}
+.font-Gotham {
+    font-family: 'Gotham';
+}
+.font-Heebo {
+    font-family: 'Heebo';
+}
+
 /* Gotham font-family */
 @font-face {
     font-family: 'Gotham';
