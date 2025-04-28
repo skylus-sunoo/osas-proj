@@ -7,3 +7,62 @@ body {
     background-repeat: no-repeat;
     background-size: 100%;
 }
+
+/* ADMISSION CSS GUMALAW KOTONG */
+*{
+    padding:0px;
+    margin:0px;
+    box-sizing: content-box;
+}
+
+.head{
+    margin: 10px 50px 0px 50px;
+
+}
+
+.head > hr{
+    border: solid white 1px; 
+    
+}
+
+.head > h4{
+    color:white;
+    padding-bottom: 10px;
+}
+
+.head > h2{
+    color:orange;
+}
+
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 20px;
+    padding: 10px;
+    margin: 10px 40px 0px 40px;
+  
+}
+
+.container img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.container div {
+    color: white; /* font color */
+    font-size: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button{
+    background-color: orange;
+    border-radius: 5px;
+    padding:15px;
+}
+/* CSS NG ADMISSION SA TAAS */
