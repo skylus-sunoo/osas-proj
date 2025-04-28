@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 session_start();
 
@@ -11,7 +10,8 @@ $router = new Router;
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 $router->add("/", function () {
-    echo "Index Page";
+    include_once 'views/public/dashboard/about.php';
+    include_once 'views/public/include/header.php';
 });
 
 $router->add("/incidents/list", function () {
@@ -57,3 +57,4 @@ $router->dispatch($path);
 ?>
 
 <link rel="stylesheet" href="/assets/css/styles.css">
+<link rel="stylesheet" href="/assets/fonts/fonts.css">

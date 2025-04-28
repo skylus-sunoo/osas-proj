@@ -1,0 +1,9 @@
+:root {
+    --primary-yellow: #eead2b;
+}
+
+body {
+    background-image: url('../img/bg.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
