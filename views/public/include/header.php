@@ -23,7 +23,7 @@ function is_active_sub($needle)
         <a href="../dashboard/home" class="<?= is_active('/dashboard/home') ?>">HOME</a>
 
         <div class="dropdown">
-            <a href="../admission/application" class="dropbtn <?= is_active('/admission') ?>">ADMISSION</a>
+            <a href="../admission/application" class="dropbtn <?= is_active('/admission/') ?>">ADMISSION</a>
             <div class="dropdown-content">
                 <a href="../admission/application" class="<?= is_active_sub('/admission/application') ?>">Application for Admission</a>
                 <a href="../admission/enrollment" class="<?= is_active_sub('/admission/enrollment') ?>">Enrollment Form</a>
@@ -38,7 +38,14 @@ function is_active_sub($needle)
             </div>
         </div>
 
-        <a href="../dashboard/about" class="<?= is_active('about') ?>">ABOUT CVSU</a>
+        <div class="dropdown">
+            <a href="#" class="dropbtn <?= is_active('/about/') ?>">ABOUT CVSU</a>
+            <div class="dropdown-content">
+                <a href="../about/statements" class="<?= is_active_sub('statements') ?>">Statements</a>
+                <a href="../about/history" class="<?= is_active_sub('history') ?>">History</a>
+                <a href="../about/officials " class="<?= is_active_sub('officials') ?>">Campus Officials</a>
+            </div>
+        </div>
     </nav>
 
 </header>

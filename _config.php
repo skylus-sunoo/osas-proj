@@ -10,7 +10,7 @@ define('TB_EVENT', 'tb_event');
 define('TB_STUDENT', 'tb_student');
 
 // Database connection
-$connections = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+// $connections = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 // Check the connection
 if (mysqli_connect_error()) {

@@ -7,6 +7,12 @@
     --primary-blue-dark: 32, 30, 38;
 }
 
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: content-box;
+}
+
 body {
     background-color: var(--primary-green-light);
     background-image: url('../img/bg.png');

@@ -61,6 +61,21 @@ $router->add("/dashboard/students", function () {
     include_once 'views/public/dashboard/students.php';
 });
 
+$router->add("/about/statements", function () {
+    include_once 'views/public/include/header.php';
+    include_once 'views/public/about/statements.php';
+});
+
+$router->add("/about/history", function () {
+    include_once 'views/public/include/header.php';
+    include_once 'views/public/about/history.php';
+});
+
+$router->add("/about/officials", function () {
+    include_once 'views/public/include/header.php';
+    include_once 'views/public/about/officials.php';
+});
+
 // $router->add("/incidents/list", function () {
 //     include_once 'views/admin/include/header.php';
 
