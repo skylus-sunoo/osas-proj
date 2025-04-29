@@ -10,8 +10,8 @@
 <body class="enrollment-body">
     <main class="public-main">
         <header class="public-header">
-            <h2>ENROLLMENT</h2>
-            <h4><i>ADMISSION >> CvSU CAMPUS</i></h4>
+            <h2>ABOUT CAVITE STATE UNIVERSITY - SILANG CAMPUS</h2>
+            <h4><i>ABOUT >> CvSU SILANG HISTORY</i></h4>
             <hr>
         </header>
 
