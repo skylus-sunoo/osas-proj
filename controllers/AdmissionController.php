@@ -23,6 +23,34 @@ class AdmissionController
     {
         include_once 'views/public/include/header.php';
 
+        if (isset($_POST['enrollment-control-number']) == 'true') {
+            $tableMapping = [
+                1 => TB_ADMISSION_INFO,
+                2 => TB_ADMISSION_PERSONAL,
+                3 => TB_ADMISSION_FAMILY,
+                4 => TB_ADMISSION_EDUCATION,
+                5 => TB_ADMISSION_MEDICAL
+            ];
+
+            $incomplete = false;
+            foreach ($tableMapping as $key => $value) {
+                // Check if the record exists in the table
+                $column = ($key === 1) ? 'admission_Entry' : 'admission_ID';
+                $id = ($key === 1) ? $_SESSION['admission_Entry'] : $_SESSION['admission_ID'];
+
+                // If the data exists in the table, display the checkmark
+                if (!checkForData($value, [[$column, '=', $id]])) {
+                    $incomplete = true;
+                }
+            }
+
+            if ($incomplete) {
+                $_SESSION['error'] = 8;
+            } else {
+                $this->model->createControlNumber($_SESSION['admission_ID']);
+            }
+        }
+
         $this->handleErrorMessage();
 
         if (!isLoggedIn()) {
@@ -34,9 +62,18 @@ class AdmissionController
             return;
         }
 
+        $this->getControlNumber();
+
         $this->handleBranchSelection();
 
         $this->renderEnrollmentView();
+    }
+
+    private function getControlNumber()
+    {
+        if ($this->model->controlNumberExists($_SESSION['admission_ID'])) {
+            $_SESSION['admission_ControlNumber'] = $this->model->getControlNumber($_SESSION['admission_ID']);
+        }
     }
 
     private function handleErrorMessage()
@@ -47,7 +84,9 @@ class AdmissionController
             3 => "The passwords you entered do not match.",
             4 => "No account found with this email address. Please sign up.",
             5 => "An account with this LRN already exists.",
-            6 => "LRN must contain exactly 12 digits."
+            6 => "LRN must contain exactly 12 digits.",
+            7 => "Please input a valid year with 4 digits.",
+            8 => "Application information are not yet completed."
         ];
 
         if (isset($_SESSION['error']) && isset($errorMessages[$_SESSION['error']])) {
@@ -184,6 +223,42 @@ class AdmissionController
             $_SESSION['admission_GuardianOccupation'] = $familyInfo['admission_GuardianOccupation'] ?? null;
 
 
+            $educationInfoRaw = $this->model->getEducationInformation($_SESSION['admission_ID']);
+            $educationInfo = $educationInfoRaw[0] ?? [];
+
+            $_SESSION['admission_ElementaryName'] = $educationInfo['admission_ElementaryName'] ?? null;
+            $_SESSION['admission_ElementaryAddress'] = $educationInfo['admission_ElementaryAddress'] ?? null;
+            $_SESSION['admission_ElementaryYear'] = $educationInfo['admission_ElementaryYear'] ?? null;
+            $_SESSION['admission_ElementaryType'] = $educationInfo['admission_ElementaryType'] ?? null;
+            $_SESSION['admission_HighschoolName'] = $educationInfo['admission_HighschoolName'] ?? null;
+            $_SESSION['admission_HighschoolAddress'] = $educationInfo['admission_HighschoolAddress'] ?? null;
+            $_SESSION['admission_HighschoolYear'] = $educationInfo['admission_HighschoolYear'] ?? null;
+            $_SESSION['admission_HighschoolType'] = $educationInfo['admission_HighschoolType'] ?? null;
+            $_SESSION['admission_SeniorName'] = $educationInfo['admission_SeniorName'] ?? null;
+            $_SESSION['admission_SeniorAddress'] = $educationInfo['admission_SeniorAddress'] ?? null;
+            $_SESSION['admission_SeniorYear'] = $educationInfo['admission_SeniorYear'] ?? null;
+            $_SESSION['admission_SeniorType'] = $educationInfo['admission_SeniorType'] ?? null;
+            $_SESSION['admission_VocationalName'] = $educationInfo['admission_VocationalName'] ?? null;
+            $_SESSION['admission_VocationalAddress'] = $educationInfo['admission_VocationalAddress'] ?? null;
+            $_SESSION['admission_VocationalYear'] = $educationInfo['admission_VocationalYear'] ?? null;
+            $_SESSION['admission_VocationalType'] = $educationInfo['admission_VocationalType'] ?? null;
+
+
+            $medicalInfoRaw = $this->model->getmedicalInformation($_SESSION['admission_ID']);
+            $medicalInfo = $medicalInfoRaw[0] ?? [];
+
+            $_SESSION['admission_Medication'] = $medicalInfo['admission_Medication'] ?? null;
+            $_SESSION['admission_Allergy'] = $medicalInfo['admission_Allergy'] ?? null;
+            $_SESSION['admission_Scoliosis'] = $medicalInfo['admission_Scoliosis'] ?? null;
+            $_SESSION['admission_Asthma'] = $medicalInfo['admission_Asthma'] ?? null;
+            $_SESSION['admission_Hypertension'] = $medicalInfo['admission_Hypertension'] ?? null;
+            $_SESSION['admission_Diabetes'] = $medicalInfo['admission_Diabetes'] ?? null;
+            $_SESSION['admission_Insomnia'] = $medicalInfo['admission_Insomnia'] ?? null;
+            $_SESSION['admission_Vertigo'] = $medicalInfo['admission_Vertigo'] ?? null;
+            $_SESSION['admission_Others'] = $medicalInfo['admission_Others'] ?? null;
+            $_SESSION['admission_PWD'] = $medicalInfo['admission_PWD'] ?? null;
+
+
             include_once 'views/public/admission/enrollment_information.php';
         } else {
             include_once 'views/public/admission/enrollment_branch.php';
@@ -280,6 +355,72 @@ class AdmissionController
             goToPage('/admission/enrollment');
         } else {
             $this->model->createFamilyInformation($data, $_SESSION['admission_ID']);
+            goToPage('/admission/enrollment');
+        }
+    }
+
+    public function saveEducationInformation()
+    {
+        $data = [
+            'admission_ID' => $_SESSION['admission_ID'],
+            'admission_ElementaryName' => $_POST['enrollment-information-elementaryName'],
+            'admission_ElementaryAddress' => $_POST['enrollment-information-elementaryAddress'],
+            'admission_ElementaryYear' => $_POST['enrollment-information-elementaryYear'],
+            'admission_ElementaryType' => $_POST['enrollment-information-elementaryType'],
+            'admission_HighschoolName' => $_POST['enrollment-information-highschoolName'],
+            'admission_HighschoolAddress' => $_POST['enrollment-information-highschoolAddress'],
+            'admission_HighschoolYear' => $_POST['enrollment-information-highschoolYear'],
+            'admission_HighschoolType' => $_POST['enrollment-information-highschoolType'],
+            'admission_SeniorName' => $_POST['enrollment-information-seniorName'] ?? null,
+            'admission_SeniorAddress' => $_POST['enrollment-information-seniorAddress'] ?? null,
+            'admission_SeniorYear' => $_POST['enrollment-information-seniorYear'] ?? null,
+            'admission_SeniorType' => $_POST['enrollment-information-seniorType'] ?? null,
+            'admission_VocationalName' => $_POST['enrollment-information-vocationalName'] ?? null,
+            'admission_VocationalAddress' => $_POST['enrollment-information-vocationalAddress'] ?? null,
+            'admission_VocationalYear' => $_POST['enrollment-information-vocationalYear'] ?? null,
+            'admission_VocationalType' => $_POST['enrollment-information-vocationalType'] ?? null
+        ];
+
+        normalizeData($data);
+
+        if (!preg_match('/^\d{4}$/', $data['admission_ElementaryYear'])) {
+            $_SESSION['error'] = 6;
+            goToPage('/admission/enrollment');
+            return;
+        }
+
+        if ($this->model->userEducationInfoExists($_SESSION['admission_ID'])) {
+            $this->model->updateEducationInformation($data, $_SESSION['admission_ID']);
+            goToPage('/admission/enrollment');
+        } else {
+            $this->model->createEducationInformation($data, $_SESSION['admission_ID']);
+            goToPage('/admission/enrollment');
+        }
+    }
+
+    public function saveMedicalInformation()
+    {
+        $data = [
+            'admission_ID' => $_SESSION['admission_ID'],
+            'admission_Medication' => $_POST['enrollment-information-medication'] ?? null,
+            'admission_Allergy' => $_POST['enrollment-information-allergy'] ?? null,
+            'admission_Scoliosis' => $_POST['enrollment-information-scoliosis'] ?? null,
+            'admission_Asthma' => $_POST['enrollment-information-asthma'] ?? null,
+            'admission_Hypertension' => $_POST['enrollment-information-hypertension'] ?? null,
+            'admission_Diabetes' => $_POST['enrollment-information-diabetes'] ?? null,
+            'admission_Insomnia' => $_POST['enrollment-information-insomnia'] ?? null,
+            'admission_Vertigo' => $_POST['enrollment-information-vertigo'] ?? null,
+            'admission_Others' => $_POST['enrollment-information-others'] ?? null,
+            'admission_PWD' => $_POST['enrollment-information-PWD']
+        ];
+
+        normalizeData($data);
+
+        if ($this->model->userMedicalInfoExists($_SESSION['admission_ID'])) {
+            $this->model->updateMedicalInformation($data, $_SESSION['admission_ID']);
+            goToPage('/admission/enrollment');
+        } else {
+            $this->model->createMedicalInformation($data, $_SESSION['admission_ID']);
             goToPage('/admission/enrollment');
         }
     }

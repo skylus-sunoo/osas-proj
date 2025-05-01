@@ -26,13 +26,14 @@ $router = new Router;
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 $router->add("/dashboard/home", function () {
-    include_once 'views/public/include/header.php';
-    include_once 'views/public/dashboard/home.php';
-
     if (isset($_SESSION['logout'])) {
-        unset($_SESSION['logout']);
+        session_unset(); 
+        session_destroy(); 
         showAlert("You have successfully logged out.");
     }
+
+    include_once 'views/public/include/header.php';
+    include_once 'views/public/dashboard/home.php';
 });
 
 $router->add("/admission/logout", function () {
@@ -63,6 +64,16 @@ $router->add("/admission/save_personal_information", function () {
 $router->add("/admission/save_family_information", function () {
     $controller = new AdmissionController();
     $controller->saveFamilyInformation();
+});
+
+$router->add("/admission/save_education_information", function () {
+    $controller = new AdmissionController();
+    $controller->saveEducationInformation();
+});
+
+$router->add("/admission/save_medical_information", function () {
+    $controller = new AdmissionController();
+    $controller->saveMedicalInformation();
 });
 
 $router->add("/admission/course", function () {
@@ -101,6 +112,29 @@ function optionIsSession($session, $value)
 {
     $selected = (isset($_SESSION[$session]) && $_SESSION[$session] == $value) ? 'selected' : '';
     return 'value="' . $value . '" ' . $selected;
+}
+
+function generateCheckField($fieldTag, $label, $value = null)
+{
+    // Default value for the input if the session value is set
+    $sessionValue = isset($_SESSION[$value]) ? 'Yes' : '';
+    if (isset($sessionValue) && !empty($sessionValue)) {
+        $checked = 'checked';
+    } else {
+        $checked = '';
+    }
+
+    // Generate the HTML for the field, including the class for 'entry_new' if necessary
+    $fieldHTML = '
+        <div class="enrollment-checkbox enrollment-information-' . htmlspecialchars($fieldTag) . ' style="flex-grow: 1; max-width: 25%;">
+            <input type="checkbox" name="enrollment-information-' . htmlspecialchars($fieldTag) . '" 
+                   value="Yes"' . $checked . '>
+            <h4>' . htmlspecialchars($label) . '</h4>
+        </div>
+    ';
+
+    // Return the generated HTML
+    return $fieldHTML;
 }
 
 function generateFormField($fieldTag, $label, $value = null, $type, $isRequired = true)

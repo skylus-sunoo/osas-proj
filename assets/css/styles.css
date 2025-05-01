@@ -44,7 +44,14 @@ body {
     font-weight: 300;
 }
 
+.primary-button:disabled {
+    background-color: #ccc; /* Example: change background color when disabled */
+    color: black; /* Example: change text color when disabled */
+    cursor: not-allowed; /* Example: show "not-allowed" cursor */
+}
+
 .primary-button {
+    color: black;
     background-color: var(--primary-yellow);
     border-style: none;
     border-radius: 1rem;
@@ -55,7 +62,7 @@ body {
     cursor: pointer;
 }
 
-.primary-button:hover {
+.primary-button:not(:disabled):hover {
     background-color: rgb(var(--primary-green));
     color: white;
 }

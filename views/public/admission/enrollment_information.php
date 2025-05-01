@@ -19,7 +19,7 @@
         <div class="enrollment-information">
             <?php include_once 'enrollment_aside.php' ?>
 
-            <section class="enrollment-information-section">
+            <section class="enrollment-information-section <?= isset($_SESSION['admission_ControlNumber']) ? 'enrollment-information-disabled' : '' ?>">
                 <div class="enrollment-admission-information">
                     <div class="enrollment-information-branch">
                         <h1><?= $_SESSION['admission_Branch'] ?></h1>
@@ -69,9 +69,13 @@
                                     'ALS' => 'ALS Passer',
                                     'DEGREE' => 'Associate Certificate, Vocational, or Diploma Degree Holder'
                                 ];
-                                echo generateSelectFieldEntryNew('typeStudent', 'Type of New Student', $options, 'admission_TypeStudent', true);
+                                if (isset($_SESSION['admission_ControlNumber'])) {
+                                    echo generateSelectFieldEntryNew('typeStudenta', 'Type of New Student', $options, 'admission_TypeStudent', true);
+                                } else {
+                                    echo generateSelectFieldEntryNew('typeStudent', 'Type of New Student', $options, 'admission_TypeStudent', true);
+                                }
 
-                                echo generateFormFieldEntryNew('LRN', 'Learner Reference Number', 'admission_LRN', 'number', true, true);
+                                echo generateFormFieldEntryNew('LRN', 'Learner Reference Number', 'admission_LRN', 'number', true);
                                 ?>
                             </section>
                         </div>
@@ -239,7 +243,7 @@
                             </section>
                             <section class="enrollment-information-form-section">
                                 <?php
-                                echo generateFormField('contactNumber', 'Contact Number', 'admission_ContactNumber', 'number', true);
+                                echo generateFormField('contactNumber', 'Contact Number (0XXXYYYZZZZ)', 'admission_ContactNumber', 'number', true);
                                 echo generateFormField('landlineNumber', 'Landline Number', 'admission_LandlineNumber', 'number', false);
 
                                 $options = ['Single', 'Married', 'Divorced', 'Separated', 'Widowed'];
@@ -328,7 +332,7 @@
                                     <?php
                                     echo generateFormField('elementaryName', 'School Name', 'admission_ElementaryName', 'text');
                                     echo generateFormField('elementaryAddress', 'School Address', 'admission_ElementaryAddress', 'text');
-                                    echo generateFormField('elementaryYear', 'Year Graduated', 'admission_ElementaryYear', 'number');
+                                    echo generateFormField('elementaryYear', 'Year Graduated (4 Digits)', 'admission_ElementaryYear', 'number');
                                     $options = [
                                         'Public',
                                         'Private'
@@ -343,7 +347,7 @@
                                     <?php
                                     echo generateFormField('highschoolName', 'School Name', 'admission_HighschoolName', 'text');
                                     echo generateFormField('highschoolAddress', 'School Address', 'admission_HighschoolAddress', 'text');
-                                    echo generateFormField('highschoolYear', 'Year Graduated', 'admission_HighschoolYear', 'number');
+                                    echo generateFormField('highschoolYear', 'Year Graduated (4 Digits)', 'admission_HighschoolYear', 'number');
                                     echo generateSelectField('highschoolType', 'Type', $options, 'admission_HighschoolType');
                                     ?>
                                 </section>
@@ -355,7 +359,7 @@
                                     <?php
                                     echo generateFormField('seniorName', 'School Name', 'admission_SeniorName', 'text', false);
                                     echo generateFormField('seniorAddress', 'School Address', 'admission_SeniorAddress', 'text', false);
-                                    echo generateFormField('seniorYear', 'Year Graduated', 'admission_SeniorYear', 'number', false);
+                                    echo generateFormField('seniorYear', 'Year Graduated (4 Digits)', 'admission_SeniorYear', 'number', false);
                                     echo generateSelectField('seniorType', 'Type', $options, 'admission_SeniorType', false);
                                     ?>
                                 </section>
@@ -367,13 +371,46 @@
                                     <?php
                                     echo generateFormField('vocationalName', 'School Name', 'admission_VocationalName', 'text', false);
                                     echo generateFormField('vocationalAddress', 'School Address', 'admission_VocationalAddress', 'text', false);
-                                    echo generateFormField('vocationalYear', 'Year Graduated', 'admission_VocationalYear', 'number', false);
+                                    echo generateFormField('vocationalYear', 'Year Graduated (4 Digits)', 'admission_VocationalYear', 'number', false);
                                     echo generateSelectField('vocationalType', 'Type', $options, 'admission_VocationalType', false);
                                     ?>
                                 </section>
                             </div>
                         </div>
                         <button type="submit" class="primary-button">Save Educational History</button>
+                    </form>
+                </div>
+
+                <div class="enrollment-medical-information">
+                    <form action="/admission/save_medical_information" method="POST">
+                        <div class="enrollment-information-form">
+                            <section class="enrollment-information-form-section">
+                                <?php
+                                echo generateFormField('medication', 'List any medications you are taking:', 'admission_Medication', 'text', false);
+                                ?>
+                            </section>
+                            <div>
+                                <h4 class="enrollment-medical-note">Do you have any of the following? Kindly put a check.</h4>
+                                <section class="enrollment-medical-list">
+                                    <?php
+                                    echo generateCheckField('allergy', 'Allergy', 'admission_Allergy');
+                                    echo generateCheckField('scoliosis', 'Scoliosis', 'admission_Scoliosis');
+                                    echo generateCheckField('asthma', 'Asthma', 'admission_Asthma');
+                                    echo generateCheckField('hypertension', 'Hypertension', 'admission_Hypertension');
+                                    echo generateCheckField('diabetes', 'Diabetes', 'admission_Diabetes');
+                                    echo generateCheckField('insomnia', 'Insomnia', 'admission_Insomnia');
+                                    echo generateCheckField('vertigo', 'Vertigo', 'admission_Vertigo');
+                                    echo generateFormField('others', 'Others', 'admission_Others', 'text', false);
+                                    ?>
+                                </section>
+                            </div>
+                            <section class="enrollment-information-form-section">
+                                <?php
+                                echo generateSelectField('PWD', 'Are you a PWD?', ['Yes', 'No'], 'admission_PWD', true);
+                                ?>
+                            </section>
+                        </div>
+                        <button type="submit" class="primary-button">Save Medical Background</button>
                     </form>
                 </div>
             </section>

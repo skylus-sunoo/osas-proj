@@ -91,6 +91,22 @@ document.addEventListener('DOMContentLoaded', function () {
     entrySelect.addEventListener('change', toggleEntryNewFields);
     //#endregion
     //#region Personal - Refresh Provinces
-    
+
     //#endregion
 });
+
+//#region Control Number - Disable everything
+// Select all elements with class 'enrollment-information-disabled'
+const container = document.querySelector('.enrollment-information-disabled');
+
+// Check if the container exists
+if (container) {
+    // Select all inputs and selects inside the container
+    const inputsAndSelects = container.querySelectorAll('input, select, button');
+
+    // Loop through each input and select element and disable them
+    inputsAndSelects.forEach(element => {
+        element.disabled = true;
+    });
+}
+//#endregion

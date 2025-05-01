@@ -9,6 +9,8 @@ class AdmissionModel
     private $table_education = TB_ADMISSION_EDUCATION;
     private $table_medical = TB_ADMISSION_MEDICAL;
 
+    private $table_control = TB_ADMISSION_CONTROL;
+
     public function userExists($email)
     {
         return checkForData($this->table_user, [['admission_Email', '=', $email]]);
@@ -178,18 +180,22 @@ class AdmissionModel
     {
         insertData($this->table_education, [
             'admission_ID',
-            'admission_FatherName',
-            'admission_FatherNumber',
-            'admission_FatherOccupation',
-            'admission_MotherName',
-            'admission_MotherNumber',
-            'admission_MotherOccupation',
-            'admission_Income',
-            'admission_Siblings',
-            'admission_BirthOrder',
-            'admission_GuardianName',
-            'admission_GuardianNumber',
-            'admission_GuardianOccupation',
+            'admission_ElementaryName',
+            'admission_ElementaryAddress',
+            'admission_ElementaryYear',
+            'admission_ElementaryType',
+            'admission_HighschoolName',
+            'admission_HighschoolAddress',
+            'admission_HighschoolYear',
+            'admission_HighschoolType',
+            'admission_SeniorName',
+            'admission_SeniorAddress',
+            'admission_SeniorYear',
+            'admission_SeniorType',
+            'admission_VocationalName',
+            'admission_VocationalAddress',
+            'admission_VocationalYear',
+            'admission_VocationalType'
         ], $data);
     }
 
@@ -197,24 +203,90 @@ class AdmissionModel
     {
         updateData($this->table_education, [
             'admission_ID',
-            'admission_FatherName',
-            'admission_FatherNumber',
-            'admission_FatherOccupation',
-            'admission_MotherName',
-            'admission_MotherNumber',
-            'admission_MotherOccupation',
-            'admission_Income',
-            'admission_Siblings',
-            'admission_BirthOrder',
-            'admission_GuardianName',
-            'admission_GuardianNumber',
-            'admission_GuardianOccupation',
+            'admission_ElementaryName',
+            'admission_ElementaryAddress',
+            'admission_ElementaryYear',
+            'admission_ElementaryType',
+            'admission_HighschoolName',
+            'admission_HighschoolAddress',
+            'admission_HighschoolYear',
+            'admission_HighschoolType',
+            'admission_SeniorName',
+            'admission_SeniorAddress',
+            'admission_SeniorYear',
+            'admission_SeniorType',
+            'admission_VocationalName',
+            'admission_VocationalAddress',
+            'admission_VocationalYear',
+            'admission_VocationalType'
         ], $data, 'admission_ID', $id);
     }
 
     public function getEducationInformation($id)
     {
         return fetchData($this->table_education, '*', 'admission_ID', $id);
+    }
+
+    public function userMedicalInfoExists($id)
+    {
+        return checkForData($this->table_medical, [['admission_ID', '=', $id]]);
+    }
+
+    public function createMedicalInformation($data, $id)
+    {
+        insertData($this->table_medical, [
+            'admission_ID',
+            'admission_Medication',
+            'admission_Allergy',
+            'admission_Scoliosis',
+            'admission_Asthma',
+            'admission_Hypertension',
+            'admission_Diabetes',
+            'admission_Insomnia',
+            'admission_Vertigo',
+            'admission_Others',
+            'admission_PWD'
+        ], $data);
+    }
+
+    public function updateMedicalInformation($data, $id)
+    {
+        updateData($this->table_medical, [
+            'admission_ID',
+            'admission_Medication',
+            'admission_Allergy',
+            'admission_Scoliosis',
+            'admission_Asthma',
+            'admission_Hypertension',
+            'admission_Diabetes',
+            'admission_Insomnia',
+            'admission_Vertigo',
+            'admission_Others',
+            'admission_PWD'
+        ], $data, 'admission_ID', $id);
+    }
+
+    public function getMedicalInformation($id)
+    {
+        return fetchData($this->table_medical, '*', 'admission_ID', $id);
+    }
+
+    public function controlNumberExists($id)
+    {
+        return checkForData($this->table_control, [['admission_ID', '=', $id]]);
+    }
+
+    public function createControlNumber($id)
+    {
+        if (!$this->controlNumberExists($id)) {
+            return insertData($this->table_control, ['admission_ID'], [$id]);
+        }
+        return false;
+    }
+
+    public function getControlNumber($id)
+    {
+        return str_pad(fetchData($this->table_control, 'admission_ControlNumber', 'admission_ID', $id), 5, '0', STR_PAD_LEFT);
     }
 }
     

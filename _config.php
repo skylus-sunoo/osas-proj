@@ -12,6 +12,7 @@ define('TB_ADMISSION_PERSONAL', 'tb_admission_personal');
 define('TB_ADMISSION_FAMILY', 'tb_admission_family');
 define('TB_ADMISSION_EDUCATION', 'tb_admission_education');
 define('TB_ADMISSION_MEDICAL', 'tb_admission_medical');
+define('TB_ADMISSION_CONTROL', 'tb_admission_control');
 define('TB_EVENT', 'tb_event');
 define('TB_STUDENT', 'tb_student');
 
