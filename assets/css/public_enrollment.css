@@ -1,51 +1,231 @@
+body,
+.enrollment-body {
+    font-family: "Gotham", sans-serif;
+    color: white;
+}
+
 .enrollment-branch {
     text-align: center;
     font-size: 25px;
-    border-style: solid;
+    border: 1px solid;
     border-radius: 10px;
-    border-width: 1px;
-    margin-top: 50px;
-    margin-bottom: 100px;
-    margin-left: 400px;
-    margin-right: 400px;
-    padding: 30px 50px 30px 50px;
-
+    margin: 50px 400px 100px;
+    padding: 30px 50px;
     color: white;
     background-color: rgba(var(--primary-blue-dark), 0.75);
-
-    font-family: 'Gotham';
 }
 
 .enrollment-branch h4 {
-    margin-bottom: 20px;
     font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.enrollment-information {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+
+    column-gap: 1.5rem;
+}
+
+.enrollment-information-aside {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    max-width: 20vw;
+    max-height: 100vh;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.enrollment-information-aside button {
+    all: unset;
+}
+
+.enrollment-information-aside button h1 {
+    font-size: 1.6rem;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.enrollment-information-aside button h1:hover {
+    color: var(--primary-yellow);
+}
+
+.enrollment-information-aside button+button {
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding-top: 10px;
+}
+
+.enrollment-admission-information {
+    display: block;
+}
+
+.enrollment-personal-information,
+.enrollment-family-information,
+.enrollment-education-information,
+.enrollment-medical-information {
+    display: none;
+}
+
+.enrollment-information-section {
+    background-color: rgba(0, 30, 8, 0.85);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    max-width: 100%;
+    flex-grow: 1;
+}
+
+.enrollment-information-branch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.enrollment-information-branch h1 {
+    color: var(--primary-yellow);
+    font-size: 2rem;
+}
+
+.enrollment-information-branch form button {
+    background-color: transparent;
+    color: var(--primary-yellow);
+    border: 1px solid var(--primary-yellow);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-family: "Gotham";
+    transition: all 0.3s ease;
+}
+
+.enrollment-information-branch form button:hover {
+    background-color: var(--primary-yellow);
+    color: black;
+}
+
+form>div {
+    margin-bottom: 1.5rem;
+}
+
+form h4 {
+    color: var(--primary-yellow);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+input,
+select,
+#branch {
+    width: 100%;
+    font-size: 1rem;
+    font-family: "Gotham";
+    color: white;
+    background-color: #ffffff22;
+    border: none;
+    border-radius: 0.5rem;
+    padding-left: 0.75rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    cursor: pointer;
+}
+
+select,
+#branch {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg fill='white' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
 }
 
 #branch {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 0.75rem;
-    background-color: white;
-    font-size: 1rem;
-    font-family: 'Gotham';
-    color: #333;
-    border: none;
-    outline: none;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-    transition: box-shadow 0.3s ease, background-color 0.3s ease;
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon fill='%23999' points='70,90 40,50 100,50'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 12px;
+    background-color: rgb(var(--primary-green));
 }
 
-#branch:focus {
-    box-shadow: 0 0 0 3px var(--primary-yellow);
-    background-color: #f9f9f9;
+/* Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+#branch:focus,
+select:focus,
+input:focus {
+    outline: 2px solid var(--primary-yellow);
+    background-color: rgb(var(--primary-green));
+}
+
+input::placeholder,
+select option {
+    color: #ccc;
+}
+
+select option,
 #branch option {
-    font-family: 'Gotham';
-    padding: 10px;
+    background-color: rgb(var(--primary-green-dark));
+    color: white;
+}
+
+select:disabled {
+    background-color: #00000033;
+    color: white;
+    opacity: 1;
+    cursor: not-allowed;
+}
+
+h3 {
+    color: var(--primary-yellow);
+    margin-top: 2rem;
+    font-size: 1.5rem;
+}
+
+@-moz-document url-prefix() {
+
+    select option:hover,
+    #branch option:hover {
+        background-color: var(--primary-yellow);
+        color: black;
+    }
+}
+
+.enrollment-information-form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+}
+
+.enrollment-information-form-section {
+    display: flex;
+    column-gap: 2rem;
+}
+
+.enrollment-information-form-section>* {
+    flex-grow: 1;
+}
+
+.enrollment-information-form-section button {
+    width: 300px;
+}
+
+.enrollment-information-region {
+    width: 100%;
+}
+
+.enrollment-information-province {
+    width: 100%;
 }

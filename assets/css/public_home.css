@@ -5,11 +5,6 @@
     color: white;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom right, #005c2a, #a1d68b);
-}
-
 .home-main {
     display: flex;
     gap: 20px;

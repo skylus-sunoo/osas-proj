@@ -8,11 +8,18 @@ declare(strict_types=1);
 <link rel="icon" type="image/png" sizes="16x16" href="../../../assets/img/favicon/favicon-16x16.png">
 <link rel="manifest" href="../../../assets/img/favicon/site.webmanifest">
 
+<link rel="preload" href="/assets/css/styles.css" as="style" />
+<link rel="stylesheet" href="/assets/css/styles.css">
+
+<link rel="preload" href="/assets/css/fonts.css" as="style" />
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+
 <?php
 session_start();
 
 require_once '_config.php';
 require_once 'classes/Router.php';
+require_once 'controllers/AdmissionController.php';
 
 $router = new Router;
 
@@ -21,11 +28,16 @@ $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $router->add("/dashboard/home", function () {
     include_once 'views/public/include/header.php';
     include_once 'views/public/dashboard/home.php';
+
+    if (isset($_SESSION['logout'])) {
+        unset($_SESSION['logout']);
+        showAlert("You have successfully logged out.");
+    }
 });
 
-$router->add("/dashboard/about", function () {
-    include_once 'views/public/include/header.php';
-    include_once 'views/public/dashboard/about.php';
+$router->add("/admission/logout", function () {
+    $controller = new AdmissionController();
+    $controller->logoutUser();
 });
 
 $router->add("/admission/application", function () {
@@ -34,21 +46,18 @@ $router->add("/admission/application", function () {
 });
 
 $router->add("/admission/enrollment", function () {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['branch'])) {
-            $_SESSION['branch'] = $_POST['branch'];
-        } elseif (isset($_POST['branchReset'])) {
-            unset($_SESSION['branch']);
-        }
-    }
+    $controller = new AdmissionController();
+    $controller->handleEnrollmentRedirect();
+});
 
-    include_once 'views/public/include/header.php';
+$router->add("/admission/save_admission_information", function () {
+    $controller = new AdmissionController();
+    $controller->saveAdmissionInformation();
+});
 
-    if (isset($_SESSION['branch'])) {
-        include_once 'views/public/admission/enrollment_information.php';
-    } else{
-        include_once 'views/public/admission/enrollment_branch.php';
-    }
+$router->add("/admission/save_personal_information", function () {
+    $controller = new AdmissionController();
+    $controller->savePersonalInformation();
 });
 
 $router->add("/admission/course", function () {
@@ -76,50 +85,156 @@ $router->add("/about/officials", function () {
     include_once 'views/public/about/officials.php';
 });
 
-// $router->add("/incidents/list", function () {
-//     include_once 'views/admin/include/header.php';
-
-//     include_once 'views/admin/incidents/list.php';
-// });
-
-// $router->add("/incidents/list/delete", function () {
-//     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//         deleteData('tb_incident', 'incident_ID', $_POST['incident_ID']);
-
-//         unsetPost(['incident_ID']);
-//     }
-//     goToPage('/incidents/list');
-// });
-
-// $router->add("/incidents/create", function () {
-//     include_once 'views/admin/include/header.php';
-
-//     include_once 'views/admin/incidents/list.php';
-//     include_once 'views/admin/incidents/create.php';
-// });
-
-// $router->add("/incidents/submit", function () {
-//     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//         $data = [
-//             'student_ID' => $_POST['student_ID'],
-//             'incident_DateTime' => $_POST['incident_DateTime'],
-//             'incident_Location' => $_POST['incident_Location'],
-//             'incident_Type' => $_POST['incident_Type'],
-//             'incident_Description' => $_POST['incident_Description'],
-//             'incident_Status' => $_POST['incident_Status'],
-//         ];
-//         insertData("tb_incident", ['student_ID', 'incident_DateTime', 'incident_Location', 'incident_Type', 'incident_Description', 'incident_Status'], $data);
-
-//         unsetPost(['student_ID', 'incident_DateTime', 'incident_Location', 'incident_Type', 'incident_Description', 'incident_Status']);
-//     }
-//     goToPage('/incidents/create');
-// });
-
 $router->dispatch($path);
+
+function isLoggedIn()
+{
+    return isset($_SESSION['admission_ID']);
+}
+
+function optionIsSession($session, $value)
+{
+    $selected = (isset($_SESSION[$session]) && $_SESSION[$session] == $value) ? 'selected' : '';
+    return 'value="' . $value . '" ' . $selected;
+}
+
+function generateFormField($fieldTag, $label, $value = null, $type, $isRequired = true)
+{
+    // Default value for the input if the session value is set
+    $sessionValue = isset($_SESSION[$value]) ? $_SESSION[$value] : '';
+
+    // If the field is required, add the "required" attribute
+    $required = $isRequired ? 'required' : '';
+
+    // Generate the HTML for the field, including the class for 'entry_new' if necessary
+    $fieldHTML = '
+        <div class="enrollment-information-' . htmlspecialchars($fieldTag) . '">
+            <h4>' . htmlspecialchars($label) . '</h4>
+            <input type="' . $type . '" name="enrollment-information-' . htmlspecialchars($fieldTag) . '" 
+                   value="' . htmlspecialchars((string)$sessionValue) . '" ' . $required . '>
+        </div>
+    ';
+
+    // Return the generated HTML
+    return $fieldHTML;
+}
+
+function generateFormFieldEntryNew($fieldTag, $label, $value = null, $type, $isRequired = true)
+{
+    // Default value for the input if the session value is set
+    $sessionValue = isset($_SESSION[$value]) ? $_SESSION[$value] : '';
+
+    // If the field is required, add the "required" attribute
+    $required = $isRequired ? 'required' : '';
+
+    // Generate the HTML for the field, including the class for 'entry_new' if necessary
+    $fieldHTML = '
+        <div class="entry-new enrollment-information-' . htmlspecialchars($fieldTag) . '">
+            <h4>' . htmlspecialchars($label) . '</h4>
+            <input type="' . $type . '" name="enrollment-information-' . htmlspecialchars($fieldTag) . '" 
+                   value="' . htmlspecialchars((string)$sessionValue) . '" ' . $required . '>
+        </div>
+    ';
+
+    // Return the generated HTML
+    return $fieldHTML;
+}
+
+function generateSelectField($fieldTag, $label, $options, $sessionKey, $isRequired = true)
+{
+    // Ensure $fieldTag and $label are strings before passing them to htmlspecialchars()
+    $fieldTag = (string) $fieldTag;
+    $label = (string) $label;
+
+    // Start generating the HTML for the select field
+    $fieldHTML = '
+        <div class="enrollment-information-' . htmlspecialchars($fieldTag);
+
+    $required = $isRequired ? 'required' : '';
+
+    $fieldHTML .= '">
+        <h4>' . htmlspecialchars($label) . '</h4> 
+        <select name="enrollment-information-' . htmlspecialchars($fieldTag) . '" ' . $required . '>
+            <option value=""></option>'; // Default empty option
+
+
+    // Check if the options array is associative or indexed
+    if (array_keys($options) === range(0, count($options) - 1)) {
+        // This is an indexed array (value == text)
+        foreach ($options as $option) {
+            // Ensure option is a string before passing it to htmlspecialchars()
+            $option = (string) $option;
+            // Use optionIsSession to determine if this option should be selected
+            $selected = optionIsSession($sessionKey, $option);
+            $fieldHTML .= '<option value="' . htmlspecialchars($option) . '" ' . $selected . '>' . htmlspecialchars($option) . '</option>';
+        }
+    } else {
+        // This is an associative array (value != text)
+        foreach ($options as $value => $text) {
+            // Ensure value and text are strings before passing them to htmlspecialchars()
+            $value = (string) $value;
+            $text = (string) $text;
+            // Use optionIsSession to determine if this option should be selected
+            $selected = optionIsSession($sessionKey, $value);
+            $fieldHTML .= '<option value="' . htmlspecialchars($value) . '" ' . $selected . '>' . htmlspecialchars($text) . '</option>';
+        }
+    }
+
+    // Close the select tag
+    $fieldHTML .= '</select></div>';
+
+    // Return the generated HTML
+    return $fieldHTML;
+}
+
+function generateSelectFieldEntryNew($fieldTag, $label, $options, $sessionKey, $addEntryNewClass = false)
+{
+    // Ensure $fieldTag and $label are strings before passing them to htmlspecialchars()
+    $fieldTag = (string) $fieldTag;
+    $label = (string) $label;
+
+    // Start generating the HTML for the select field
+    $fieldHTML = '
+        <div class="entry-new enrollment-information-' . htmlspecialchars($fieldTag);
+
+    // Add the entry-new class if requested
+    if ($addEntryNewClass) {
+        $fieldHTML .= ' entry-new';
+    }
+
+    $fieldHTML .= '">
+        <h4>' . htmlspecialchars($label) . '</h4>
+        <select name="enrollment-information-' . htmlspecialchars($fieldTag) . '" required>
+            <option value=""></option>'; // Default empty option
+
+    // Check if the options array is associative or indexed
+    if (array_keys($options) === range(0, count($options) - 1)) {
+        // This is an indexed array (value == text)
+        foreach ($options as $option) {
+            // Ensure option is a string before passing it to htmlspecialchars()
+            $option = (string) $option;
+            // Use optionIsSession to determine if this option should be selected
+            $selected = optionIsSession($sessionKey, $option);
+            $fieldHTML .= '<option value="' . htmlspecialchars($option) . '" ' . $selected . '>' . htmlspecialchars($option) . '</option>';
+        }
+    } else {
+        // This is an associative array (value != text)
+        foreach ($options as $value => $text) {
+            // Ensure value and text are strings before passing them to htmlspecialchars()
+            $value = (string) $value;
+            $text = (string) $text;
+            // Use optionIsSession to determine if this option should be selected
+            $selected = optionIsSession($sessionKey, $value);
+            $fieldHTML .= '<option value="' . htmlspecialchars($value) . '" ' . $selected . '>' . htmlspecialchars($text) . '</option>';
+        }
+    }
+
+    // Close the select tag
+    $fieldHTML .= '</select></div>';
+
+    // Return the generated HTML
+    return $fieldHTML;
+}
+
+
 ?>
-
-<link rel="preload" href="/assets/css/styles.css" as="style" />
-<link rel="stylesheet" href="/assets/css/styles.css">
-
-<link rel="preload" href="/assets/css/fonts.css" as="style" />
-<link rel="stylesheet" href="/assets/fonts/fonts.css">

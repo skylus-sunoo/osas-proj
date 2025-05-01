@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admission</title>
     <link rel="stylesheet" href="../../../assets/css/public_admission.css">
-</head> 
+</head>
 
 <body class="admission-body">
     <main class="public-main">
@@ -32,12 +32,42 @@
                     <br> <br>
                 </p>
                 <h4>
-                    <form action="/admission/enrollment" method="post">
-                        <button type="submit" class="primary-button"><b>ENROLL NOW!</b></button>
-                    </form>
+                    <a href="/admission/enrollment"><button type="submit" class="primary-button" onclick="handleEnrollClick()"><b>ENROLL NOW!</b></button></a>
                 </h4>
             </div>
         </div>
+
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h3>Please log in first</h3>
+                <p>You need to be logged in to continue with the enrollment.</p>
+                <a href="/login"><button>Login</button></a>
+            </div>
+        </div>
+
+        <script>
+            function handleEnrollClick() {
+                var isLoggedIn = <?php echo json_encode($loggedIn); ?>;
+                if (isLoggedIn) {
+                    document.getElementById('enrollForm').submit();
+                } else {
+                    document.getElementById('loginModal').style.display = 'block';
+                }
+            }
+
+            function closeModal() {
+                document.getElementById('loginModal').style.display = 'none';
+            }
+
+            // Optional: Close modal on click outside
+            window.onclick = function(event) {
+                var modal = document.getElementById('loginModal');
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
     </main>
 </body>
 

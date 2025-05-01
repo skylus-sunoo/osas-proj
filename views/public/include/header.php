@@ -9,8 +9,6 @@ function is_active_sub($needle)
 }
 ?>
 
-
-
 <link rel="stylesheet" href="../../../assets/css/public_header.css">
 
 <header class="header-main">
@@ -46,6 +44,13 @@ function is_active_sub($needle)
                 <a href="../about/officials " class="<?= is_active_sub('officials') ?>">Campus Officials</a>
             </div>
         </div>
-    </nav>
 
+        <?php if (isLoggedIn()): ?>
+            <a href="../admission/logout">LOGOUT</a>
+        <?php else: ?>
+            <a href="../admission/enrollment">LOGIN</a>
+        <?php endif; ?>
+    </nav>
 </header>
+
+<!-- <?= preformat($_SESSION); ?> -->

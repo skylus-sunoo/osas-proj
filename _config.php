@@ -6,11 +6,17 @@ define("DB_USER", "root");
 define("DB_PASSWORD", "");
 define('DB_NAME', 'db_osas');
 
+define('TB_ADMISSION_USER', 'tb_admission_user');
+define('TB_ADMISSION_INFO', 'tb_admission_info');
+define('TB_ADMISSION_PERSONAL', 'tb_admission_personal');
+define('TB_ADMISSION_FAMILY', 'tb_admission_family');
+define('TB_ADMISSION_EDUCATION', 'tb_admission_education');
+define('TB_ADMISSION_MEDICAL', 'tb_admission_medical');
 define('TB_EVENT', 'tb_event');
 define('TB_STUDENT', 'tb_student');
 
 // Database connection
-// $connections = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$connections = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 // Check the connection
 if (mysqli_connect_error()) {
@@ -135,103 +141,64 @@ function fetchData($tableName, $columns = "*", $attributeWhere = null, $attribut
 }
 
 /**
- * Advanced function to check for data in a table with support for multiple filters
+ * Enhanced function to check for data in a table with support for multiple filters and advanced conditions.
  *
- * @param string $tableName The name of the table to check.
- * @param string|array|null $attributeWhere Column name(s) for filtering. Null for no filter.
- * @param mixed|array|null $attributeWhereValue Value(s) to filter by. Null for no filter.
- * @return bool True if at least one row matches the criteria, false otherwise or on error.
+ * @param string $tableName Table to check.
+ * @param array|null $conditions Array of conditions, each item as ['column', 'operator', value (optional)]
+ *                               e.g. [['admission_id', '=', 1], ['admission_Branch', 'IS NOT NULL']]
+ * @return bool True if at least one row matches, false otherwise or on error.
  */
-function checkForData($tableName, $attributeWhere = null, $attributeWhereValue = null)
+function checkForData($tableName, $conditions = null)
 {
-    global $connections;  // Use the global connection variable
+    global $connections;
 
-    // Initialize the base query
     $query = "SELECT COUNT(*) FROM `$tableName`";
-
-    // Initialize parameter types and values arrays
     $paramTypes = "";
     $bindValues = [];
+    $whereClauses = [];
 
-    // Handle the WHERE clause if conditions are provided
-    if ($attributeWhere !== null && $attributeWhereValue !== null) {
-        // Convert single values to arrays for consistent handling
-        if (!is_array($attributeWhere)) {
-            $attributeWhere = [$attributeWhere];
+    if (!empty($conditions)) {
+        foreach ($conditions as $condition) {
+            $column = $condition[0];
+            $operator = strtoupper($condition[1]);
+            $value = $condition[2] ?? null;
+
+            if (in_array($operator, ['IS NULL', 'IS NOT NULL'])) {
+                $whereClauses[] = "`$column` $operator";
+            } else {
+                $whereClauses[] = "`$column` $operator ?";
+                $paramTypes .= is_int($value) ? 'i' : 's';
+                $bindValues[] = $value;
+            }
         }
 
-        if (!is_array($attributeWhereValue)) {
-            $attributeWhereValue = [$attributeWhereValue];
-        }
-
-        // Verify arrays have the same size
-        if (count($attributeWhere) !== count($attributeWhereValue)) {
-            // Error: Arrays must have the same size
-            error_log("checkForData error: attributeWhere and attributeWhereValue arrays must have the same size");
-            return false; // Return false indicating an error or invalid input
-        }
-
-        // Build the WHERE clause parts
-        $whereClauses = [];
-        for ($i = 0; $i < count($attributeWhere); $i++) {
-            // Add the condition part (e.g., `column` = ?)
-            $whereClauses[] = "`" . $attributeWhere[$i] . "` = ?";
-
-            // Determine parameter type ('i' for integer, 's' for string/other)
-            $paramTypes .= is_int($attributeWhereValue[$i]) ? 'i' : 's';
-
-            // Add the value to the binding array
-            $bindValues[] = $attributeWhereValue[$i];
-        }
-
-        // Append the WHERE clause to the query if there are conditions
         if (!empty($whereClauses)) {
             $query .= " WHERE " . implode(" AND ", $whereClauses);
         }
     }
-    // If $attributeWhere or $attributeWhereValue is null, the query remains SELECT COUNT(*) FROM `tableName`,
-    // which will check if the table has any rows at all.
 
-    // Prepare the statement
     if ($stmt = mysqli_prepare($connections, $query)) {
-
-        // Bind parameters if we have conditions
         if (!empty($bindValues)) {
-            // Create an array for call_user_func_array, starting with the statement and param types
             $bindParams = [$stmt, $paramTypes];
-
-            // Add references to each value in the bind values array
             foreach ($bindValues as $key => $value) {
-                // mysqli_stmt_bind_param requires parameters by reference
                 $bindParams[] = &$bindValues[$key];
             }
-
-            // Call mysqli_stmt_bind_param dynamically with the collected parameters
             call_user_func_array('mysqli_stmt_bind_param', $bindParams);
         }
 
-        // Execute the query
         mysqli_stmt_execute($stmt);
-
-        // Bind the result (the count) to a variable
         mysqli_stmt_bind_result($stmt, $count);
-
-        // Fetch the result
         $exists = false;
+
         if (mysqli_stmt_fetch($stmt)) {
-            // Check if the count is greater than 0
             $exists = $count > 0;
         }
 
-        // Close the statement
         mysqli_stmt_close($stmt);
-
-        // Return true if count > 0, false otherwise
         return $exists;
     } else {
-        // Handle the error if the query preparation failed
         showMySQLiAlert($connections);
-        return false; // Return false indicating an error
+        return false;
     }
 }
 
@@ -384,7 +351,7 @@ function insertData($tableName, $attributeToInsert = null, $attributeToInsertVal
 
     // Verify arrays have the same size
     if (count($attributeToInsert) !== count($attributeToInsertValue)) {
-        echo("insertData error: attributeToInsert and attributeToInsertValue arrays must have the same size");
+        echo ("insertData error: attributeToInsert and attributeToInsertValue arrays must have the same size");
         return false;
     }
 
@@ -515,6 +482,16 @@ function deleteData($tableName, $attributeWhere = null, $attributeWhereValue = n
     }
 }
 
+function normalizeData(array &$data)
+{
+    foreach ($data as $key => $value) {
+        // Check if the value is empty or 0
+        if ($value === '' || $value === 0) {
+            $data[$key] = null;
+        }
+    }
+}
+
 // Sanitize input
 function sanitizeInput($input)
 {
@@ -523,11 +500,10 @@ function sanitizeInput($input)
     return mysqli_real_escape_string($connections, trim($input));
 }
 
-
 function showAlert($alert)
 {
     $alert = htmlspecialchars($alert, ENT_QUOTES, 'UTF-8');
-    
+
     echo "<script language='javascript'>
             window.onload = function() {
                 alert(\"$alert\");
@@ -546,13 +522,15 @@ function goToPage($page)
     // echo "<script>window.location.href='$page';</script>";
 }
 
-function preformat($item){
+function preformat($item)
+{
     echo '<pre>';
     print_r($item);
     echo '</pre>';
 }
 
-function unsetPost($fields) {
+function unsetPost($fields)
+{
     foreach ($fields as $field) {
         if (isset($_POST[$field])) {
             unset($_POST[$field]);
