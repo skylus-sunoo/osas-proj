@@ -146,6 +146,44 @@ class AdmissionController
             $_SESSION['admission_Program'] = $admissionInfo['admission_Program'] ?? null;
             // preformat($admissionInfo);
             // echo $_SESSION['admission_Entry'];
+
+
+            $personalInfoRaw = $this->model->getPersonalInformation($_SESSION['admission_ID']);
+            $personalInfo = $personalInfoRaw[0] ?? [];
+
+            $_SESSION['admission_FirstName'] = $personalInfo['admission_FirstName'] ?? null;
+            $_SESSION['admission_MiddleName'] = $personalInfo['admission_MiddleName'] ?? null;
+            $_SESSION['admission_LastName'] = $personalInfo['admission_LastName'] ?? null;
+            $_SESSION['admission_Suffix'] = $personalInfo['admission_Suffix'] ?? null;
+            $_SESSION['admission_Region'] = $personalInfo['admission_Region'] ?? null;
+            $_SESSION['admission_Province'] = $personalInfo['admission_Province'] ?? null;
+            $_SESSION['admission_ContactNumber'] = $personalInfo['admission_ContactNumber'] ?? null;
+            $_SESSION['admission_LandlineNumber'] = $personalInfo['admission_LandlineNumber'] ?? null;
+            $_SESSION['admission_CivilStatus'] = $personalInfo['admission_CivilStatus'] ?? null;
+            $_SESSION['admission_Sex'] = $personalInfo['admission_Sex'] ?? null;
+            $_SESSION['admission_BirthDate'] = $personalInfo['admission_BirthDate'] ?? null;
+            $_SESSION['admission_BirthPlace'] = $personalInfo['admission_BirthPlace'] ?? null;
+            $_SESSION['admission_Religion'] = $personalInfo['admission_Religion'] ?? null;
+            $_SESSION['admission_Indigenous'] = $personalInfo['admission_Indigenous'] ?? null;
+
+
+            $familyInfoRaw = $this->model->getFamilyInformation($_SESSION['admission_ID']);
+            $familyInfo = $familyInfoRaw[0] ?? [];
+
+            $_SESSION['admission_FatherName'] = $familyInfo['admission_FatherName'] ?? null;
+            $_SESSION['admission_FatherNumber'] = $familyInfo['admission_FatherNumber'] ?? null;
+            $_SESSION['admission_FatherOccupation'] = $familyInfo['admission_FatherOccupation'] ?? null;
+            $_SESSION['admission_MotherName'] = $familyInfo['admission_MotherName'] ?? null;
+            $_SESSION['admission_MotherNumber'] = $familyInfo['admission_MotherNumber'] ?? null;
+            $_SESSION['admission_MotherOccupation'] = $familyInfo['admission_MotherOccupation'] ?? null;
+            $_SESSION['admission_Income'] = $familyInfo['admission_Income'] ?? null;
+            $_SESSION['admission_Siblings'] = $familyInfo['admission_Siblings'] ?? null;
+            $_SESSION['admission_BirthOrder'] = $familyInfo['admission_BirthOrder'] ?? null;
+            $_SESSION['admission_GuardianName'] = $familyInfo['admission_GuardianName'] ?? null;
+            $_SESSION['admission_GuardianNumber'] = $familyInfo['admission_GuardianNumber'] ?? null;
+            $_SESSION['admission_GuardianOccupation'] = $familyInfo['admission_GuardianOccupation'] ?? null;
+
+
             include_once 'views/public/admission/enrollment_information.php';
         } else {
             include_once 'views/public/admission/enrollment_branch.php';
@@ -209,6 +247,39 @@ class AdmissionController
             goToPage('/admission/enrollment');
         } else {
             $this->model->createPersonalInformation($data, $_SESSION['admission_ID']);
+            goToPage('/admission/enrollment');
+        }
+    }
+
+    public function saveFamilyInformation()
+    {
+        $data = [
+            'admission_ID' => $_SESSION['admission_ID'],
+            'admission_FatherName' => $_POST['enrollment-information-fatherName'] ?? null,
+            'admission_FatherNumber' => $_POST['enrollment-information-fatherNumber'] ?? null,
+            'admission_FatherOccupation' => $_POST['enrollment-information-fatherOccupation'] ?? null,
+            'admission_MotherName' => $_POST['enrollment-information-motherName'] ?? null,
+            'admission_MotherNumber' => $_POST['enrollment-information-motherNumber'] ?? null,
+            'admission_MotherOccupation' => $_POST['enrollment-information-motherOccupation'] ?? null,
+            'admission_Income' => $_POST['enrollment-information-income'],
+            'admission_Siblings' => $_POST['enrollment-information-siblings'] ?? null,
+            'admission_BirthOrder' => $_POST['enrollment-information-birthOrder'] ?? null,
+            'admission_GuardianName' => $_POST['enrollment-information-guardianName'],
+            'admission_GuardianNumber' => $_POST['enrollment-information-guardianNumber'],
+            'admission_GuardianOccupation' => $_POST['enrollment-information-guardianOccupation'],
+        ];
+
+        normalizeData($data);
+
+        if ($data['admission_Siblings'] == null) {
+            $data['admission_BirthOrder'] = null;
+        }
+
+        if ($this->model->userFamilyInfoExists($_SESSION['admission_ID'])) {
+            $this->model->updateFamilyInformation($data, $_SESSION['admission_ID']);
+            goToPage('/admission/enrollment');
+        } else {
+            $this->model->createFamilyInformation($data, $_SESSION['admission_ID']);
             goToPage('/admission/enrollment');
         }
     }

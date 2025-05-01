@@ -91,39 +91,6 @@ document.addEventListener('DOMContentLoaded', function () {
     entrySelect.addEventListener('change', toggleEntryNewFields);
     //#endregion
     //#region Personal - Refresh Provinces
-    const regionSelect = document.querySelector('select[name="enrollment-information-region"]');
-    const provinceDivs = document.querySelectorAll('.enrollment-information-province');
-
-    // Function to refresh province options based on selected region
-    function refreshProvinceOptions() {
-        const regionValue = regionSelect.value;
-        let hasMatchingDiv = false; // Track if any province div matches the region
-
-        // Loop through each provinceDiv and check if its class matches the regionValue
-        provinceDivs.forEach(div => {
-            // Extract the class name (assuming that the class name matches the region value)
-            const divClass = div.classList.contains(regionValue);
-
-            // Show the div if the region value matches the class, otherwise hide it
-            if (divClass && regionValue !== '') {
-                div.style.display = 'block';
-                hasMatchingDiv = true; // If a match is found, set the flag to true
-            } else {
-                div.style.display = 'none';
-            }
-        });
-
-        // If no div matched the region, show the provinceDiv with the class 'Empty'
-        if (!hasMatchingDiv) {
-            const emptyDiv = document.querySelector('.Empty');
-            if (emptyDiv) {
-                emptyDiv.style.display = 'block';
-            }
-        }
-    }
-
-    refreshProvinceOptions(); // initial state
-
-    regionSelect.addEventListener('change', refreshProvinceOptions);
+    
     //#endregion
 });

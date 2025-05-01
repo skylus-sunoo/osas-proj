@@ -74,6 +74,27 @@ class AdmissionModel
         return checkForData($this->table_personal, [['admission_ID', '=', $id]]);
     }
 
+    public function createPersonalInformation($data, $id)
+    {
+        insertData($this->table_personal, [
+            'admission_ID',
+            'admission_FirstName',
+            'admission_MiddleName',
+            'admission_LastName',
+            'admission_Suffix',
+            'admission_Region',
+            'admission_Province',
+            'admission_ContactNumber',
+            'admission_LandlineNumber',
+            'admission_CivilStatus',
+            'admission_Sex',
+            'admission_BirthDate',
+            'admission_BirthPlace',
+            'admission_Religion',
+            'admission_Indigenous'
+        ], $data);
+    }
+
     public function updatePersonalInformation($data, $id)
     {
         updateData($this->table_personal, [
@@ -95,25 +116,105 @@ class AdmissionModel
         ], $data, 'admission_ID', $id);
     }
 
-    public function createPersonalInformation($data, $id)
+    public function getPersonalInformation($id)
     {
-        insertData($this->table_personal, [
+        return fetchData($this->table_personal, '*', 'admission_ID', $id);
+    }
+
+    public function userFamilyInfoExists($id)
+    {
+        return checkForData($this->table_family, [['admission_ID', '=', $id]]);
+    }
+
+    public function createFamilyInformation($data, $id)
+    {
+        insertData($this->table_family, [
             'admission_ID',
-            'admission_FirstName',
-            'admission_MiddleName',
-            'admission_LastName',
-            'admission_Suffix',
-            'admission_Region',
-            'admission_Province',
-            'admission_ContactNumber',
-            'admission_LandlineNumber',
-            'admission_CivilStatus',
-            'admission_Sex',
-            'admission_BirthDate',
-            'admission_BirthPlace',
-            'admission_Religion',
-            'admission_Indigenous'
+            'admission_FatherName',
+            'admission_FatherNumber',
+            'admission_FatherOccupation',
+            'admission_MotherName',
+            'admission_MotherNumber',
+            'admission_MotherOccupation',
+            'admission_Income',
+            'admission_Siblings',
+            'admission_BirthOrder',
+            'admission_GuardianName',
+            'admission_GuardianNumber',
+            'admission_GuardianOccupation',
         ], $data);
+    }
+
+    public function updateFamilyInformation($data, $id)
+    {
+        updateData($this->table_family, [
+            'admission_ID',
+            'admission_FatherName',
+            'admission_FatherNumber',
+            'admission_FatherOccupation',
+            'admission_MotherName',
+            'admission_MotherNumber',
+            'admission_MotherOccupation',
+            'admission_Income',
+            'admission_Siblings',
+            'admission_BirthOrder',
+            'admission_GuardianName',
+            'admission_GuardianNumber',
+            'admission_GuardianOccupation',
+        ], $data, 'admission_ID', $id);
+    }
+
+    public function getFamilyInformation($id)
+    {
+        return fetchData($this->table_family, '*', 'admission_ID', $id);
+    }
+
+    public function userEducationInfoExists($id)
+    {
+        return checkForData($this->table_education, [['admission_ID', '=', $id]]);
+    }
+
+    public function createEducationInformation($data, $id)
+    {
+        insertData($this->table_education, [
+            'admission_ID',
+            'admission_FatherName',
+            'admission_FatherNumber',
+            'admission_FatherOccupation',
+            'admission_MotherName',
+            'admission_MotherNumber',
+            'admission_MotherOccupation',
+            'admission_Income',
+            'admission_Siblings',
+            'admission_BirthOrder',
+            'admission_GuardianName',
+            'admission_GuardianNumber',
+            'admission_GuardianOccupation',
+        ], $data);
+    }
+
+    public function updateEducationInformation($data, $id)
+    {
+        updateData($this->table_education, [
+            'admission_ID',
+            'admission_FatherName',
+            'admission_FatherNumber',
+            'admission_FatherOccupation',
+            'admission_MotherName',
+            'admission_MotherNumber',
+            'admission_MotherOccupation',
+            'admission_Income',
+            'admission_Siblings',
+            'admission_BirthOrder',
+            'admission_GuardianName',
+            'admission_GuardianNumber',
+            'admission_GuardianOccupation',
+        ], $data, 'admission_ID', $id);
+    }
+
+    public function getEducationInformation($id)
+    {
+        return fetchData($this->table_education, '*', 'admission_ID', $id);
     }
 }
     

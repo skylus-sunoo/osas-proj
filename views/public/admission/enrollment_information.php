@@ -107,7 +107,7 @@
                             <section class="enrollment-information-form-section">
                                 <?php
                                 echo generateFormField('firstName', 'First Name', 'admission_FirstName', 'text');
-                                echo generateFormField('middleName', 'Middle Name', 'admission_MiddleName', 'text');
+                                echo generateFormField('middleName', 'Middle Name', 'admission_MiddleName', 'text', false);
                                 echo generateFormField('lastName', 'Last Name', 'admission_LastName', 'text');
 
                                 $options = ['JR', 'SR', 'II', 'III', 'IV', 'V'];
@@ -166,36 +166,76 @@
                                     'XII' => ['name' => 'XII - SOCCSKSARGEN', 'provinces' => ['Cotabato', 'Sultan Kudarat', 'South Cotabato', 'Saranggani', 'General Santos City']],
                                 ];
 
-                                // Generate the region select field
-                                echo generateSelectField('region', 'Region', array_map(fn($region) => $region['name'], $regions), 'admission_Region');
-
-                                // Empty province select field
-                                echo generateSelectField('province Empty', 'Province', [], 'admission_Province', false);
-
-                                // Generate province select fields based on regions
-                                foreach ($regions as $regionCode => $regionData) {
-                                    $fieldHTML = '<div class="enrollment-information-province ';
-                                    $fieldHTML .= $regionCode;
-                                    $fieldHTML .= '">
-                                            <h4>Province</h4> 
-                                            <select name="enrollment-information-province">
-                                                <option value=""></option>'; // Default empty option
-
-                                    foreach ($regionData['provinces'] as $value => $text) {
-                                        $value = (string) $value;
-                                        $text = (string) $text;
-                                        // Use optionIsSession to determine if this option should be selected
-                                        $selected = optionIsSession('admission_Province', $value);
-                                        $fieldHTML .= '<option value="' . htmlspecialchars($value) . '" ' . $selected . '>' . htmlspecialchars($text) . '</option>';
-                                    }
-
-                                    // Close the select tag
-                                    $fieldHTML .= '</select></div>';
-
-                                    // Echo the generated HTML
-                                    echo $fieldHTML;
-                                }
                                 ?>
+
+                                <div class="enrollment-information-region">
+                                    <h4>* Region</h4>
+                                    <select id="region" name="enrollment-information-region" class="admission_Region" required>
+                                        <option value=""></option>
+                                        <?php foreach ($regions as $regionCode => $regionData): ?>
+                                            <option <?= optionIsSession('admission_Region', $regionCode) ?>><?= htmlspecialchars($regionData['name']) ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                <div class="enrollment-information-province">
+                                    <h4>* Province</h4>
+                                    <!-- Province Select (initially empty) -->
+                                    <select id="province" name="enrollment-information-province" class="admission_Province" required>
+                                        <option value=""></option>
+                                        <?php
+                                        if (isset($regions[$_SESSION['admission_Region']])) {
+                                            $selectedRegion = $_SESSION['admission_Region'];
+                                            $provinces = $regions[$selectedRegion]['provinces'];
+                                            foreach ($provinces as $province): ?>
+                                                <option <?= optionIsSession('admission_Province', $province) ?>><?= htmlspecialchars($province) ?></option>
+                                        <?php endforeach;
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+
+                                <script>
+                                    // Data for regions and their corresponding provinces
+                                    var regionsData = <?php echo json_encode($regions); ?>;
+
+                                    // Function to update the provinces based on the selected region
+                                    document.getElementById('region').addEventListener('change', function() {
+                                        var regionCode = this.value;
+                                        var provinceSelect = document.getElementById('province');
+
+                                        // Reset the provinces select
+                                        provinceSelect.innerHTML = '<option value=""></option>';
+
+                                        if (regionCode) {
+                                            var provinces = regionsData[regionCode].provinces;
+
+                                            // Add the provinces to the select element
+                                            provinces.forEach(function(province) {
+                                                var option = document.createElement('option');
+                                                option.value = province;
+                                                option.textContent = province;
+
+                                                // Check if the current province is selected from the session
+                                                <?php if (isset($_SESSION['admission_Province'])): ?>
+                                                    if (province === "<?php echo $_SESSION['admission_Province']; ?>") {
+                                                        option.selected = true;
+                                                    }
+                                                <?php endif; ?>
+
+                                                provinceSelect.appendChild(option);
+                                            });
+                                        }
+                                    });
+
+                                    // Trigger change event on page load to populate provinces correctly if a region is selected
+                                    window.addEventListener('load', function() {
+                                        var regionCode = document.getElementById('region').value;
+                                        if (regionCode) {
+                                            document.getElementById('region').dispatchEvent(new Event('change'));
+                                        }
+                                    });
+                                </script>
                             </section>
                             <section class="enrollment-information-form-section">
                                 <?php
@@ -215,7 +255,7 @@
                                 echo generateFormField('birthDate', 'Date of Birth', 'admission_BirthDate', 'date');
 
                                 echo generateFormField('birthPlace', 'Place of Birth', 'admission_BirthPlace', 'text');
-                                echo generateFormField('religion', 'Religion', 'admission_Religion', 'text');
+                                echo generateFormField('religion', 'Religion', 'admission_Religion', 'text', false);
 
                                 $options = ['Yes', 'No'];
                                 echo generateSelectField('indigenous', 'Are you from an Indigenous Tribe?', $options, 'admission_Indigenous');
@@ -223,6 +263,117 @@
                             </section>
                         </div>
                         <button type="submit" class="primary-button">Save Personal Information</button>
+                    </form>
+                </div>
+
+                <div class="enrollment-family-information">
+                    <form action="/admission/save_family_information" method="POST">
+                        <div class="enrollment-information-form">
+                            <section class="enrollment-information-form-section">
+                                <?php
+                                echo generateFormField('fatherName', 'Father\'s name', 'admission_FatherName', 'text', false);
+                                echo generateFormField('fatherNumber', 'Contact Number', 'admission_FatherNumber', 'text', false);
+                                echo generateFormField('fatherOccupation', 'Occupation', 'admission_FatherOccupation', 'text', false);
+                                ?>
+                            </section>
+                            <section class="enrollment-information-form-section">
+                                <?php
+                                echo generateFormField('motherName', 'Mother\'s name', 'admission_MotherName', 'text', false);
+                                echo generateFormField('motherNumber', 'Contact Number', 'admission_MotherNumber', 'text', false);
+                                echo generateFormField('motherOccupation', 'Occupation', 'admission_MotherOccupation', 'text', false);
+                                ?>
+                            </section>
+                            <hr>
+                            <section class="enrollment-information-form-section">
+                                <?php
+                                $options = [
+                                    'below 10,000',
+                                    '11,000-20,000',
+                                    '21,000-30,000',
+                                    '31,000-40,000',
+                                    '41,000-50,000',
+                                    'above 50,000'
+                                ];
+                                echo generateSelectField('income', 'Estimate Monthly Family Income', $options, 'admission_Income');
+
+                                echo generateFormField('siblings', 'Number of Siblings', 'admission_Siblings', 'number', false);
+
+                                $options = [
+                                    'Eldest',
+                                    'Middle',
+                                    'Youngest'
+                                ];
+                                echo generateSelectField('birthOrder', 'Birth Order', $options, 'admission_BirthOrder', false);
+                                ?>
+                            </section>
+                            <hr>
+                            <section class="enrollment-information-form-section">
+                                <?php
+                                echo generateFormField('guardianName', 'Guardian\'s name', 'admission_GuardianName', 'text');
+                                echo generateFormField('guardianNumber', 'Contact Number', 'admission_GuardianNumber', 'text');
+                                echo generateFormField('guardianOccupation', 'Occupation', 'admission_GuardianOccupation', 'text');
+                                ?>
+                            </section>
+                        </div>
+                        <button type="submit" class="primary-button">Save Family Background</button>
+                    </form>
+                </div>
+
+                <div class="enrollment-education-information">
+                    <form action="/admission/save_education_information" method="POST">
+                        <div class="enrollment-information-form">
+                            <div>
+                                <h4 class="enrollment-education-level">Elementary</h4>
+                                <section class="enrollment-information-form-section">
+                                    <?php
+                                    echo generateFormField('elementaryName', 'School Name', 'admission_ElementaryName', 'text');
+                                    echo generateFormField('elementaryAddress', 'School Address', 'admission_ElementaryAddress', 'text');
+                                    echo generateFormField('elementaryYear', 'Year Graduated', 'admission_ElementaryYear', 'number');
+                                    $options = [
+                                        'Public',
+                                        'Private'
+                                    ];
+                                    echo generateSelectField('elementaryType', 'Type', $options, 'admission_ElementaryType');
+                                    ?>
+                                </section>
+                            </div>
+                            <div>
+                                <h4 class="enrollment-education-level">High School</h4>
+                                <section class="enrollment-information-form-section">
+                                    <?php
+                                    echo generateFormField('highschoolName', 'School Name', 'admission_HighschoolName', 'text');
+                                    echo generateFormField('highschoolAddress', 'School Address', 'admission_HighschoolAddress', 'text');
+                                    echo generateFormField('highschoolYear', 'Year Graduated', 'admission_HighschoolYear', 'number');
+                                    echo generateSelectField('highschoolType', 'Type', $options, 'admission_HighschoolType');
+                                    ?>
+                                </section>
+                            </div>
+                            <hr>
+                            <div>
+                                <h4 class="enrollment-education-level">Senior High School</h4>
+                                <section class="enrollment-information-form-section">
+                                    <?php
+                                    echo generateFormField('seniorName', 'School Name', 'admission_SeniorName', 'text', false);
+                                    echo generateFormField('seniorAddress', 'School Address', 'admission_SeniorAddress', 'text', false);
+                                    echo generateFormField('seniorYear', 'Year Graduated', 'admission_SeniorYear', 'number', false);
+                                    echo generateSelectField('seniorType', 'Type', $options, 'admission_SeniorType', false);
+                                    ?>
+                                </section>
+                            </div>
+                            <hr>
+                            <div>
+                                <h4 class="enrollment-education-level">Vocational</h4>
+                                <section class="enrollment-information-form-section">
+                                    <?php
+                                    echo generateFormField('vocationalName', 'School Name', 'admission_VocationalName', 'text', false);
+                                    echo generateFormField('vocationalAddress', 'School Address', 'admission_VocationalAddress', 'text', false);
+                                    echo generateFormField('vocationalYear', 'Year Graduated', 'admission_VocationalYear', 'number', false);
+                                    echo generateSelectField('vocationalType', 'Type', $options, 'admission_VocationalType', false);
+                                    ?>
+                                </section>
+                            </div>
+                        </div>
+                        <button type="submit" class="primary-button">Save Educational History</button>
                     </form>
                 </div>
             </section>

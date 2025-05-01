@@ -60,6 +60,11 @@ $router->add("/admission/save_personal_information", function () {
     $controller->savePersonalInformation();
 });
 
+$router->add("/admission/save_family_information", function () {
+    $controller = new AdmissionController();
+    $controller->saveFamilyInformation();
+});
+
 $router->add("/admission/course", function () {
     include_once 'views/public/include/header.php';
     include_once 'views/public/admission/course.php';
@@ -105,11 +110,12 @@ function generateFormField($fieldTag, $label, $value = null, $type, $isRequired 
 
     // If the field is required, add the "required" attribute
     $required = $isRequired ? 'required' : '';
+    $requiredLabel = $isRequired ? '* ' : '';
 
     // Generate the HTML for the field, including the class for 'entry_new' if necessary
     $fieldHTML = '
         <div class="enrollment-information-' . htmlspecialchars($fieldTag) . '">
-            <h4>' . htmlspecialchars($label) . '</h4>
+            <h4>' . $requiredLabel . htmlspecialchars($label) . '</h4>
             <input type="' . $type . '" name="enrollment-information-' . htmlspecialchars($fieldTag) . '" 
                    value="' . htmlspecialchars((string)$sessionValue) . '" ' . $required . '>
         </div>
@@ -130,7 +136,7 @@ function generateFormFieldEntryNew($fieldTag, $label, $value = null, $type, $isR
     // Generate the HTML for the field, including the class for 'entry_new' if necessary
     $fieldHTML = '
         <div class="entry-new enrollment-information-' . htmlspecialchars($fieldTag) . '">
-            <h4>' . htmlspecialchars($label) . '</h4>
+            <h4>* ' . htmlspecialchars($label) . '</h4>
             <input type="' . $type . '" name="enrollment-information-' . htmlspecialchars($fieldTag) . '" 
                    value="' . htmlspecialchars((string)$sessionValue) . '" ' . $required . '>
         </div>
@@ -151,9 +157,10 @@ function generateSelectField($fieldTag, $label, $options, $sessionKey, $isRequir
         <div class="enrollment-information-' . htmlspecialchars($fieldTag);
 
     $required = $isRequired ? 'required' : '';
+    $requiredLabel = $isRequired ? '* ' : '';
 
     $fieldHTML .= '">
-        <h4>' . htmlspecialchars($label) . '</h4> 
+        <h4>' . $requiredLabel . htmlspecialchars($label) . '</h4> 
         <select name="enrollment-information-' . htmlspecialchars($fieldTag) . '" ' . $required . '>
             <option value=""></option>'; // Default empty option
 
@@ -203,7 +210,7 @@ function generateSelectFieldEntryNew($fieldTag, $label, $options, $sessionKey, $
     }
 
     $fieldHTML .= '">
-        <h4>' . htmlspecialchars($label) . '</h4>
+        <h4>* ' . htmlspecialchars($label) . '</h4>
         <select name="enrollment-information-' . htmlspecialchars($fieldTag) . '" required>
             <option value=""></option>'; // Default empty option
 

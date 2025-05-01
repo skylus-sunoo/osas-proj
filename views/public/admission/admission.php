@@ -37,14 +37,14 @@
             </div>
         </div>
 
-        <div id="loginModal" class="modal">
+        <!-- <div id="loginModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
                 <h3>Please log in first</h3>
                 <p>You need to be logged in to continue with the enrollment.</p>
                 <a href="/login"><button>Login</button></a>
             </div>
-        </div>
+        </div> -->
 
         <script>
             function handleEnrollClick() {
