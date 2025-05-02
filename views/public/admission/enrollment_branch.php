@@ -18,8 +18,6 @@
             <h2>ENROLLMENT</h2>
             <h4><i>ADMISSION >> CvSU CAMPUS</i></h4>
             <hr>
-            <!-- <h2 style="padding-top:50px"> ADMISSION INFORMATION </h2>
-            <hr> -->
         </header>
 
         <div class="enrollment-branch">

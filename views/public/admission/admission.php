@@ -20,7 +20,7 @@
             <img src="../../../assets/img/application_for_admission_1.png" alt="application for admission">
             <img src="../../../assets/img/application_for_admission_2.png" alt="application for admission">
             <div class="font-NotoSans">
-                <h2> <b> APPLICATION FOR ADMISSION for FIRST SEMESTER S.Y. 2025-2025 in CAVITE STATE UNIVERSITY
+                <h2> <b> APPLICATION FOR ADMISSION for FIRST SEMESTER S.Y. 2025-2026 in CAVITE STATE UNIVERSITY
                         begins on NOVEMBER 18, 2024. SCAN THE QR CODE OR FOLLOW THE LINK TO APPLY
                         <br> <br>
                         Start of Application: November 18, 2024. <br> <br>

@@ -70,7 +70,7 @@
                                     'DEGREE' => 'Associate Certificate, Vocational, or Diploma Degree Holder'
                                 ];
                                 if (isset($_SESSION['admission_ControlNumber'])) {
-                                    echo generateSelectFieldEntryNew('typeStudenta', 'Type of New Student', $options, 'admission_TypeStudent', true);
+                                    echo generateSelectFieldEntryNew('typeStudenta', 'Type of New Student' , $options, 'admission_TypeStudent', true);
                                 } else {
                                     echo generateSelectFieldEntryNew('typeStudent', 'Type of New Student', $options, 'admission_TypeStudent', true);
                                 }
@@ -83,7 +83,7 @@
                         <br>
                         <hr>
 
-                        <h3> Prefered Course </h3> <!--dapat kung anong course lang meron ung campus */-->
+                        <h3> Preferred Course </h3> <!--dapat kung anong course lang meron ung campus */-->
                         <br>
                         <h4> Program Name </h4>
 
@@ -91,13 +91,16 @@
                             <select name="enrollment-information-program" required>
                                 <option value=""></option>
                                 <option <?= optionIsSession('admission_Program', 'BSCE') ?>>Bachelor of Early Childhood Education</option>
-                                <option <?= optionIsSession('admission_Program', 'BSE') ?>>Bachelor of Secondary Education</option>
+                                <option <?= optionIsSession('admission_Program', 'BSE') ?>>Bachelor of Secondary Education Major in English </option>
+                                <option <?= optionIsSession('admission_Program', 'BSE') ?>>Bachelor of Secondary Education Major in Mathematics </option>
+                                <option <?= optionIsSession('admission_Program', 'BSE') ?>>Bachelor of Secondary Education Major in Science </option>
                                 <option <?= optionIsSession('admission_Program', 'BSBA') ?>>Bachelor of Science in Business Administration</option>
                                 <option <?= optionIsSession('admission_Program', 'BSCS') ?>>Bachelor of Science in Computer Science</option>
-                                <option <?= optionIsSession('admission_Program', 'BSHM') ?>>Bachelor of Science in Hospitality Management</option>
                                 <option <?= optionIsSession('admission_Program', 'BSIT') ?>>Bachelor of Science in Information Technology</option>
-                                <option <?= optionIsSession('admission_Program', 'BSPSY') ?>>Bachelor of Science in Psychology</option>
+                                <option <?= optionIsSession('admission_Program', 'BSHM') ?>>Bachelor of Science in Hospitality Management</option>
                                 <option <?= optionIsSession('admission_Program', 'BSTM') ?>>Bachelor of Science in Tourism Management</option>
+                                <option <?= optionIsSession('admission_Program', 'BSPSY') ?>>Bachelor of Science in Psychology</option>
+
                             </select>
 
                             <button type="submit" class="primary-button">Save Admission Information</button>

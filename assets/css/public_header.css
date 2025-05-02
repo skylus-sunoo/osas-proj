@@ -26,6 +26,7 @@
 }
 
 .header-nav {
+    padding-left: 50px;
     flex-grow: 1;
 
     display: flex;
@@ -48,6 +49,7 @@
 .header-nav a:hover {
     color: var(--primary-yellow);
 }
+
 .active_nav {
     color: var(--primary-yellow) !important;
 }
@@ -102,3 +104,157 @@
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+/* General header styles */
+.hamburger {
+    display: none;
+}
+
+
+/* HEADER MEDIA QUERY */
+
+@media screen and (max-width: 768px) {
+
+    /* Main header layout na responsive*/
+    .header-main {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        position: relative;
+    }
+
+    /* cvsu header */
+    .header-school {
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .header-school img {
+        max-width: 3rem;
+    }
+
+    .header-school h1 {
+        font-size: 1.2rem;
+    }
+
+    /* Hamburger button */
+    .hamburger {
+        display: block;
+        font-size: 2rem;
+        color: white;
+        cursor: pointer;
+    }
+
+    /* Navigation menu */
+    .header-nav {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(var(--primary-green));
+        /*color ng background ng hamburger na nav */
+        position: fixed;
+        top: 90;
+        right: -79;
+        width: 100%;
+        padding: 2rem 0;
+        z-index: 10;
+        gap: 1.5rem;
+
+    }
+
+    /* Show nav when toggled */
+    .header-nav.show {
+        display: flex;
+    }
+
+    /* Nav link styles */
+    .header-nav a,
+    .dropbtn {
+        font-size: 1.2rem;
+        padding: 1rem;
+        text-align: center;
+        width: 100%;
+        background-color: transparent;
+        color: white;
+        text-decoration: none;
+    }
+
+    /* Hover effect */
+    .header-nav a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        /* paedit na lang ng design*/
+    }
+
+    /* Dropdown menu */
+    .dropdown {
+        width: 100%;
+        text-align: center;
+
+    }
+
+    /* Main button (link with dropdown) */
+    .dropbtn {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Dropdown content */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        width: 100%;
+        background-color: inherit;
+        z-index: 11;
+    }
+
+    /* Show submenu on hover */
+    .dropdown:hover .dropdown-content {
+        display: block;
+        width: 100%;
+
+    }
+
+    /* Sublinks inside dropdown */
+    .dropdown-content a {
+        width: 100%;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .dropdown-content {
+        position: static;
+        width: 100%;
+        background-color: inherit;
+        box-shadow: none;
+        text-align: center;
+
+    }
+
+    .dropdown-content a {
+        text-align: center;
+        padding: 1rem;
+        width: 100%;
+
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+        text-align: center;
+        width: 100%;
+
+
+    }
+}
+
+/*@media screen and (max-width: 768px) {
+    /* Duplicate hamburger styles for smaller screens 
+    .hamburger {
+        display: block;
+        font-size: 2rem;
+        color: white;
+        cursor: pointer;
+    }
+ } */

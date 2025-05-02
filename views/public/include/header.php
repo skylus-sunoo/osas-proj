@@ -14,10 +14,11 @@ function is_active_sub($needle)
 <header class="header-main">
     <div class="header-school">
         <img src="../../../assets/img/logo.png" alt="">
-        <h1>CVSU SILANG</h1>
+        <h1>CVSU SILANG OFFICE OF STUDENT AFFAIRS AND SERVICE</h1>
     </div>
 
-    <nav class="header-nav">
+    <div class="hamburger" id="hamburger">&#9776;</div>
+    <nav class="header-nav" id="headerNav">
         <a href="../dashboard/home" class="<?= is_active('/dashboard/home') ?>">HOME</a>
 
         <div class="dropdown">
@@ -54,3 +55,18 @@ function is_active_sub($needle)
 </header>
 
 <!-- <?= preformat($_SESSION); ?> -->
+
+<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const hamburger = document.getElementById("hamburger");
+            const nav = document.getElementById("headerNav");
+
+            if (hamburger && nav) {
+                hamburger.addEventListener("click", function() {
+                    nav.classList.toggle("show");
+                });
+            }
+        });
+    </script>
+</body>

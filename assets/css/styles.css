@@ -51,6 +51,7 @@ body {
 }
 
 .primary-button {
+    display: inline-block; 
     color: black;
     background-color: var(--primary-yellow);
     border-style: none;

@@ -42,14 +42,15 @@ body,
     padding-bottom: 30px;
     border-radius: 10px;
     max-width: 20vw;
-    align-self: flex-start; /* Prevents stretching */
+    align-self: flex-start;
+    /* Prevents stretching */
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
 }
 
-.enrollment-information-sidebar > button {
+.enrollment-information-sidebar>button {
     all: unset;
 }
 
@@ -77,6 +78,7 @@ body,
     padding: 30px 30px;
     color: white;
     background-color: rgba(var(--primary-blue-dark), 0.75);
+    width: 84%;
 }
 
 .enrollment-admission-information {
@@ -275,4 +277,240 @@ h3 {
 .enrollment-checkbox input[type="checkbox"] {
     max-width: 20px !important;
     max-height: 20px !important;
+}
+
+
+/* media queries for branch selection */
+
+@media screen and (max-width: 768px) {
+    .enrollment-branch {
+        font-size: 1rem;
+        padding: 1.5rem;
+        margin: 5% 2%;
+    }
+
+    .enrollment-branch h4 {
+        font-size: 1.5rem;
+    }
+
+    select,
+    .primary-button {
+        width: 100%;
+        font-size: 1rem;
+        box-sizing: border-box;
+        padding: 0.75rem 1rem;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .enrollment-branch {
+        font-size: 1rem;
+        padding: 1.5rem;
+        margin: 5% 2%;
+    }
+
+    .enrollment-branch h4 {
+        font-size: 1.5rem;
+    }
+
+    select,
+    .primary-button {
+        width: 100%;
+        font-size: 1rem;
+        box-sizing: border-box;
+        padding: 0.75rem 1rem;
+    }
+}
+
+@media screen and (min-width: 1025px) {
+    .enrollment-branch {
+        font-size: 1rem;
+        padding: 1.5rem;
+        margin: 5% 2%;
+    }
+
+    .enrollment-branch h4 {
+        font-size: 1.5rem;
+    }
+
+    select,
+    .primary-button {
+        width: 100%;
+        font-size: 1rem;
+        box-sizing: border-box;
+        padding: 0.75rem 1rem;
+    }
+}
+
+
+
+/* media queries for enrollment form */
+
+/*SIDEBAR*/
+
+@media screen and (max-width: 768px) {
+    .enrollment-information-sidebar {
+        max-width: 90%;
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        margin: 0;
+        padding: 20px;
+        padding-right: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .enrollment-information-sidebar button {
+        font-size: 1rem;
+        padding: 8px 12px;
+        min-width: 130px;
+        width: 100%;
+    }
+
+    .enrollment-information-sidebar button h1 {
+        font-size: 1.2rem;
+    }
+
+    .enrollment-information-sidebar button {
+        flex-grow: 0;
+        flex-shrink: 1;
+    }
+
+    .enrollment-information-control-section {
+        padding: 30px 24px;
+    }
+
+    .primary-button {
+        font-size: 0.9rem;
+        padding: 12px 20px;
+        min-width: 150px;
+        text-align: center;
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .enrollment-information-sidebar {
+        max-width: 100%;
+        width: 80%;
+        border-radius: 0;
+        box-shadow: none;    
+    }
+    .enrollment-information-control-section{
+        padding:20px;
+    }
+}
+
+
+/*FORM*/
+
+@media screen and (max-width: 768px) {
+    .enrollment-information-form {
+        row-gap: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .enrollment-information-form-section {
+        display: flex;
+        flex-direction: column;
+        column-gap: 0;
+        width: 100%;
+        padding-right: 35px;
+    }
+
+    .enrollment-information-form-section * {
+        flex-grow: 1;
+        width: 100%;
+    }
+
+    .enrollment-information-form-section button {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .enrollment-information-branch {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .enrollment-information-branch h1 {
+        font-size: 1.5rem;
+    }
+
+    input,
+    select,
+    #branch {
+        font-size: 0.9rem;
+        padding: 0.75rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+
+    form h4 {
+        font-size: 1rem;
+    }
+
+    .enrollment-information-branch form button {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .enrollment-information-form {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1.5rem;
+    }
+
+    .enrollment-information-form-section {
+        display: flex;
+        column-gap: 1.5rem;
+        width: 100%;
+    }
+
+    .enrollment-information-form-section button {
+        width: 100%;
+    }
+
+    .enrollment-information-branch h1 {
+        font-size: 1.8rem;
+    }
+
+    input,
+    select,
+    #branch {
+        font-size: 1rem;
+    }
+
+    h3 {
+        font-size: 1.4rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .enrollment-information {
+        display: flex;
+        flex-direction: column; 
+        gap: 2rem; 
+        align-items: center; 
+    }
+
+    .enrollment-information-sidebar,
+    .enrollment-information-control-section {
+        width: 100%; 
+        max-width: 100%; 
+        box-sizing: border-box;
+    }
+
+    .enrollment-information-control-section {
+        max-width: 200%;
+        width: 108%;
+    }
 }
