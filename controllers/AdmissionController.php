@@ -260,6 +260,11 @@ class AdmissionController
             $_SESSION['admission_Others'] = $medicalInfo['admission_Others'] ?? null;
             $_SESSION['admission_PWD'] = $medicalInfo['admission_PWD'] ?? null;
 
+            $_SESSION['admission_ControlNumber'] = $this->model->getControlNumber($_SESSION['admission_ID']);
+
+            if($_SESSION['admission_ControlNumber'] == 0){
+                $_SESSION['admission_ControlNumber'] = null;
+            }
             // if($this->model->hasAppointment($_SESSION['admission_ID'])){
                 $_SESSION['admission_Appointment'] = $this->model->getAppointment($_SESSION['admission_ID']);
             // }

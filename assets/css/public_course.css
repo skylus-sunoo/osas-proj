@@ -13,7 +13,7 @@
 }
 
 .course-info h2 {
-    color: var(--primary-yellow);
+    color: var(--primary-hex-yellow);
     margin-bottom: 10px;
 }
 
@@ -31,7 +31,7 @@
 }
 
 .course-program {
-    background-color: rgba(var(--primary-green), 0.5);
+    background-color: rgba(var(--primary-rgb-green), 0.5);
     display: flex;
     border-radius: 10px;
     overflow: hidden;
@@ -54,7 +54,7 @@
 }
 
 .course-program-content h3 {
-    color: var(--primary-yellow);
+    color: var(--primary-hex-yellow);
     margin-bottom: 15px;
     font-size: 25px;
     font-weight: 800;

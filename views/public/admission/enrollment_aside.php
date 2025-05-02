@@ -29,11 +29,11 @@
             </div>
             <div class="post-control" style="display: <?= isset($_SESSION['admission_ControlNumber']) ? 'block' : 'none' ?>;">
                 <p>Your control number is:</p>
-                <h1 style="color: var(--primary-yellow); font-size: 2.5rem;"><?= $_SESSION['admission_ControlNumber'] ?></h1>
+                <h1 style="color: var(--primary-hex-yellow); font-size: 2.5rem;"><?= $_SESSION['admission_ControlNumber'] ?></h1>
                 <br>
                 <hr>
                 <br>
-                <p>Download your application form here</p>
+                <p>Download your application form here!</p>
                 <br>
                 <form method="post" action="../generate-pdf.php" target="_blank">
                     <input type="hidden" name="application_form_id" value="<?= $_SESSION['admission_ID'] ?>">
@@ -45,7 +45,7 @@
                 <?php
                 if ($this->hasAppointment()):
                 ?>
-                    <p>Submission schedule</p>
+                    <p>Submission schedule:</p>
                     <br>
                     <?=
                     $this->renderSubmissionSchedule();

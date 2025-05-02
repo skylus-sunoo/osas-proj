@@ -31,7 +31,7 @@ buttons.forEach(button => {
             const h1 = btn.querySelector('h1');
             if (btn === this) {
                 // Set the text color to primary yellow if the button is selected
-                h1.style.color = 'var(--primary-yellow)';
+                h1.style.color = 'var(--primary-hex-yellow)';
             } else {
                 // Reset the text color to white if the button is not selected
                 h1.style.color = 'white';

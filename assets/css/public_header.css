@@ -47,11 +47,11 @@
 }
 
 .header-nav a:hover {
-    color: var(--primary-yellow);
+    color: var(--primary-hex-yellow);
 }
 
 .active_nav {
-    color: var(--primary-yellow) !important;
+    color: var(--primary-hex-yellow) !important;
 }
 
 /* Dropdown */
@@ -73,7 +73,7 @@
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: rgb(var(--primary-green));
+    background-color: var(--primary-hex-green);
     min-width: 160px;
     z-index: 1;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
@@ -92,12 +92,12 @@
 }
 
 .dropdown-content a:hover {
-    background-color: var(--primary-green-dark);
+    background-color: var(--primary-hex-green-dark);
 }
 
 .active_subnav {
-    background-color: var(--primary-green-dark) !important;
-    color: var(--primary-yellow) !important;
+    background-color: var(--primary-hex-green-dark) !important;
+    color: var(--primary-hex-yellow) !important;
 }
 
 /* Show dropdown when hovering over the parent container */
@@ -152,7 +152,7 @@
         display: none;
         flex-direction: column;
         align-items: center;
-        background-color: rgb(var(--primary-green));
+        background-color: var(--primary-hex-green);
         /*color ng background ng hamburger na nav */
         position: fixed;
         top: 90;

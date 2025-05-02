@@ -1,10 +1,19 @@
 :root {
-    --primary-yellow: #eead2b;
-    --primary-green: 11, 61, 46;
-    /* RGB values for #0b3d2e */
-    --primary-green-dark: #001E08;
-    --primary-green-light: #005214;
-    --primary-blue-dark: 32, 30, 38;
+    --primary-rgb-yellow: 238, 173, 43;
+    --primary-hex-yellow: #eead2b;
+    
+    --primary-rgb-green: 11, 61, 46;
+    --primary-hex-green: #0b3d2e;
+    --primary-hex-green-dark: #001E08;
+    --primary-rgb-green-dark: 0, 30, 8;
+    --primary-hex-green-light: #005214;
+    --primary-rgb-green-light: 0, 82, 20;
+
+    --primary-rgb-blue-dark: 32, 30, 38;
+    --primary-hex-blue-dark: #201E26;
+
+    --primary-rgb-red: 238, 43, 59;
+    --primary-hex-red: #EE2B3B;
 }
 
 * {
@@ -14,7 +23,7 @@
 }
 
 body {
-    background-color: var(--primary-green-light);
+    background-color: var(--primary-hex-green-light);
     background-image: url('../img/bg.png');
     background-repeat: no-repeat;
     background-size: cover;
@@ -28,7 +37,7 @@ body {
 }
 
 .public-header>h2 {
-    color: var(--primary-yellow);
+    color: var(--primary-hex-yellow);
     font-family: 'Gotham';
 }
 
@@ -123,7 +132,7 @@ body {
 .primary-button {
     /* display: inline-block;  */
     color: black;
-    background-color: var(--primary-yellow);
+    background-color: var(--primary-hex-yellow);
     border-style: none;
     border-radius: 1rem;
     padding: 1rem;
@@ -134,6 +143,6 @@ body {
 }
 
 .primary-button:not(:disabled):hover {
-    background-color: rgb(var(--primary-green));
+    background-color: var(--primary-hex-green);
     color: white;
 }

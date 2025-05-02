@@ -19,7 +19,7 @@ body,
     margin: 50px 400px 100px;
     padding: 30px 50px;
     color: white;
-    background-color: rgba(var(--primary-blue-dark), 0.75);
+    background-color: rgba(var(--primary-rgb-blue-dark), 0.75);
 }
 
 .enrollment-branch h4 {
@@ -63,7 +63,7 @@ body,
 }
 
 .enrollment-information-sidebar button h1:hover {
-    color: var(--primary-yellow) !important;
+    color: var(--primary-hex-yellow) !important;
 }
 
 .enrollment-information-sidebar button+button {
@@ -77,7 +77,7 @@ body,
     border-radius: 10px;
     padding: 30px 30px;
     color: white;
-    background-color: rgba(var(--primary-blue-dark), 0.75);
+    background-color: rgba(var(--primary-rgb-blue-dark), 0.75);
     width: 84%;
 }
 
@@ -109,14 +109,14 @@ body,
 }
 
 .enrollment-information-branch h1 {
-    color: var(--primary-yellow);
+    color: var(--primary-hex-yellow);
     font-size: 2rem;
 }
 
 .enrollment-information-branch form button {
     background-color: transparent;
-    color: var(--primary-yellow);
-    border: 1px solid var(--primary-yellow);
+    color: var(--primary-hex-yellow);
+    border: 1px solid var(--primary-hex-yellow);
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     cursor: pointer;
@@ -132,7 +132,7 @@ body,
 }
 
 .enrollment-information-branch form button:not(:disabled):hover {
-    background-color: var(--primary-yellow);
+    background-color: var(--primary-hex-yellow);
     color: black;
 }
 
@@ -141,7 +141,7 @@ form>div {
 }
 
 form h4 {
-    color: var(--primary-yellow);
+    color: var(--primary-hex-yellow);
     font-weight: 500;
     margin-bottom: 0.5rem;
 }
@@ -178,7 +178,7 @@ select,
 }
 
 #branch {
-    background-color: rgb(var(--primary-green));
+    background-color: var(--primary-hex-green);
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -196,8 +196,8 @@ input[type="number"] {
 #branch:focus,
 select:focus,
 input:focus {
-    outline: 2px solid var(--primary-yellow);
-    background-color: rgb(var(--primary-green));
+    outline: 2px solid var(--primary-hex-yellow);
+    background-color: var(--primary-hex-green);
 }
 
 input::placeholder,
@@ -207,7 +207,7 @@ select option {
 
 select option,
 #branch option {
-    background-color: rgb(var(--primary-green-dark));
+    background-color: rgb(var(--primary-hex-green-dark));
     color: white;
 }
 
@@ -219,7 +219,7 @@ select:disabled {
 }
 
 h3 {
-    color: var(--primary-yellow);
+    color: var(--primary-hex-yellow);
     margin-top: 2rem;
     font-size: 1.5rem;
 }
@@ -228,7 +228,7 @@ h3 {
 
     select option:hover,
     #branch option:hover {
-        background-color: var(--primary-yellow);
+        background-color: var(--primary-hex-yellow);
         color: black;
     }
 }

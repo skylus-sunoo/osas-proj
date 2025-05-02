@@ -27,7 +27,7 @@
             margin-bottom: 20px;
             padding: 15px 20px;
             max-width: 300px;
-            border-left: 5px solid var(--primary-yellow);
+            border-left: 5px solid var(--primary-hex-yellow);
             border-radius: 6px;
             font-size: 14px;
             line-height: 1.5;
@@ -59,8 +59,8 @@
         }
 
         .tab-buttons button.active {
-            color: var(--primary-yellow);
-            border-bottom: 3px solid var(--primary-yellow);
+            color: var(--primary-hex-yellow);
+            border-bottom: 3px solid var(--primary-hex-yellow);
         }
 
         form {

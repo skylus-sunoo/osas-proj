@@ -28,17 +28,17 @@ foreach ($conditions as $condition) {
 }
 $totalSteps = count($steps);
 
-$controlNumber = isset($_SESSION['admission_ControlNumber']) ? $_SESSION['admission_ControlNumber'] : null;
-$submissionSchedule = isset($_SESSION['admission_Appointment']) ? $_SESSION['admission_Appointment'] : null;
-$examSchedule = isset($_SESSION['admission_Exam']) ? $_SESSION['admission_Exam'] : null;
-$admissionResult = isset($_SESSION['admission_Result']) ? $_SESSION['admission_Result'] : null;
+$controlNumber = isset($_SESSION['admission_ControlNumber']) ? $_SESSION['admission_ControlNumber'] : '<span style="color: var(--primary-hex-red)">N/A</span>';
+$submissionSchedule = isset($_SESSION['admission_Appointment']) ? $_SESSION['admission_Appointment'] : '<span style="color: var(--primary-hex-red)">N/A</span>';
+$examSchedule = isset($_SESSION['admission_Exam']) ? $_SESSION['admission_Exam'] : '<span style="color: var(--primary-hex-red)">N/A</span>';
+$admissionResult = isset($_SESSION['admission_Result']) ? $_SESSION['admission_Result'] : '<span style="color: var(--primary-hex-red)">N/A</span>';
 
 // Define text for each step
 $stepTexts = [
-    'Control Number <br> <b style="color: var(--primary-yellow)"> ' . $controlNumber . ' </b>',
-    'Submission Schedule <br> <b style="color: var(--primary-yellow)"> ' . $submissionSchedule . ' </b>',
-    'Exam Schedule <br> <b style="color: var(--primary-yellow)"> ' . $examSchedule . ' </b>',
-    'Admission Result <br> <b style="color: var(--primary-yellow)"> ' . $admissionResult . ' </b>'
+    'Control Number <br> <b style="color: var(--primary-hex-yellow)"> ' . $controlNumber . ' </b>',
+    'Submission Schedule <br> <b style="color: var(--primary-hex-yellow)"> ' . $submissionSchedule . ' </b>',
+    'Exam Schedule <br> <b style="color: var(--primary-hex-yellow)"> ' . $examSchedule . ' </b>',
+    'Admission Result <br> <b style="color: var(--primary-hex-yellow)"> ' . $admissionResult . ' </b>'
 ];
 
 // Find index of current and last completed
@@ -112,7 +112,7 @@ for ($i = 0; $i < $totalSteps - 1; $i++) {
         border: 1px solid;
         border-radius: 10px;
         color: white;
-        background-color: rgba(var(--primary-blue-dark), 0.75);
+        background-color: rgba(var(--primary-rgb-blue-dark), 0.75);
     }
 
     .progress-bar {
@@ -129,8 +129,8 @@ for ($i = 0; $i < $totalSteps - 1; $i++) {
         left: 2rem;
         right: 2rem;
         height: 12px;
-        background-color: rgba(var(--primary-green), 1);
-        z-index: -1;
+        background-color: rgba(var(--primary-rgb-green), 1);
+        z-index: 0;
         transform: translateY(-50%);
         border-radius: 6px;
     }
@@ -142,7 +142,7 @@ for ($i = 0; $i < $totalSteps - 1; $i++) {
         height: 2.5rem;
         border-radius: 50%;
         background-color: white;
-        border: 4px solid rgba(var(--primary-green), 0.7);
+        border: 4px solid var(--primary-hex-red);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -157,13 +157,13 @@ for ($i = 0; $i < $totalSteps - 1; $i++) {
     }
 
     .step.completed {
-        background-color: var(--primary-yellow);
-        border-color: var(--primary-yellow);
+        background-color: var(--primary-hex-yellow);
+        border-color: var(--primary-hex-yellow);
     }
 
     .step.current {
         background-color: white;
-        border-color: var(--primary-yellow);
+        border-color: var(--primary-hex-yellow);
         box-shadow: 0 0 0 4px rgba(238, 173, 43, 0.5);
     }
 
@@ -172,7 +172,7 @@ for ($i = 0; $i < $totalSteps - 1; $i++) {
         top: 50%;
         height: 12px;
         transform: translateY(-50%);
-        background: linear-gradient(to right, var(--primary-yellow), rgba(var(--primary-green), 1));
+        background: linear-gradient(to right, var(--primary-hex-yellow), var(--primary-hex-green));
         border-radius: 6px;
         z-index: 0;
     }
@@ -187,10 +187,10 @@ for ($i = 0; $i < $totalSteps - 1; $i++) {
     }
 
     .progress-segment.gradient {
-        background: linear-gradient(to right, var(--primary-yellow), rgba(var(--primary-green), 1));
+        background: linear-gradient(to right, var(--primary-hex-yellow), var(--primary-hex-green));
     }
 
     .progress-segment.solid {
-        background-color: var(--primary-yellow);
+        background-color: var(--primary-hex-yellow);
     }
 </style>
