@@ -196,7 +196,7 @@ class AdmissionController
             $_SESSION['admission_Suffix'] = $personalInfo['admission_Suffix'] ?? null;
             $_SESSION['admission_Region'] = $personalInfo['admission_Region'] ?? null;
             $_SESSION['admission_Province'] = $personalInfo['admission_Province'] ?? null;
-            $_SESSION['admission_ContactNumber'] = $personalInfo['admission_ContactNumber'] ?? null;
+            $_SESSION['admission_ContactNumber'] = isset($personalInfo['admission_ContactNumber']) ? str_pad($personalInfo['admission_ContactNumber'], 11, '0', STR_PAD_LEFT) : '';
             $_SESSION['admission_LandlineNumber'] = $personalInfo['admission_LandlineNumber'] ?? null;
             $_SESSION['admission_CivilStatus'] = $personalInfo['admission_CivilStatus'] ?? null;
             $_SESSION['admission_Sex'] = $personalInfo['admission_Sex'] ?? null;
@@ -423,6 +423,77 @@ class AdmissionController
             $this->model->createMedicalInformation($data, $_SESSION['admission_ID']);
             goToPage('/admission/enrollment');
         }
+    }
+
+    /**
+     * Generates a 'select' element where the options are a list of dates, both AM and PM included.
+     * 
+     * @param int|string $input       Int is for the number of valid days. String (YYYY-MM-DD) is for the end date.
+     * @param bool       $includeSundays Whether to include Sundays or skip them.
+     * @param string     $start       Start date as a string (e.g., 'tomorrow', '2024-06-01').
+     * @return string     HTML 'select' element.
+     */
+    public function generateAppointmentSelect($input, $includeSundays = false, $start = 'tomorrow')
+    {
+        $options = [];
+
+        try {
+            $startDate = new DateTime($start);
+        } catch (Exception $e) {
+            // Fallback to tomorrow if invalid start date
+            $startDate = new DateTime('tomorrow');
+        }
+
+        // Case 1: Integer input — number of valid days (excluding Sundays if needed)
+        if (is_int($input)) {
+            $validDaysCount = 0;
+            while ($validDaysCount < $input) {
+                $dayOfWeek = $startDate->format('w');
+                if ($includeSundays || $dayOfWeek != 0) {
+                    $formattedDate = $startDate->format('F j, Y');
+                    $options[] = "<option value='{$formattedDate} AM'>{$formattedDate} AM</option>";
+                    $options[] = "<option value='{$formattedDate} PM'>{$formattedDate} PM</option>";
+                    $validDaysCount++;
+                }
+                $startDate->modify('+1 day');
+            }
+        }
+        // Case 2: String input — treat as an end date
+        elseif (is_string($input)) {
+            try {
+                $endDate = new DateTime($input);
+            } catch (Exception $e) {
+                return '<select name="enrollment-information-appointment" id="enrollment-information-appointment"></select>'; // Return empty if end date is invalid
+            }
+
+            while ($startDate <= $endDate) {
+                $dayOfWeek = $startDate->format('w');
+                if ($includeSundays || $dayOfWeek != 0) {
+                    $formattedDate = $startDate->format('F j, Y');
+                    $options[] = "<option value='{$formattedDate} AM'>{$formattedDate} AM</option>";
+                    $options[] = "<option value='{$formattedDate} PM'>{$formattedDate} PM</option>";
+                }
+                $startDate->modify('+1 day');
+            }
+        }
+
+        return '<select name="enrollment-information-appointment" id="enrollment-information-appointment">' . implode("\n", $options) . '</select>';
+    }
+
+    public function setAppointment()
+    {
+        $this->model->updateAppointment($_SESSION['admission_ID'], $_POST['enrollment-information-appointment-confirm']);
+        goToPage('/admission/enrollment');
+    }
+
+    public function hasAppointment()
+    {
+        return $this->model->hasAppointment($_SESSION['admission_ID']);
+    }
+
+    public function renderSubmissionSchedule()
+    {
+        echo '<input disabled type="text" style="cursor: not-allowed; "value="' . $this->model->getAppointment($_SESSION['admission_ID']) .'">';
     }
 }
 

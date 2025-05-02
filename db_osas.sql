@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2025 at 06:22 PM
+-- Generation Time: May 02, 2025 at 11:20 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,7 +29,8 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `tb_admission_control` (
   `admission_ControlNumber` int(5) NOT NULL,
-  `admission_ID` int(11) NOT NULL
+  `admission_ID` int(11) NOT NULL,
+  `admission_Appointment` varchar(128) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -282,13 +283,13 @@ ALTER TABLE `tb_student`
 -- AUTO_INCREMENT for table `tb_admission_control`
 --
 ALTER TABLE `tb_admission_control`
-  MODIFY `admission_ControlNumber` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `admission_ControlNumber` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tb_admission_user`
 --
 ALTER TABLE `tb_admission_user`
-  MODIFY `admission_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `admission_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_event`

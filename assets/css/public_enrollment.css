@@ -63,7 +63,7 @@ body,
 }
 
 .enrollment-information-sidebar button h1:hover {
-    color: var(--primary-yellow);
+    color: var(--primary-yellow) !important;
 }
 
 .enrollment-information-sidebar button+button {
@@ -160,6 +160,10 @@ select,
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
     cursor: pointer;
+}
+
+select[name="enrollment-information-appointment"] {
+    background-color: #36d94922;
 }
 
 select,

@@ -24,34 +24,55 @@
                 <p>Please get your control number by clicking the button below.</p>
                 <br>
                 <br>
-                <a class="primary-button" id="get-control-number">Get Control Number</a>
+                <a class="primary-button" id="btnGetControlNumber">Get Control Number</a>
                 <br>
             </div>
             <div class="post-control" style="display: <?= isset($_SESSION['admission_ControlNumber']) ? 'block' : 'none' ?>;">
                 <p>Your control number is:</p>
                 <h1 style="color: var(--primary-yellow); font-size: 2rem;"><?= $_SESSION['admission_ControlNumber'] ?></h1>
                 <br>
-                <p>Click the button below to proceed to the enrollment process.</p>
+                <hr>
+                <br>
+                <p>Download your application form here</p>
                 <br>
                 <form method="post" action="/admission/enrollment">
                     <input type="hidden" name="enrollment-control-number" value="true">
-                    <button type="submit" class="primary-button">Proceed to Enrollment</button>
+                    <button type="submit" class="primary-button">Download Profile</button>
                 </form>
+                <br>
+                <hr>
+                <br>
+                <?php
+                if ($this->hasAppointment()):
+                ?>
+                    <p>Submission schedule</p>
+                    <br>
+                    <?=
+                    $this->renderSubmissionSchedule();
+                    ?>
+                <?php else: ?>
+                    <p>Select a date to submit <b>all</b> of your requirements.</p>
+                    <br>
+                    <?=
+                    $this->generateAppointmentSelect(7);
+                    ?>
+                    <br>
+                    <br>
+                    <br>
+                    <a class="primary-button" id="btnSetAppointment">Save schedule of visit</a>
+                <?php endif; ?>
             </div>
         </section>
     </section>
 </aside>
 
-
-<div id="modal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <!-- Modal Title -->
-        <div class="modal-title">
+<div id="modalControl" class="public-modal" style="display: none;">
+    <div class="public-modal-content">
+        <section class="public-modal-title">
             <strong>Get Control Number</strong>
-        </div>
+        </section>
 
-        <!-- Modal Body (Paragraphs) -->
-        <div class="modal-body">
+        <section class="public-modal-body">
             <p>Please review your application carefully. Once you receive your control number, you cannot modify your information.</p>
             <br>
             <b>
@@ -61,102 +82,85 @@
             </b>
             <br>
             <p>Do you want to proceed and get your control number now?</p>
-        </div>
+        </section>
 
-        <!-- Modal Footer (Buttons) -->
-        <div class="modal-footer">
+        <section class="public-modal-footer">
             <form method="post" action="/admission/enrollment">
                 <input type="hidden" name="enrollment-control-number" value="true">
                 <button type="submit" class="primary-button">Get Control Number</button>
             </form>
-            <button class="close-button" id="close-modal">Close</button>
-        </div>
+            <button id="btnCloseModalControl" class="close-button">Close</button>
+        </section>
     </div>
 </div>
 
-<style>
-    /* Basic Styles for Modal */
-    .modal {
-        display: none;
-        /* Hidden by default */
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.7);
-        display: flex;
-        /* Ensure Flexbox is applied */
-        justify-content: center !important;
-        align-items: center !important;
-        padding: 20px;
-    }
+<div id="modalAppointment" class="public-modal" style="display: none;">
+    <div class="public-modal-content">
+        <section class="public-modal-title">
+            <strong>Schedule Appointment</strong>
+        </section>
 
-    .modal-content {
-        margin: auto;
-        margin-top: 30vh;
-        background-color: #fff;
-        color: #333;
-        padding: 20px;
-        border-radius: 10px;
-        max-width: 500px;
-        width: 100%;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
+        <section class="public-modal-body">
+            <p>Only save a schedule if your requirements are <b>complete</b>. Do not pick a schedule you cannot attend to.</p>
+            <br>
+            <p>Selected Schedule: <b><span id="modalAppointmentDate"></span></b></p>
+        </section>
 
-    .modal-title {
-        font-size: 1.5rem;
-        font-weight: bold;
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 10px;
-        margin-bottom: 15px;
-    }
-
-    .modal-body {
-        font-size: 1rem;
-        margin-bottom: 20px;
-    }
-
-    .modal-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .close-button {
-        background-color: #ccc;
-        color: black;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 1rem;
-        padding: 1rem;
-        padding-inline: 1.5rem;
-        cursor: pointer;
-        font-size: 1rem;
-    }
-
-    .close-button:hover {
-        background-color: black;
-        color: white;
-    }
-</style>
+        <section class="public-modal-footer">
+            <form method="post" action="/admission/updateAppointment">
+                <input type="hidden" name="enrollment-information-appointment-confirm" id="enrollment-information-appointment-confirm">
+                <button type="submit" class="primary-button">Set Schedule</button>
+            </form>
+            <button id="btnCloseModalAppointment" class="close-button">Cancel</button>
+        </section>
+    </div>
+</div>
 
 <script>
-    // Show modal when 'Get Control Number' is clicked
-    document.getElementById("get-control-number").addEventListener("click", function() {
-        document.getElementById("modal").style.display = "block";
+    const selectAppointment = document.getElementById('enrollment-information-appointment');
+    const hiddenInput = document.getElementById('enrollment-information-appointment-confirm');
+
+    const modalAppointment = document.getElementById('modalAppointmentDate');
+
+    // Initial date
+    hiddenInput.value = selectAppointment.value;
+    modalAppointment.innerText = selectAppointment.value;
+
+    // This gets the value anytime the selection changes
+    selectAppointment.addEventListener('change', function() {
+        const selectedValue = this.value;
+        hiddenInput.value = selectedValue;
+        modalAppointment.innerText = selectedValue;
+        // alert("Selected appointment: " + selectedValue);
     });
 
-    // Close modal when 'Close' button is clicked
-    document.getElementById("close-modal").addEventListener("click", function() {
-        document.getElementById("modal").style.display = "none";
+    // Show
+    document.getElementById("btnGetControlNumber").addEventListener("click", function() {
+        document.getElementById("modalControl").style.display = "block";
     });
 
-    // Optional: Close modal if the user clicks outside the modal content
+    // Close
+    document.getElementById("btnCloseModalControl").addEventListener("click", function() {
+        document.getElementById("modalControl").style.display = "none";
+    });
+
+    // Show
+    document.getElementById("btnSetAppointment").addEventListener("click", function() {
+        document.getElementById("modalAppointment").style.display = "block";
+    });
+
+    // Close
+    document.getElementById("btnCloseModalAppointment").addEventListener("click", function() {
+        document.getElementById("modalAppointment").style.display = "none";
+    });
+
+    // Out of bounds close
     window.addEventListener("click", function(event) {
-        if (event.target == document.getElementById("modal")) {
-            document.getElementById("modal").style.display = "none";
+        if (event.target == document.getElementById("modalControl")) {
+            document.getElementById("modalControl").style.display = "none";
+        }
+        if (event.target == document.getElementById("modalAppointment")) {
+            document.getElementById("modalAppointment").style.display = "none";
         }
     });
 </script>
