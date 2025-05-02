@@ -35,8 +35,8 @@
                 <br>
                 <p>Download your application form here</p>
                 <br>
-                <form method="post" action="/admission/enrollment">
-                    <input type="hidden" name="enrollment-control-number" value="true">
+                <form method="post" action="../generate-pdf.php" target="_blank">
+                    <input type="hidden" name="application_form_id" value="<?= $_SESSION['admission_ID'] ?>">
                     <button type="submit" class="primary-button">Download Profile</button>
                 </form>
                 <br>

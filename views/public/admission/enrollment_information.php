@@ -85,7 +85,7 @@
 
                         <h3> Preferred Course </h3> <!--dapat kung anong course lang meron ung campus */-->
                         <br>
-                        <h4> Program Name </h4>
+                        <h4>* Program Name </h4>
 
                         <section class="enrollment-information-form-section">
                             <select name="enrollment-information-program" required>

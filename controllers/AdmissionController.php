@@ -127,6 +127,7 @@ class AdmissionController
         }
 
         $_SESSION['admission_ID'] = $this->model->getUserID($email);
+        $_SESSION['admission_Email'] = $email;
         goToPage('/admission/enrollment');
     }
 
@@ -146,6 +147,7 @@ class AdmissionController
 
         $this->model->createUser($email, $password);
         $_SESSION['admission_ID'] = $this->model->getUserID($email);
+        $_SESSION['admission_Email'] = $email;
         goToPage('/admission/enrollment');
     }
 

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        td {
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+
+        body {
+            padding: 2rem;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 0.7rem;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .highlight {
+            color: white;
+            background-color: grey;
+            text-decoration: underline;
+
+            text-align: center !important;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        hr {
+            margin-top: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-title {
+            padding-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .header {
+            margin-bottom: 1rem;
+        }
+
+        .header * {
+            width: 100%;
+            text-align: center;
+        }
+
+        .header img {
+            max-width: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <table class="header">
+            <tr>
+                <td style="width: 70%;">
+                    <img src="assets/img/logo.png">
+                </td>
+                <td>
+                    <p style="font-size: 1rem;">Republic of the Philippines</p>
+                    <p class="bold" style="font-size: 1.25rem;">CAVITE STATE UNIVERSITY</p>
+                </td>
+                <td style="width: 70%;">
+                    <img src="assets/img/1x1.png" style="max-width: 75px;">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" class="bold" style="font-size: 1rem;">APPLICATION FORM FOR ADMISSION</td>
+            </tr>
+        </table>
+    </header>
+
+    <body>
+        <section>
+            <p style="font-size: 0.6rem;">Generated: {{ datetime }}</p>
+            <p class="section-title"><b>Admission Information</b> - {{ control_number }}</p>
+            <p><b>Campus</b> - CvSU-{{ branch }}</p>
+        </section>
+
+        <section>
+            <table>
+                <tr>
+                    <td class="bold">Entry:</td>
+                    <td class="highlight">{{ entry }}</td>
+                    <td class="bold">Type:</td>
+                    <td>{{ type_student }}</td>
+                    <td class="bold">Applicant Type:</td>
+                    <td>{{ type_applicant }}</td>
+                </tr>
+
+                <tr>
+                    <td class="bold">Strand:</td>
+                    <td colspan="5" class="highlight">{{ strand }}</td>
+                </tr>
+
+                <tr>
+                    <td class="bold">LRN:</td>
+                    <td colspan="5">{{ lrn }}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="6" class="bold">Preferred Course:</td>
+                </tr>
+
+                <tr>
+                    <td colspan="6">{{ program }}</td>
+                </tr>
+            </table>
+
+            <hr>
+
+            <table>
+                <tr>
+                    <td colspan="6" class="bold section-title">Personal Information</td>
+                </tr>
+                <tr>
+                    <td class="bold">Name:</td>
+                    <td colspan="3">{{ name }}</td>
+                    <td class="bold">Sex:</td>
+                    <td>{{ sex }}</td>
+                </tr>
+
+                <tr>
+                    <td class="bold">Address:</td>
+                    <td colspan="5">{{ address }}</td>
+                </tr>
+
+                <tr>
+                    <td class="bold">Email:</td>
+                    <td colspan="3">{{ email }}</td>
+                    <td class="bold">Mobile #:</td>
+                    <td>{{ contact_number }}</td>
+                </tr>
+
+                <tr>
+                    <td class="bold">Birthdate:</td>
+                    <td>{{ birthdate }}</td>
+                    <td class="bold">Nationality:</td>
+                    <td>{{ nationality }}</td>
+                    <td class="bold">Civil Status:</td>
+                    <td>{{ civil }}</td>
+                </tr>
+
+                <tr>
+                    <td class="bold">PWD:</td>
+                    <td colspan="3">{{ pwd }}</td>
+                    <td class="bold">Indigenous:</td>
+                    <td>{{ indigenous }}</td>
+                </tr>
+            </table>
+
+            <hr>
+
+            <table>
+                <tr>
+                    <td colspan="4" class="bold section-title">Family Background</td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="bold">Contact</td>
+                    <td class="bold">Occupation</td>
+                </tr>
+
+                <tr>
+                    <td class="bold" style="width:10%">Father:</td>
+                    <td id="personal-information-father" style="width:50%">{{ father }}</td>
+                    <td>{{ father_contact }}</td>
+                    <td>{{ father_occupation }}</td>
+                </tr>
+
+                <tr>
+                    <td class="bold">Mother:</td>
+                    <td id="personal-information-mother">{{ mother }}</td>
+                    <td>{{ mother_contact }}</td>
+                    <td>{{ mother_occupation }}</td>
+                </tr>
+
+                <tr>
+                    <td class="bold">Guardian:</td>
+                    <td id="personal-information-guardian">{{ guardian }}</td>
+                    <td>{{ guardian_contact }}</td>
+                    <td>{{ guardian_occupation }}</td>
+                </tr>
+            </table>
+
+            <hr>
+
+            <table>
+                <tr>
+                    <td colspan="4" class="bold section-title">Educational Background</td>
+                </tr>
+
+                <tr>
+                    <td colspan="4" class="bold">Elementary</td>
+                </tr>
+
+                <tr>
+                    <td style="width:40%">{{ elementary }}</td>
+                    <td>{{ elementary_address }}</td>
+                    <td style="width:5%">{{ elementary_year }}</td>
+                    <td style="width:10%">{{ elementary_type }}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="4" class="bold">High School</td>
+                </tr>
+
+                <tr>
+                    <td>{{ highschool }}</td>
+                    <td>{{ highschool_address }}</td>
+                    <td>{{ highschool_year }}</td>
+                    <td>{{ highschool_type }}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="4" class="bold">Senior High School</td>
+                </tr>
+
+                <tr>
+                    <td>{{ senior }}</td>
+                    <td>{{ senior_address }}</td>
+                    <td>{{ senior_year }}</td>
+                    <td>{{ senior_type }}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="4" class="bold">Vocational</td>
+                </tr>
+
+                <tr>
+                    <td>{{ vocational }}</td>
+                    <td>{{ vocational_address }}</td>
+                    <td>{{ vocational_year }}</td>
+                    <td>{{ vocational_type }}</td>
+                </tr>
+            </table>
+
+            <hr>
+
+            <table>
+                <tr>
+                    <td colspan="3" class="bold section-title">Medical History Information</td>
+                </tr>
+
+                <tr>
+                    <td class="bold" style="width:10%">Medications:</td>
+                    <td style="width:40%">{{ medication }}</td>
+                    <td style="text-align: center; border-style: solid; border-width: 1px;">To be filled up by the
+                        OSAS/Guidance Staff</td>
+                </tr>
+
+                <tr>
+                    <td class="bold">Medical</td>
+                    <td>{{ conditions }}</td>
+                    <td style="text-align: center; border-style: solid; border-width: 1px;">SUBMITTED REQUIREMENTS</td>
+                </tr>
+
+                <tr>
+                    <td class="bold">Condition/s:</td>
+                    <td></td>
+                    <td style="border-style: solid; border-width: 0 1px 0 1px;">&nbsp; __ 2 copies of 1x1 ID Picture
+                        with name tag</td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">I hereby certify that all the information stated above are true and</td>
+                    <td style="border-style: solid; border-width: 0 1px 0 1px;">&nbsp; __ Short ordinary folder</td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">correct as to the best of my knowledge. I hereby give consent for my</td>
+                    <td style="border-style: solid; border-width: 0 1px 0 1px;" class="bold">&nbsp; New Student (SHS,
+                        ALS)</td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">personal data included in my offer to processed for the purposes of</td>
+                    <td style="border-style: solid; border-width: 0 1px 0 1px;">&nbsp; __ Certified True Copy of G12
+                        report/Certificate of ALS Rating</td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">admission and enrollment in accordance with Republic Act 10173 - </td>
+                    <td style="border-style: solid; border-width: 0 1px 0 1px;" class="bold">&nbsp; Assessed by:
+                        __________________________________</td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">Data Privacy Act of 2012</td>
+                    <td style="border-style: solid; border-width: 0 1px 1px 1px;" class="bold">&nbsp; Control No.: {{
+                        control_number }}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="2"></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="text-align: center; padding-top: 5rem;">
+                        ___________________________________________</td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="text-align: center;" class="bold">Signature over printed name</td>
+                </tr>
+            </table>
+        </section>
+    </body>
+
+    <footer>
+
+    </footer>
+
+</body>
+
+</html>
