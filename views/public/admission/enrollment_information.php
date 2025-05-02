@@ -16,6 +16,8 @@
             <hr>
         </header>
 
+        <?php include_once 'enrollment_milestones.php' ?>
+
         <div class="enrollment-information">
             <?php include_once 'enrollment_aside.php' ?>
 
@@ -70,7 +72,7 @@
                                     'DEGREE' => 'Associate Certificate, Vocational, or Diploma Degree Holder'
                                 ];
                                 if (isset($_SESSION['admission_ControlNumber'])) {
-                                    echo generateSelectFieldEntryNew('typeStudenta', 'Type of New Student' , $options, 'admission_TypeStudent', true);
+                                    echo generateSelectFieldEntryNew('typeStudenta', 'Type of New Student', $options, 'admission_TypeStudent', true);
                                 } else {
                                     echo generateSelectFieldEntryNew('typeStudent', 'Type of New Student', $options, 'admission_TypeStudent', true);
                                 }

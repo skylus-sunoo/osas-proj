@@ -22,6 +22,8 @@ $conditions .= $_SESSION['admission_Insomnia'] ? 'Insomnia ' : '';
 $conditions .= $_SESSION['admission_Vertigo'] ? 'Vertigo ' : '';
 $conditions .= $_SESSION['admission_Others'] ? $_SESSION['admission_Others'] : '';
 
+date_default_timezone_set('Asia/Manila');
+
 $html = file_get_contents("template.html");
 $html = str_replace([
     "{{ datetime }}",
@@ -121,7 +123,7 @@ $html = str_replace([
 
 $dompdf->loadHtml($html);
 $dompdf->render();
-$dompdf->addInfo("Title", "Application Form");
-$dompdf->stream("file.pdf", [
+$dompdf->addInfo("Title", $_SESSION['admission_LastName'] . ', ' . $_SESSION['admission_FirstName'] . ' ' . $_SESSION['admission_MiddleName'] . ' ' . $_SESSION['admission_Suffix'] . ' - Application Form');
+$dompdf->stream("CvSU_Application_Form.pdf", [
     "Attachment" => false,
 ]);

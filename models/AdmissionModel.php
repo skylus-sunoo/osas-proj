@@ -328,6 +328,32 @@ class AdmissionModel
     {
         return fetchData($this->table_control, 'admission_Appointment', 'admission_ID', $id);
     }
+
+    public function updateExam($id, $date){
+        updateData($this->table_control, 'admission_Exam', $date, 'admission_ID', $id);
+    }
+
+    public function hasExam($id){
+        return checkForData($this->table_control, [['admission_ID', '=', $id], ['admission_Exam', 'IS NOT NULL']]);
+    }
+
+    public function getExam($id)
+    {
+        return fetchData($this->table_control, 'admission_Exam', 'admission_ID', $id);
+    }
+
+    public function updateResult($id, $date){
+        updateData($this->table_control, 'admission_Result', $date, 'admission_ID', $id);
+    }
+
+    public function hasResult($id){
+        return checkForData($this->table_control, [['admission_ID', '=', $id], ['admission_Result', 'IS NOT NULL']]);
+    }
+
+    public function getResult($id)
+    {
+        return fetchData($this->table_control, 'admission_Result', 'admission_ID', $id);
+    }
     #endregion
 }
     

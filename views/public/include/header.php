@@ -14,7 +14,7 @@ function is_active_sub($needle)
 <header class="header-main">
     <div class="header-school">
         <img src="../../../assets/img/logo.png" alt="">
-        <h1>CVSU SILANG OFFICE OF STUDENT AFFAIRS AND SERVICE</h1>
+        <h1>CVSU SILANG <br> OFFICE OF STUDENT AFFAIRS AND SERVICE</h1>
     </div>
 
     <div class="hamburger" id="hamburger">&#9776;</div>

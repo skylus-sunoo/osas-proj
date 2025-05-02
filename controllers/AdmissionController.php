@@ -212,16 +212,16 @@ class AdmissionController
             $familyInfo = $familyInfoRaw[0] ?? [];
 
             $_SESSION['admission_FatherName'] = $familyInfo['admission_FatherName'] ?? null;
-            $_SESSION['admission_FatherNumber'] = $familyInfo['admission_FatherNumber'] ?? null;
+            $_SESSION['admission_FatherNumber'] = isset($familyInfo['admission_FatherNumber']) ? str_pad($familyInfo['admission_FatherNumber'], 11, '0', STR_PAD_LEFT) : '';
             $_SESSION['admission_FatherOccupation'] = $familyInfo['admission_FatherOccupation'] ?? null;
             $_SESSION['admission_MotherName'] = $familyInfo['admission_MotherName'] ?? null;
-            $_SESSION['admission_MotherNumber'] = $familyInfo['admission_MotherNumber'] ?? null;
+            $_SESSION['admission_MotherNumber'] = isset($familyInfo['admission_MotherNumber']) ? str_pad($familyInfo['admission_MotherNumber'], 11, '0', STR_PAD_LEFT) : '';
             $_SESSION['admission_MotherOccupation'] = $familyInfo['admission_MotherOccupation'] ?? null;
             $_SESSION['admission_Income'] = $familyInfo['admission_Income'] ?? null;
             $_SESSION['admission_Siblings'] = $familyInfo['admission_Siblings'] ?? null;
             $_SESSION['admission_BirthOrder'] = $familyInfo['admission_BirthOrder'] ?? null;
             $_SESSION['admission_GuardianName'] = $familyInfo['admission_GuardianName'] ?? null;
-            $_SESSION['admission_GuardianNumber'] = $familyInfo['admission_GuardianNumber'] ?? null;
+            $_SESSION['admission_GuardianNumber'] = isset($familyInfo['admission_GuardianNumber']) ? str_pad($familyInfo['admission_GuardianNumber'], 11, '0', STR_PAD_LEFT) : '';
             $_SESSION['admission_GuardianOccupation'] = $familyInfo['admission_GuardianOccupation'] ?? null;
 
 
@@ -260,6 +260,15 @@ class AdmissionController
             $_SESSION['admission_Others'] = $medicalInfo['admission_Others'] ?? null;
             $_SESSION['admission_PWD'] = $medicalInfo['admission_PWD'] ?? null;
 
+            // if($this->model->hasAppointment($_SESSION['admission_ID'])){
+                $_SESSION['admission_Appointment'] = $this->model->getAppointment($_SESSION['admission_ID']);
+            // }
+            // if($this->model->hasExam($_SESSION['admission_ID'])){
+                $_SESSION['admission_Exam'] = $this->model->getExam($_SESSION['admission_ID']);
+            // }
+            // if($this->model->hasResult($_SESSION['admission_ID'])){
+                $_SESSION['admission_Result'] = $this->model->getResult($_SESSION['admission_ID']);
+            // }
 
             include_once 'views/public/admission/enrollment_information.php';
         } else {
@@ -495,7 +504,7 @@ class AdmissionController
 
     public function renderSubmissionSchedule()
     {
-        echo '<input disabled type="text" style="cursor: not-allowed; "value="' . $this->model->getAppointment($_SESSION['admission_ID']) .'">';
+        echo '<input disabled type="text" style="cursor: not-allowed; "value="' . $this->model->getAppointment($_SESSION['admission_ID']) . '">';
     }
 }
 

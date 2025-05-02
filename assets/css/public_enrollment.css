@@ -285,7 +285,7 @@ h3 {
 
 
 /* media queries for branch selection */
-
+/* 
 @media screen and (max-width: 768px) {
     .enrollment-branch {
         font-size: 1rem;
@@ -344,7 +344,7 @@ h3 {
         box-sizing: border-box;
         padding: 0.75rem 1rem;
     }
-}
+} */
 
 
 

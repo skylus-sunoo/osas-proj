@@ -29,7 +29,7 @@
             </div>
             <div class="post-control" style="display: <?= isset($_SESSION['admission_ControlNumber']) ? 'block' : 'none' ?>;">
                 <p>Your control number is:</p>
-                <h1 style="color: var(--primary-yellow); font-size: 2rem;"><?= $_SESSION['admission_ControlNumber'] ?></h1>
+                <h1 style="color: var(--primary-yellow); font-size: 2.5rem;"><?= $_SESSION['admission_ControlNumber'] ?></h1>
                 <br>
                 <hr>
                 <br>
@@ -54,7 +54,7 @@
                     <p>Select a date to submit <b>all</b> of your requirements.</p>
                     <br>
                     <?=
-                    $this->generateAppointmentSelect(7);
+                    $this->generateAppointmentSelect(60);
                     ?>
                     <br>
                     <br>
