@@ -94,7 +94,9 @@
                                 <option <?= optionIsSession('admission_Program', 'BSE') ?>>Bachelor of Secondary Education Major in English </option>
                                 <option <?= optionIsSession('admission_Program', 'BSE') ?>>Bachelor of Secondary Education Major in Mathematics </option>
                                 <option <?= optionIsSession('admission_Program', 'BSE') ?>>Bachelor of Secondary Education Major in Science </option>
-                                <option <?= optionIsSession('admission_Program', 'BSBA') ?>>Bachelor of Science in Business Administration</option>
+                                <option <?= optionIsSession('admission_Program', 'BSBA') ?>>Bachelor of Science in Business Administration Major in Finance</option>
+                                <option <?= optionIsSession('admission_Program', 'BSBA') ?>>Bachelor of Science in Business Administration Major in Marketing Management</option>
+                                <option <?= optionIsSession('admission_Program', 'BSBA') ?>>Bachelor of Science in Business Administration Major in Human Resource Management</option>
                                 <option <?= optionIsSession('admission_Program', 'BSCS') ?>>Bachelor of Science in Computer Science</option>
                                 <option <?= optionIsSession('admission_Program', 'BSIT') ?>>Bachelor of Science in Information Technology</option>
                                 <option <?= optionIsSession('admission_Program', 'BSHM') ?>>Bachelor of Science in Hospitality Management</option>
