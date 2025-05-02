@@ -76,6 +76,11 @@ $router->add("/admission/save_medical_information", function () {
     $controller->saveMedicalInformation();
 });
 
+$router->add("/admission/updateAppointment", function () {
+    $controller = new AdmissionController();
+    $controller->setAppointment();
+});
+
 $router->add("/admission/course", function () {
     include_once 'views/public/include/header.php';
     include_once 'views/public/admission/course.php';

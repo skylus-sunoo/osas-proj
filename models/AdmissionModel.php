@@ -11,6 +11,7 @@ class AdmissionModel
 
     private $table_control = TB_ADMISSION_CONTROL;
 
+    #region User
     public function userExists($email)
     {
         return checkForData($this->table_user, [['admission_Email', '=', $email]]);
@@ -31,7 +32,9 @@ class AdmissionModel
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         return insertData($this->table_user, ['admission_Email', 'admission_Password'], [$email, $hashedPassword]);
     }
+    #endregion
 
+    #region Admission
     public function updateUserBranch($branch, $id)
     {
         if ($this->userBranchExists($id)) {
@@ -58,19 +61,35 @@ class AdmissionModel
 
     public function updateAdmissionInformation($data, $id)
     {
-        updateData($this->table_info, ['admission_Entry', 'admission_TypeApplicant', 'admission_Strand', 'admission_TypeStudent', 'admission_LRN', 'admission_Program'], $data, 'admission_ID', $id);
+        updateData($this->table_info, [
+            'admission_Entry',
+            'admission_TypeApplicant',
+            'admission_Strand',
+            'admission_TypeStudent',
+            'admission_LRN',
+            'admission_Program'
+        ], $data, 'admission_ID', $id);
     }
 
     public function getAdmissionInformation($id)
     {
-        return fetchData($this->table_info, ['admission_Entry', 'admission_TypeApplicant', 'admission_Strand', 'admission_TypeStudent', 'admission_LRN', 'admission_Program'], 'admission_ID', $id);
+        return fetchData($this->table_info, [
+            'admission_Entry',
+            'admission_TypeApplicant',
+            'admission_Strand',
+            'admission_TypeStudent',
+            'admission_LRN',
+            'admission_Program'
+        ], 'admission_ID', $id);
     }
 
     public function userLRNExists($lrn, $id)
     {
         return checkForData($this->table_info, [['admission_LRN', '=', $lrn], ['admission_ID', '!=', $id]]);
     }
+    #endregion
 
+    #region Personal
     public function userPersonalInfoExists($id)
     {
         return checkForData($this->table_personal, [['admission_ID', '=', $id]]);
@@ -122,7 +141,9 @@ class AdmissionModel
     {
         return fetchData($this->table_personal, '*', 'admission_ID', $id);
     }
+    #endregion
 
+    #region Family
     public function userFamilyInfoExists($id)
     {
         return checkForData($this->table_family, [['admission_ID', '=', $id]]);
@@ -170,7 +191,9 @@ class AdmissionModel
     {
         return fetchData($this->table_family, '*', 'admission_ID', $id);
     }
+    #endregion
 
+    #region Education
     public function userEducationInfoExists($id)
     {
         return checkForData($this->table_education, [['admission_ID', '=', $id]]);
@@ -226,7 +249,9 @@ class AdmissionModel
     {
         return fetchData($this->table_education, '*', 'admission_ID', $id);
     }
+    #endregion
 
+    #region Medical
     public function userMedicalInfoExists($id)
     {
         return checkForData($this->table_medical, [['admission_ID', '=', $id]]);
@@ -270,7 +295,9 @@ class AdmissionModel
     {
         return fetchData($this->table_medical, '*', 'admission_ID', $id);
     }
+    #endregion
 
+    #region Control
     public function controlNumberExists($id)
     {
         return checkForData($this->table_control, [['admission_ID', '=', $id]]);
@@ -288,6 +315,20 @@ class AdmissionModel
     {
         return str_pad(fetchData($this->table_control, 'admission_ControlNumber', 'admission_ID', $id), 5, '0', STR_PAD_LEFT);
     }
+
+    public function updateAppointment($id, $date){
+        updateData($this->table_control, 'admission_Appointment', $date, 'admission_ID', $id);
+    }
+
+    public function hasAppointment($id){
+        return checkForData($this->table_control, [['admission_ID', '=', $id], ['admission_Appointment', 'IS NOT NULL']]);
+    }
+
+    public function getAppointment($id)
+    {
+        return fetchData($this->table_control, 'admission_Appointment', 'admission_ID', $id);
+    }
+    #endregion
 }
     
     

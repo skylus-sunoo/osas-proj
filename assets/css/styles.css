@@ -44,10 +44,80 @@ body {
     font-weight: 300;
 }
 
+
+/* Basic Styles for Modal */
+.public-modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    /* Ensure Flexbox is applied */
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 20px;
+}
+
+.public-modal-content {
+    margin: auto;
+    margin-top: 30vh;
+    background-color: #fff;
+    color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.public-modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.public-modal-body {
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.public-modal-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-button {
+    background-color: #ccc;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 1rem;
+    padding: 1rem;
+    padding-inline: 1.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.close-button:hover {
+    background-color: black;
+    color: white;
+}
+
 .primary-button:disabled {
-    background-color: #ccc; /* Example: change background color when disabled */
-    color: black; /* Example: change text color when disabled */
-    cursor: not-allowed; /* Example: show "not-allowed" cursor */
+    background-color: #ccc;
+    /* Example: change background color when disabled */
+    color: black;
+    /* Example: change text color when disabled */
+    cursor: not-allowed;
+    /* Example: show "not-allowed" cursor */
 }
 
 .primary-button {

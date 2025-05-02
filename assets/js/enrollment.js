@@ -15,10 +15,7 @@ buttons.forEach(button => {
     button.addEventListener('click', function () {
         // Get the data-step value of the clicked button
         const selectedStep = this.getAttribute('data-step');
-
-        // Log the selected step (optional)
-        console.log(`Selected Step: ${selectedStep}`);
-
+        
         // Loop through each div in the targetDivs array
         targetDivs.forEach(div => {
             // If the div's class contains the selected step, display it
