@@ -33,6 +33,7 @@ body {
     margin: 0 auto;
     overflow-x: hidden;
     color: white;
+    
 }
 
 .close-button {
@@ -161,8 +162,9 @@ body {
     align-items: center;
 }
 
-@media (max-width: 1400px) {
+@media screen and (max-width: 1400px) {
     body {
         zoom: 0.8;
+        width: 100vw;
     }
 }
