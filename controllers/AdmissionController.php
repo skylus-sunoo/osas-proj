@@ -327,7 +327,7 @@ class AdmissionController
             'admission_Sex' => $_POST['enrollment-information-sex'],
             'admission_BirthDate' => $_POST['enrollment-information-birthDate'],
             'admission_BirthPlace' => $_POST['enrollment-information-birthPlace'],
-            'admission_Religion' => $_POST['enrollment-information-religion'],
+            'admission_Religion' => $_POST['enrollment-information-religion'] ?? null,
             'admission_Indigenous' => $_POST['enrollment-information-indigenous'],
         ];
 

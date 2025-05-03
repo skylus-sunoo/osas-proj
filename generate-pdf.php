@@ -84,7 +84,7 @@ $html = str_replace([
     $_SESSION['admission_Program'],
     $_SESSION['admission_FirstName'] . ' ' . $_SESSION['admission_MiddleName'] . ' ' . $_SESSION['admission_LastName'] . ' ' . $_SESSION['admission_Suffix'],
     $_SESSION['admission_Sex'],
-    'Region' . $_SESSION['admission_Region'] . ' ' . $_SESSION['admission_Province'],
+    'Region ' . str_replace('_', '-', $_SESSION['admission_Region']) . ' ' . $_SESSION['admission_Province'],
     $_SESSION['admission_Email'],
     $_SESSION['admission_ContactNumber'] . ' ' . $_SESSION['admission_LandlineNumber'],
     $_SESSION['admission_BirthDate'],

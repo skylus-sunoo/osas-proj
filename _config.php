@@ -25,299 +25,271 @@ if (mysqli_connect_error()) {
 }
 
 /**
- * Advanced function to fetch data from a table with support for multiple filters
+ * Fetches data from a specified table with support for multiple filters and flexible column selection.
  * 
- * @param string $tableName The name of the table
- * @param string|array $columns The column(s) to retrieve - string for single column, array for multiple columns, "*" for all
- * @param string|array|null $attributeWhere Column name(s) for filtering
- * @param mixed|array|null $attributeWhereValue Value(s) to filter by
- * @return mixed Single value, array of rows, single row object, or null on error
+ * This function allows you to retrieve data from a database table with optional filtering conditions.
+ * It supports fetching a single column value, multiple columns, or all columns, and returns the results
+ * in a structured format based on the input parameters.
+ * 
+ * @param string $tableName The name of the table to query.
+ * @param string|array $columns The column(s) to retrieve:
+ *                              - Use "*" to fetch all columns.
+ *                              - Provide a string for a single column (e.g., "column_name").
+ *                              - Provide an array for multiple columns (e.g., ["column1", "column2"]).
+ * @param array|null $conditions Optional filtering conditions in the format:
+ *                               - Each condition is an array: ['column', 'operator', 'value' (optional)].
+ *                               - Example: [['id', '=', 1], ['status', 'IS NOT NULL']].
+ *                               - Supported operators include '=', '!=', '<', '>', '<=', '>=', 'LIKE', 'IS NULL', etc.
+ * @return mixed Returns the query result based on the input:
+ *               - If a single column is requested, returns the value of that column (or null if no result).
+ *               - If multiple columns or "*" are requested, returns an array of associative arrays (rows).
+ *               - Returns null if an error occurs during query execution.
+ * 
+ * @global mysqli $connections The global MySQLi connection object used for database interaction.
+ * 
+ * @throws Exception If the query preparation or execution fails, an error alert is displayed.
+ * 
+ * @example
+ * // Fetch a single column value
+ * $name = fetchData('users', 'name', [['id', '=', 1]]);
+ * 
+ * // Fetch multiple columns
+ * $user = fetchData('users', ['id', 'name'], [['status', '=', 'active']]);
+ * 
+ * // Fetch all rows with no conditions
+ * $allUsers = fetchData('users', '*');
+ * 
+ * // Fetch rows with complex conditions
+ * $filteredUsers = fetchData('users', '*', [['age', '>', 18], ['status', '=', 'active']]);
  */
-function fetchData($tableName, $columns = "*", $attributeWhere = null, $attributeWhereValue = null)
+function fetchData($tableName, $columns = "*", $conditions = null)
 {
-    global $connections;  // Use the global connection variable
+    global $connections;  // Use the global database connection variable
 
-    // Format columns for the query
+    // Format the columns for the SQL query
     if (is_array($columns)) {
-        // If columns is an array, join them with backticks for the query
+        // If $columns is an array, wrap each column name with backticks and join them
         $columnsStr = "`" . implode("`, `", $columns) . "`";
     } else {
-        // If columns is a string, use it directly (could be "*" or a single column name)
+        // If $columns is a string (could be "*" or a single column name), use it directly
         $columnsStr = $columns === "*" ? "*" : "`$columns`";
     }
 
-    // Initialize the query
+    // Initialize the SQL query with the selected columns from the table
     $query = "SELECT $columnsStr FROM `$tableName`";
 
-    // Handle the WHERE clause
-    $paramTypes = "";
-    $bindValues = [];
+    // Prepare variables for the WHERE clause (if any)
+    $paramTypes = ""; // String to hold the parameter types for binding
+    $bindValues = []; // Array to hold the values to bind to the query
 
-    // Check if we have filtering conditions
-    if ($attributeWhere !== null && $attributeWhereValue !== null) {
-        // Convert single values to arrays for consistent handling
-        if (!is_array($attributeWhere)) {
-            $attributeWhere = [$attributeWhere];
-        }
+    // If conditions are provided, build the WHERE clause and prepare bind values
+    buildWhereClause($conditions, $paramTypes, $bindValues, $query);
 
-        if (!is_array($attributeWhereValue)) {
-            $attributeWhereValue = [$attributeWhereValue];
-        }
-
-        // Verify arrays have the same size
-        if (count($attributeWhere) !== count($attributeWhereValue)) {
-            // Error: Arrays must have the same size
-            error_log("fetchData error: attributeWhere and attributeWhereValue arrays must have the same size");
-            return null;
-        }
-
-        // Build the WHERE clause
-        $whereClauses = [];
-        for ($i = 0; $i < count($attributeWhere); $i++) {
-            $whereClauses[] = "`" . $attributeWhere[$i] . "` = ?";
-
-            // Determine parameter type
-            $paramTypes .= is_int($attributeWhereValue[$i]) ? 'i' : 's';
-
-            // Add value to bind
-            $bindValues[] = $attributeWhereValue[$i];
-        }
-
-        // Add WHERE clause to query
-        if (!empty($whereClauses)) {
-            $query .= " WHERE " . implode(" AND ", $whereClauses);
-        }
-    }
-
-    // Prepare the statement
+    // Prepare the SQL statement
     if ($stmt = mysqli_prepare($connections, $query)) {
-        // Bind parameters if we have conditions
+        // If there are any conditions (bind values), bind them to the query
         if (!empty($bindValues)) {
-            // Create array with $paramTypes as first element, followed by references to each value
+            // Initialize the array of parameters for binding: first element is the statement, followed by the param types
             $bindParams = [$stmt, $paramTypes];
 
+            // Loop through each value and bind it by reference
             foreach ($bindValues as $key => $value) {
-                // We need to bind by reference, so create references to each array element
                 $bindParams[] = &$bindValues[$key];
             }
 
-            // Call bind_param with the unpacked array of references
+            // Call mysqli_stmt_bind_param with the unpacked array of bind parameters
             call_user_func_array('mysqli_stmt_bind_param', $bindParams);
         }
 
-        // Execute the query
+        // Execute the prepared statement
         mysqli_stmt_execute($stmt);
 
-        // Get the result
+        // Retrieve the result set
         $result = mysqli_stmt_get_result($stmt);
 
-        // If we're fetching just a single column
+        // Check if we're retrieving a single column and a single row of data
         if ($columns !== "*" && !is_array($columns)) {
-            // Single column, single row
+            // Fetch the first row and return the single column value
             if ($row = mysqli_fetch_assoc($result)) {
                 $singleValue = $row[$columns];
-                mysqli_stmt_close($stmt);
-                return $singleValue;
+                mysqli_stmt_close($stmt); // Close the prepared statement
+                return $singleValue; // Return the single value
             } else {
-                mysqli_stmt_close($stmt);
-                return null;
+                mysqli_stmt_close($stmt); // Close the prepared statement
+                return null; // No data found, return null
             }
         } else {
-            // For "*" or multiple columns, ALWAYS return an array of rows
+            // If selecting all columns or multiple columns, always return an array of rows
             $rows = [];
             while ($row = mysqli_fetch_assoc($result)) {
-                $rows[] = $row; // Add each associative array row to the $rows array
+                $rows[] = $row; // Add each row as an associative array to the $rows array
             }
-            mysqli_stmt_close($stmt);
-            return $rows; // Return the array of rows (can be empty if no results)
+            mysqli_stmt_close($stmt); // Close the prepared statement
+            return $rows; // Return the array of rows (could be empty if no results)
         }
 
-        mysqli_stmt_close($stmt);
-        return $rows;
+        mysqli_stmt_close($stmt); // Close the prepared statement
+        return $rows; // Return the rows if the query returned multiple columns
     } else {
-        // Handle the error if the query failed
+        // If the query preparation fails, display an error message
         showMySQLiAlert($connections);
-        return null;
+        return null; // Return null to indicate failure
     }
 }
 
 /**
- * Enhanced function to check for data in a table with support for multiple filters and advanced conditions.
- *
- * @param string $tableName Table to check.
- * @param array|null $conditions Array of conditions, each item as ['column', 'operator', value (optional)]
- *                               e.g. [['admission_id', '=', 1], ['admission_Branch', 'IS NOT NULL']]
- * @return bool True if at least one row matches, false otherwise or on error.
+ * Checks if data exists in a specified table with support for multiple filtering conditions.
+ * 
+ * This function performs a query to count the number of rows in a specified table that match the provided
+ * conditions. It allows for complex filtering with operators such as '=', '!=', '<', '>', 'IS NULL', and others.
+ * The function returns a boolean indicating whether at least one row meets the criteria.
+ * 
+ * @param string $tableName The name of the table to check for data.
+ * @param array|null $conditions Optional filtering conditions in the format:
+ *                               - Each condition is an array: ['column', 'operator', 'value' (optional)].
+ *                               - Example: [['id', '=', 1], ['status', 'IS NOT NULL']].
+ *                               - Supported operators include '=', '!=', '<', '>', '<=', '>=', 'LIKE', 'IS NULL', etc.
+ *                               - If no conditions are provided, the query will check the entire table.
+ * @return bool Returns `true` if at least one row matches the conditions, `false` otherwise.
+ *              Returns `false` if an error occurs during query execution.
+ * 
+ * @global mysqli $connections The global MySQLi connection object used for database interaction.
+ * 
+ * @throws Exception If the query preparation or execution fails, an error alert is displayed.
+ * 
+ * @example
+ * // Check if a specific admission exists
+ * $exists = checkForData('admissions', [['admission_id', '=', 1], ['admission_Branch', 'IS NOT NULL']]);
+ * 
+ * // Check if there are active users
+ * $hasActiveUsers = checkForData('users', [['status', '=', 'active']]);
+ * 
+ * // Check if any users exist (no conditions)
+ * $hasUsers = checkForData('users');
  */
 function checkForData($tableName, $conditions = null)
 {
-    global $connections;
-
+    // Initialize the base query to count rows in the table
     $query = "SELECT COUNT(*) FROM `$tableName`";
-    $paramTypes = "";
-    $bindValues = [];
-    $whereClauses = [];
+    $paramTypes = ""; // String to hold the parameter types for binding
+    $bindValues = []; // Array to hold the values to bind to the query
 
-    if (!empty($conditions)) {
-        foreach ($conditions as $condition) {
-            $column = $condition[0];
-            $operator = strtoupper($condition[1]);
-            $value = $condition[2] ?? null;
+    // If conditions are provided, build the WHERE clause and prepare bind values
+    buildWhereClause($conditions, $paramTypes, $bindValues, $query);
 
-            if (in_array($operator, ['IS NULL', 'IS NOT NULL'])) {
-                $whereClauses[] = "`$column` $operator";
-            } else {
-                $whereClauses[] = "`$column` $operator ?";
-                $paramTypes .= is_int($value) ? 'i' : 's';
-                $bindValues[] = $value;
-            }
-        }
-
-        if (!empty($whereClauses)) {
-            $query .= " WHERE " . implode(" AND ", $whereClauses);
-        }
-    }
-
-    if ($stmt = mysqli_prepare($connections, $query)) {
-        if (!empty($bindValues)) {
-            $bindParams = [$stmt, $paramTypes];
-            foreach ($bindValues as $key => $value) {
-                $bindParams[] = &$bindValues[$key];
-            }
-            call_user_func_array('mysqli_stmt_bind_param', $bindParams);
-        }
-
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_bind_result($stmt, $count);
-        $exists = false;
-
-        if (mysqli_stmt_fetch($stmt)) {
-            $exists = $count > 0;
-        }
-
-        mysqli_stmt_close($stmt);
-        return $exists;
-    } else {
-        showMySQLiAlert($connections);
-        return false;
-    }
+    // Execute the prepared query and return the result (true if at least one row matches)
+    return executePreparedQuery($query, $paramTypes, $bindValues);
 }
 
 /**
- * Advanced function to update data in a table with support for multiple columns and filters
+ * Updates data in a specified table with support for multiple columns and filtering conditions.
  * 
- * @param string $tableName The name of the table
- * @param string|array $attributeToUpdate Column name(s) to update
- * @param mixed|array $attributeToUpdateValue Value(s) to set
- * @param string|array|null $attributeWhere Column name(s) for filtering
- * @param mixed|array|null $attributeWhereValue Value(s) to filter by
- * @return bool True on success, false on failure
+ * This function allows updating one or more columns in a database table, where each column can be assigned a
+ * corresponding value. It supports filtering with multiple conditions, allowing for fine-grained control over
+ * which rows to update. The update values and conditions are flexible, and the query is executed safely using prepared statements.
+ * 
+ * @param string $tableName The name of the table to update.
+ * @param string|array $attributeToUpdate The column name(s) to update:
+ *                                       - Use a string for a single column (e.g., "column_name").
+ *                                       - Use an array for multiple columns (e.g., ["column1", "column2"]).
+ * @param mixed|array $attributeToUpdateValue The value(s) to set for the columns:
+ *                                            - Use a single value for one column.
+ *                                            - Use an array for multiple column values.
+ *                                            - The values must correspond to the columns in the same order.
+ * @param array|null $conditions Optional filtering conditions to apply to the rows to update:
+ *                               - Each condition is an array: ['column', 'operator', 'value' (optional)].
+ *                               - Example: [['id', '=', 1], ['status', 'IS NOT NULL']].
+ *                               - Supported operators include '=', '!=', '<', '>', '<=', '>=', 'LIKE', 'IS NULL', etc.
+ * @return bool Returns `true` if the update was successful, `false` otherwise.
+ *              Returns `false` if an error occurs during query execution or if the input arrays have mismatched sizes.
+ * 
+ * @global mysqli $connections The global MySQLi connection object used for database interaction.
+ * 
+ * @throws Exception If the query preparation or execution fails, an error alert is displayed.
+ * 
+ * @example
+ * // Update a single column value for a specific admission
+ * $success = updateData('admissions', 'admission_status', 'approved', [['admission_id', '=', 1]]);
+ * 
+ * // Update multiple columns for specific users
+ * $success = updateData('users', ['status', 'age'], ['inactive', 30], [['status', '=', 'active']]);
+ * 
+ * // Update a column for all records where a condition is met
+ * $success = updateData('users', 'last_login', '2025-01-01', [['status', '=', 'active']]);
  */
-function updateData($tableName, $attributeToUpdate, $attributeToUpdateValue, $attributeWhere = null, $attributeWhereValue = null)
+function updateData($tableName, $attributeToUpdate, $attributeToUpdateValue, $conditions = null)
 {
-    global $connections;  // Use the global connection variable
-
-    // Convert single values to arrays for consistent handling
+    // Ensure attributeToUpdate is an array, even for a single column
     if (!is_array($attributeToUpdate)) {
         $attributeToUpdate = [$attributeToUpdate];
     }
 
+    // Ensure attributeToUpdateValue is an array, even for a single value
     if (!is_array($attributeToUpdateValue)) {
         $attributeToUpdateValue = [$attributeToUpdateValue];
     }
 
-    // Verify update arrays have the same size
+    // Check if the update columns and values arrays have the same size
     if (count($attributeToUpdate) !== count($attributeToUpdateValue)) {
         error_log("updateData error: attributeToUpdate and attributeToUpdateValue arrays must have the same size");
         return false;
     }
 
-    // Build the SET clause
+    // Build the SET clause of the query
     $setClauses = [];
     for ($i = 0; $i < count($attributeToUpdate); $i++) {
-        $setClauses[] = "`" . $attributeToUpdate[$i] . "` = ?";
+        $setClauses[] = "`" . $attributeToUpdate[$i] . "` = ?"; // Prepare each column for update
     }
 
-    // Initialize the query
+    // Initialize the SQL UPDATE query
     $query = "UPDATE `$tableName` SET " . implode(", ", $setClauses);
 
-    // Initialize parameter types and values arrays
+    // Initialize arrays for parameter types and values
     $paramTypes = "";
     $bindValues = [];
 
-    // Add update values to parameter arrays
+    // Add each update value to the parameter arrays, with corresponding types
     foreach ($attributeToUpdateValue as $value) {
-        $paramTypes .= is_int($value) ? 'i' : 's';
-        $bindValues[] = $value;
+        $paramTypes .= getParamType($value); // Determine the parameter type
+        $bindValues[] = $value; // Store the value to bind later
     }
 
-    // Handle the WHERE clause
-    if ($attributeWhere !== null && $attributeWhereValue !== null) {
-        // Convert single values to arrays for consistent handling
-        if (!is_array($attributeWhere)) {
-            $attributeWhere = [$attributeWhere];
-        }
+    // If filtering conditions are provided, append them to the WHERE clause
+    buildWhereClause($conditions, $paramTypes, $bindValues, $query);
 
-        if (!is_array($attributeWhereValue)) {
-            $attributeWhereValue = [$attributeWhereValue];
-        }
-
-        // Verify where arrays have the same size
-        if (count($attributeWhere) !== count($attributeWhereValue)) {
-            error_log("updateData error: attributeWhere and attributeWhereValue arrays must have the same size");
-            return false;
-        }
-
-        // Build the WHERE clause
-        $whereClauses = [];
-        for ($i = 0; $i < count($attributeWhere); $i++) {
-            $whereClauses[] = "`" . $attributeWhere[$i] . "` = ?";
-
-            // Add to parameter types and values
-            $paramTypes .= is_int($attributeWhereValue[$i]) ? 'i' : 's';
-            $bindValues[] = $attributeWhereValue[$i];
-        }
-
-        // Add WHERE clause to query
-        if (!empty($whereClauses)) {
-            $query .= " WHERE " . implode(" AND ", $whereClauses);
-        }
-    }
-
-    // Prepare the statement
-    if ($stmt = mysqli_prepare($connections, $query)) {
-        if (!empty($bindValues)) {
-            // Create array with $paramTypes as first element, followed by references to each value
-            $bindParams = [$stmt, $paramTypes];
-
-            foreach ($bindValues as $key => $value) {
-                // We need to bind by reference, so create references to each array element
-                $bindParams[] = &$bindValues[$key];
-            }
-
-            // Call bind_param with the unpacked array of references
-            call_user_func_array('mysqli_stmt_bind_param', $bindParams);
-        }
-
-        // Execute the query
-        $result = mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-
-        return $result;
-    } else {
-        showMySQLiAlert($connections);
-        return false;
-    }
+    // Execute the prepared query with the bound parameters and return the result
+    return executePreparedQuery($query, $paramTypes, $bindValues);
 }
 
 /**
- * Advanced function to insert data into a table with support for multiple columns
- * Can also insert a row with only default values
+ * Inserts data into a specified table with support for multiple columns and optional default values.
  * 
- * @param string $tableName The name of the table
- * @param string|array|null $attributeToInsert Column name(s) for insertion (optional)
- * @param mixed|array|null $attributeToInsertValue Value(s) to insert (optional)
- * @return bool True on success, false on failure
+ * This function performs an `INSERT` operation into a specified table. It can insert data with specific column names
+ * and values, or it can insert a row with only default values if no columns or values are provided. It supports 
+ * inserting data into one or more columns and ensures the query is executed safely using prepared statements.
+ * 
+ * @param string $tableName The name of the table to insert data into.
+ * @param string|array|null $attributeToInsert Optional column name(s) for the insertion:
+ *                                             - Use a string for a single column (e.g., "column_name").
+ *                                             - Use an array for multiple columns (e.g., ["column1", "column2"]).
+ *                                             - If omitted or set to `null`, the query will insert a row with default values.
+ * @param mixed|array|null $attributeToInsertValue Optional value(s) for the insertion:
+ *                                                  - Use a single value for one column.
+ *                                                  - Use an array for multiple column values.
+ *                                                  - If omitted or set to `null`, the query will insert a row with default values.
+ * @return bool Returns `true` on success, `false` on failure.
+ *              Returns `false` if an error occurs during query execution or if the input arrays have mismatched sizes.
+ * 
+ * @global mysqli $connections The global MySQLi connection object used for database interaction.
+ * 
+ * @throws Exception If the query preparation or execution fails, an error alert is displayed.
+ * 
+ * @example
+ * // Insert a row with specific values
+ * $success = insertData('users', ['name', 'age'], ['John Doe', 30]);
+ * 
+ * // Insert a row with default values
+ * $success = insertData('users');
  */
 function insertData($tableName, $attributeToInsert = null, $attributeToInsertValue = null)
 {
@@ -325,23 +297,23 @@ function insertData($tableName, $attributeToInsert = null, $attributeToInsertVal
 
     // Check if we're inserting a row with only default values
     if ($attributeToInsert === null && $attributeToInsertValue === null) {
-        // Simple INSERT with default values only
+        // Simple INSERT query with default values only (no columns or values specified)
         $query = "INSERT INTO `$tableName` () VALUES ()";
 
         if ($stmt = mysqli_prepare($connections, $query)) {
-            // Execute the query
+            // Execute the query and return the result (true for success, false for failure)
             $result = mysqli_stmt_execute($stmt);
-            mysqli_stmt_close($stmt);
-            return $result;
+            mysqli_stmt_close($stmt); // Close the prepared statement
+            return $result; // Return the success status of the execution
         } else {
-            showMySQLiAlert($connections);
-            return false;
+            showMySQLiAlert($connections); // Handle any errors during query preparation
+            return false; // Return false if there was an error
         }
     }
 
     // Continue with standard insertion logic when columns and values are provided
 
-    // Convert single values to arrays for consistent handling
+    // Convert single values to arrays for consistent handling (in case a single column or value is provided)
     if (!is_array($attributeToInsert)) {
         $attributeToInsert = [$attributeToInsert];
     }
@@ -350,161 +322,304 @@ function insertData($tableName, $attributeToInsert = null, $attributeToInsertVal
         $attributeToInsertValue = [$attributeToInsertValue];
     }
 
-    // Verify arrays have the same size
+    // Ensure the number of columns and values are the same
     if (count($attributeToInsert) !== count($attributeToInsertValue)) {
         echo ("insertData error: attributeToInsert and attributeToInsertValue arrays must have the same size");
-        return false;
+        return false; // Return false if the arrays have mismatched sizes
     }
 
-    // Build the column names part
+    // Build the column names part of the query
     $columns = [];
     foreach ($attributeToInsert as $column) {
-        $columns[] = "`" . $column . "`";
+        $columns[] = "`" . $column . "`"; // Enclose each column name with backticks for safety
     }
 
-    // Build the placeholders for values
+    // Build the placeholders for values in the query
     $placeholders = array_fill(0, count($attributeToInsert), "?");
 
-    // Initialize the query
+    // Initialize the INSERT query with columns and placeholders
     $query = "INSERT INTO `$tableName` (" . implode(", ", $columns) . ") VALUES (" . implode(", ", $placeholders) . ")";
 
-    // Initialize parameter types and values arrays
+    // Initialize parameter types and values arrays for prepared statement
     $paramTypes = "";
     $bindValues = [];
 
-    // Add values to parameter arrays
+    // Add the values to the parameter arrays, determining the correct parameter type for each value
     foreach ($attributeToInsertValue as $value) {
-        $paramTypes .= is_int($value) ? 'i' : 's';
-        $bindValues[] = $value;
+        $paramTypes .= getParamType($value); // Determine the parameter type based on the value
+        $bindValues[] = $value; // Store the value to be bound to the query
     }
 
-    // Prepare the statement
-    if ($stmt = mysqli_prepare($connections, $query)) {
-        if (!empty($bindValues)) {
-            // Create array with $paramTypes as first element, followed by references to each value
-            $bindParams = [$stmt, $paramTypes];
+    // Execute the prepared query with the bound parameters
+    return executePreparedQuery($query, $paramTypes, $bindValues);
+}
 
-            foreach ($bindValues as $key => $value) {
-                // We need to bind by reference, so create references to each array element
-                $bindParams[] = &$bindValues[$key];
-            }
+/**
+ * Deletes data from a specified table with support for multiple filtering conditions.
+ * 
+ * This function performs a `DELETE` operation on a specified table. It allows for filtering the rows to delete 
+ * using conditions such as column values and operators. The function uses prepared statements to ensure safe query execution.
+ * 
+ * @param string $tableName The name of the table to delete data from.
+ * @param array|null $conditions Optional array of conditions to filter the rows to delete:
+ *                               - Each condition is an array with the format: ['column', 'operator', 'value' (optional)].
+ *                               - Example: [['admission_id', '=', 1], ['admission_Branch', 'IS NOT NULL']].
+ *                               - Supported operators include '=', '!=', '<', '>', '<=', '>=', 'LIKE', 'IS NULL', etc.
+ * @return bool Returns `true` on success, `false` on failure.
+ *              Returns `false` if there is an error during query execution or if the query is malformed.
+ * 
+ * @global mysqli $connections The global MySQLi connection object used for database interaction.
+ * 
+ * @throws Exception If the query preparation or execution fails, an error alert is displayed.
+ * 
+ * @example
+ * // Delete rows where admission_id equals 1
+ * $success = deleteData('admissions', [['admission_id', '=', 1]]);
+ * 
+ * // Delete rows where admission_Branch is not null
+ * $success = deleteData('admissions', [['admission_Branch', 'IS NOT NULL']]);
+ * 
+ * // Delete rows where status is 'inactive' and last_login is older than a specific date
+ * $success = deleteData('users', [['status', '=', 'inactive'], ['last_login', '<', '2020-01-01']]);
+ */
+function deleteData($tableName, $conditions = null)
+{
+    // Initialize the base DELETE query
+    $query = "DELETE FROM `$tableName`";
 
-            // Call bind_param with the unpacked array of references
-            call_user_func_array('mysqli_stmt_bind_param', $bindParams);
+    // Initialize arrays for parameter types and bound values (for prepared statements)
+    $paramTypes = "";
+    $bindValues = [];
+
+    // Check if filtering conditions are provided and build the WHERE clause
+    buildWhereClause($conditions, $paramTypes, $bindValues, $query);
+
+    // Execute the prepared query with the appropriate parameters
+    return executePreparedQuery($query, $paramTypes, $bindValues);
+}
+
+/**
+ * Determines the parameter type for a given value.
+ *
+ * This function is typically used to identify the type of a parameter
+ * for database queries or similar operations where type specification
+ * is required.
+ *
+ * @param mixed $value The value to evaluate.
+ *                      - If the value is an integer, the function returns 'i'.
+ *                      - For all other types, the function returns 's' (string).
+ *
+ * @return string Returns 'i' if the value is an integer, otherwise returns 's'.
+ */
+function getParamType($value)
+{
+    return is_int($value) ? 'i' : 's';
+}
+
+/**
+ * Builds a WHERE clause for an SQL query based on the provided conditions.
+ *
+ * @param array $conditions An array of conditions where each condition is an array
+ *                          containing the column name, operator, and optional value.
+ *                          Example: [['column1', '=', 'value1'], ['column2', 'IS NULL']]
+ * @param string &$paramTypes A reference to a string that will be appended with parameter
+ *                            types for prepared statements (e.g., 's', 'i', 'd', 'b').
+ * @param array &$bindValues A reference to an array that will be populated with values
+ *                           to bind to the prepared statement.
+ * @param string &$query A reference to the SQL query string that will be appended with
+ *                       the generated WHERE clause.
+ *
+ * @return void This function does not return a value. It modifies the $paramTypes,
+ *              $bindValues, and $query parameters by reference.
+ *
+ * @throws InvalidArgumentException If the conditions array contains invalid data.
+ *
+ * @example
+ * $conditions = [
+ *     ['name', '=', 'John'],
+ *     ['age', '>', 25],
+ *     ['status', 'IS NOT NULL']
+ * ];
+ * $paramTypes = '';
+ * $bindValues = [];
+ * $query = "SELECT * FROM users";
+ * buildWhereClause($conditions, $paramTypes, $bindValues, $query);
+ * // Result:
+ * // $query = "SELECT * FROM users WHERE `name` = ? AND `age` > ? AND `status` IS NOT NULL";
+ * // $paramTypes = "si";
+ * // $bindValues = ['John', 25];
+ */
+function buildWhereClause($conditions, &$paramTypes, &$bindValues, &$query)
+{
+    if (empty($conditions)) {
+        return;
+    }
+
+    $clauses = [];
+
+    foreach ($conditions as $condition) {
+        $column = $condition[0];
+        $operator = strtoupper($condition[1]);
+        $value = $condition[2] ?? null;
+
+        if (in_array($operator, ['IS NULL', 'IS NOT NULL'])) {
+            $clauses[] = "`$column` $operator";
+        } else {
+            $clauses[] = "`$column` $operator ?";
+            $paramTypes .= getParamType($value);
+            $bindValues[] = $value;
         }
+    }
 
-        // Execute the query
-        $result = mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-
-        return $result;
-    } else {
-        showMySQLiAlert($connections);
-        return false;
+    if (!empty($clauses)) {
+        $query .= " WHERE " . implode(" AND ", $clauses);
     }
 }
 
 /**
- * Advanced function to delete data from a table with support for multiple filters
+ * Prepares, binds parameters, executes a MySQLi prepared statement, and returns the success status.
  * 
- * @param string $tableName The name of the table
- * @param string|array|null $attributeWhere Column name(s) for filtering
- * @param mixed|array|null $attributeWhereValue Value(s) to filter by
- * @return bool True on success, false on failure
+ * This function simplifies the process of executing a prepared statement with bound parameters. It handles the preparation 
+ * of the query, binding the provided values, and executing the query. It also handles the special case of `SELECT` queries 
+ * by returning the result of a `COUNT(*)` query or simply indicating success for other types of queries like `INSERT`, `UPDATE`, and `DELETE`.
+ * 
+ * @param mysqli $connection The MySQLi connection object to use for executing the query.
+ * @param string $query The SQL query string with placeholders (e.g., "SELECT * FROM table WHERE column = ?").
+ * @param string|null $paramTypes The parameter types for the bound values (optional, e.g., 'ssi' for string, string, integer).
+ *                                Each character represents the type of each bound parameter: 's' for string, 'i' for integer, 'd' for double, 'b' for blob.
+ * @param array|null $bindValues The values to bind to the prepared statement (optional).
+ *                                This is an array where each element corresponds to a parameter in the query.
+ * @return bool|int Returns `true` on success for `INSERT`, `UPDATE`, `DELETE`, or other non-SELECT queries.
+ *                  For `SELECT` queries, it returns the result (e.g., `COUNT(*)`), or `false` if an error occurs.
+ * 
+ * @global mysqli $connections The global MySQLi connection object used for database interaction.
+ * 
+ * @throws Exception If the query preparation or execution fails, an error alert is displayed.
+ * 
+ * @example
+ * // Example for executing a SELECT query
+ * $result = executePreparedQuery('SELECT COUNT(*) FROM users WHERE status = ?', 's', ['active']);
+ * 
+ * // Example for executing an UPDATE query
+ * $success = executePreparedQuery('UPDATE users SET name = ? WHERE id = ?', 'si', ['John Doe', 1]);
+ * 
+ * // Example for executing an INSERT query
+ * $success = executePreparedQuery('INSERT INTO users (name, age) VALUES (?, ?)', 'si', ['John Doe', 30]);
  */
-function deleteData($tableName, $attributeWhere = null, $attributeWhereValue = null)
+function executePreparedQuery($query, $paramTypes = null, $bindValues = null)
 {
     global $connections;  // Use the global connection variable
 
-    // Initialize the query
-    $query = "DELETE FROM `$tableName`";
-
-    // Initialize parameter types and values arrays
-    $paramTypes = "";
-    $bindValues = [];
-
-    // Handle the WHERE clause
-    if ($attributeWhere !== null && $attributeWhereValue !== null) {
-        // Convert single values to arrays for consistent handling
-        if (!is_array($attributeWhere)) {
-            $attributeWhere = [$attributeWhere];
-        }
-
-        if (!is_array($attributeWhereValue)) {
-            $attributeWhereValue = [$attributeWhereValue];
-        }
-
-        // Verify where arrays have the same size
-        if (count($attributeWhere) !== count($attributeWhereValue)) {
-            error_log("deleteData error: attributeWhere and attributeWhereValue arrays must have the same size");
-            return false;
-        }
-
-        // Build the WHERE clause
-        $whereClauses = [];
-        for ($i = 0; $i < count($attributeWhere); $i++) {
-            $whereClauses[] = "`" . $attributeWhere[$i] . "` = ?";
-
-            // Add to parameter types and values
-            $paramTypes .= is_int($attributeWhereValue[$i]) ? 'i' : 's';
-            $bindValues[] = $attributeWhereValue[$i];
-        }
-
-        // Add WHERE clause to query
-        if (!empty($whereClauses)) {
-            $query .= " WHERE " . implode(" AND ", $whereClauses);
-        }
-    }
-
     // Prepare the statement
     if ($stmt = mysqli_prepare($connections, $query)) {
-        if (!empty($bindValues)) {
-            // Create array with $paramTypes as first element, followed by references to each value
-            $bindParams = [$stmt, $paramTypes];
 
-            foreach ($bindValues as $key => $value) {
-                // We need to bind by reference, so create references to each array element
-                $bindParams[] = &$bindValues[$key];
+        // If there are bound values, bind them to the prepared statement
+        if (!empty($bindValues) && $paramTypes) {
+            $bindParams = [$stmt, $paramTypes];  // Start the bind parameter array with the statement and param types
+            foreach ($bindValues as &$val) {
+                $bindParams[] = &$val;  // Append references to the values (needed for binding by reference)
             }
-
-            // Call bind_param with the unpacked array of references
+            // Bind the parameters dynamically
             call_user_func_array('mysqli_stmt_bind_param', $bindParams);
         }
 
-        // Execute the query
-        $result = mysqli_stmt_execute($stmt);
+        // Execute the statement
+        if (mysqli_stmt_execute($stmt)) {
+            // Check if it's a SELECT query that returns a result (like COUNT(*))
+            if (stripos($query, 'SELECT') === 0) {
+                // For SELECT queries, bind the result and fetch the result (COUNT(*))
+                mysqli_stmt_bind_result($stmt, $count);
+                mysqli_stmt_fetch($stmt);
+                mysqli_stmt_close($stmt); // Close the prepared statement
 
-        mysqli_stmt_close($stmt);
-
-        return $result;
+                return $count; // Return the result (COUNT(*) from a SELECT query)
+            } else {
+                // For non-SELECT queries like INSERT, UPDATE, DELETE, just close the statement
+                mysqli_stmt_close($stmt);
+                return true; // Return true to indicate success
+            }
+        } else {
+            mysqli_stmt_close($stmt);
+            return false; // Return false if there was an issue executing the statement
+        }
     } else {
+        // Show MySQLi error if preparation failed
         showMySQLiAlert($connections);
-        return false;
+        return false; // Return false if preparation failed
     }
 }
 
+/**
+ * Normalizes the data by replacing empty strings and zeros with `null`.
+ * 
+ * This function takes an array and checks each value. If the value is an empty string (`''`) or `0`, 
+ * it replaces it with `null`. This is useful for cleaning up data before inserting it into the database,
+ * ensuring that `null` values are used where appropriate instead of empty strings or zeros.
+ * 
+ * @param array &$data The data array to normalize. The array is passed by reference, so the original array is modified.
+ * @return void This function modifies the `$data` array in-place and does not return any value.
+ * 
+ * @example
+ * // Example usage: Normalizing data before insertion into the database
+ * $data = ['name' => 'John', 'age' => 0, 'email' => ''];
+ * normalizeData($data);
+ * // $data will be ['name' => 'John', 'age' => null, 'email' => null]
+ */
 function normalizeData(array &$data)
 {
     foreach ($data as $key => $value) {
-        // Check if the value is empty or 0
+        // Check if the value is empty or 0 and normalize to null
         if ($value === '' || $value === 0) {
             $data[$key] = null;
         }
     }
 }
 
-// Sanitize input
+/**
+ * Sanitizes user input by escaping special characters to prevent SQL injection.
+ * 
+ * This function uses `mysqli_real_escape_string` to escape special characters in a string,
+ * ensuring that the input is safe to use in a SQL query. The input is trimmed of whitespace before escaping.
+ * This is typically used to sanitize user inputs before using them in SQL queries.
+ * 
+ * @param string $input The user input to sanitize.
+ * @return string The sanitized input string, safe for use in SQL queries.
+ * 
+ * @global mysqli $connections The global MySQLi connection object used for database interaction.
+ * 
+ * @example
+ * // Example usage: Sanitizing user input before inserting into the database
+ * $userInput = "O'Reilly";
+ * $safeInput = sanitizeInput($userInput);
+ * // $safeInput will be 'O\'Reilly' (escaped for SQL)
+ */
 function sanitizeInput($input)
 {
     global $connections;  // Use the global connection variable
 
+    // Sanitize input by trimming and escaping special characters
     return mysqli_real_escape_string($connections, trim($input));
 }
 
+/**
+ * Displays an alert message in JavaScript after escaping special characters for safety.
+ * 
+ * This function generates a JavaScript `alert()` pop-up that displays the provided message.
+ * It uses `htmlspecialchars` to escape special characters in the message to prevent XSS (Cross-Site Scripting) attacks.
+ * 
+ * @param string $alert The message to display in the alert pop-up.
+ * @return void This function outputs the JavaScript code directly, with no return value.
+ * 
+ * @example
+ * // Example usage: Showing an alert with a custom message
+ * showAlert("This is a test alert!");
+ */
 function showAlert($alert)
 {
+    // Escape special characters to prevent XSS attacks
     $alert = htmlspecialchars($alert, ENT_QUOTES, 'UTF-8');
 
+    // Output JavaScript to show an alert with the escaped message
     echo "<script language='javascript'>
             window.onload = function() {
                 alert(\"$alert\");
@@ -512,27 +627,83 @@ function showAlert($alert)
           </script>";
 }
 
+/**
+ * Displays a MySQLi error alert message in JavaScript.
+ * 
+ * This function retrieves the last MySQL error from the given database connection
+ * and displays it in an alert using the `showAlert` function.
+ * It is typically used for debugging purposes to notify the user about MySQL-related issues.
+ * 
+ * @param mysqli $connections The MySQLi connection object used to fetch the error message.
+ * @return void This function triggers an alert with the MySQL error message.
+ * 
+ * @example
+ * // Example usage: Showing a MySQLi error alert
+ * showMySQLiAlert($connections);
+ */
 function showMySQLiAlert($connections)
 {
+    // Call showAlert function to display the MySQL error message
     showAlert("Error: " . mysqli_error($connections));
 }
 
+/**
+ * Redirects the user to a different page using the `Location` HTTP header.
+ * 
+ * This function sends a `Location` header to the browser, which causes the browser to navigate to the specified page.
+ * It is typically used for redirects after form submissions or other actions.
+ * 
+ * @param string $page The URL of the page to redirect to.
+ * @return void This function performs a redirect and does not return any value.
+ * 
+ * @example
+ * // Example usage: Redirecting to a new page after form submission
+ * goToPage('success.php');
+ */
 function goToPage($page)
 {
+    // Redirect the user to the specified page
     header("Location: " . $page);
-    // echo "<script>window.location.href='$page';</script>";
 }
 
+/**
+ * Outputs a variable or array in a human-readable format within <pre> tags.
+ * 
+ * This function uses `print_r` wrapped in `<pre>` tags to format and display the contents
+ * of a variable or array in a readable format. It is useful for debugging and inspecting data structures.
+ * 
+ * @param mixed $item The variable or array to print.
+ * @return void This function outputs the formatted data directly and does not return a value.
+ * 
+ * @example
+ * // Example usage: Displaying an array in a readable format
+ * preformat($myArray);
+ */
 function preformat($item)
 {
+    // Display the formatted content of the item in a readable format
     echo '<pre>';
     print_r($item);
     echo '</pre>';
 }
 
+/**
+ * Unsets (removes) specific fields from the $_POST superglobal array.
+ * 
+ * This function allows you to unset multiple fields from the `$_POST` array at once. 
+ * It is useful for clearing sensitive or unnecessary data after processing form submissions.
+ * 
+ * @param array $fields An array of field names to unset from `$_POST`.
+ * @return void This function modifies the `$_POST` array by unsetting the specified fields.
+ * 
+ * @example
+ * // Example usage: Unsetting 'password' and 'confirm_password' fields after processing
+ * unsetPost(['password', 'confirm_password']);
+ */
 function unsetPost($fields)
 {
     foreach ($fields as $field) {
+        // Check if the field exists in $_POST and unset it if it does
         if (isset($_POST[$field])) {
             unset($_POST[$field]);
         }

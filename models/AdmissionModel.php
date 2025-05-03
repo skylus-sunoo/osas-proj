@@ -19,18 +19,18 @@ class AdmissionModel
 
     public function getUserPassword($email)
     {
-        return fetchData($this->table_user, 'admission_Password', 'admission_Email', $email);
+        return fetchData($this->table_user, 'admission_Password', [['admission_Email', '=', $email]]);
     }
 
     public function getUserID($email)
     {
-        return fetchData($this->table_user, 'admission_ID', 'admission_Email', $email);
+        return fetchData($this->table_user, 'admission_ID', [['admission_Email', '=', $email]]);
     }
 
     public function createUser($email, $password)
     {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        return insertData($this->table_user, ['admission_Email', 'admission_Password'], [$email, $hashedPassword]);
+        insertData($this->table_user, ['admission_Email', 'admission_Password'], [$email, $hashedPassword]);
     }
     #endregion
 
@@ -38,7 +38,7 @@ class AdmissionModel
     public function updateUserBranch($branch, $id)
     {
         if ($this->userBranchExists($id)) {
-            updateData($this->table_info, 'admission_Branch', $branch, 'admission_ID', $id);
+            updateData($this->table_info, 'admission_Branch', $branch, [['admission_ID', '=', $id]]);
         } else {
             insertData($this->table_info, ['admission_ID', 'admission_Branch'], [$id, $branch]);
         }
@@ -51,12 +51,12 @@ class AdmissionModel
 
     public function getUserBranch($id)
     {
-        return fetchData($this->table_info, 'admission_Branch', 'admission_ID', $id);
+        return fetchData($this->table_info, 'admission_Branch', [['admission_ID', '=', $id]]);
     }
 
     public function deleteUserBranch($id)
     {
-        updateData($this->table_info, 'admission_Branch', null, 'admission_ID', $id);
+        updateData($this->table_info, 'admission_Branch', null, [['admission_ID', '=', $id]]);
     }
 
     public function updateAdmissionInformation($data, $id)
@@ -68,7 +68,7 @@ class AdmissionModel
             'admission_TypeStudent',
             'admission_LRN',
             'admission_Program'
-        ], $data, 'admission_ID', $id);
+        ], $data, [['admission_ID', '=', $id]]);
     }
 
     public function getAdmissionInformation($id)
@@ -80,7 +80,7 @@ class AdmissionModel
             'admission_TypeStudent',
             'admission_LRN',
             'admission_Program'
-        ], 'admission_ID', $id);
+        ], [['admission_ID', '=', $id]]);
     }
 
     public function userLRNExists($lrn, $id)
@@ -134,12 +134,12 @@ class AdmissionModel
             'admission_BirthPlace',
             'admission_Religion',
             'admission_Indigenous'
-        ], $data, 'admission_ID', $id);
+        ], $data, [['admission_ID', '=', $id]]);
     }
 
     public function getPersonalInformation($id)
     {
-        return fetchData($this->table_personal, '*', 'admission_ID', $id);
+        return fetchData($this->table_personal, '*', [['admission_ID', '=', $id]]);
     }
     #endregion
 
@@ -184,12 +184,12 @@ class AdmissionModel
             'admission_GuardianName',
             'admission_GuardianNumber',
             'admission_GuardianOccupation',
-        ], $data, 'admission_ID', $id);
+        ], $data, [['admission_ID', '=', $id]]);
     }
 
     public function getFamilyInformation($id)
     {
-        return fetchData($this->table_family, '*', 'admission_ID', $id);
+        return fetchData($this->table_family, '*', [['admission_ID', '=', $id]]);
     }
     #endregion
 
@@ -242,12 +242,12 @@ class AdmissionModel
             'admission_VocationalAddress',
             'admission_VocationalYear',
             'admission_VocationalType'
-        ], $data, 'admission_ID', $id);
+        ], $data, [['admission_ID', '=', $id]]);
     }
 
     public function getEducationInformation($id)
     {
-        return fetchData($this->table_education, '*', 'admission_ID', $id);
+        return fetchData($this->table_education, '*', [['admission_ID', '=', $id]]);
     }
     #endregion
 
@@ -288,12 +288,12 @@ class AdmissionModel
             'admission_Vertigo',
             'admission_Others',
             'admission_PWD'
-        ], $data, 'admission_ID', $id);
+        ], $data, [['admission_ID', '=', $id]]);
     }
 
     public function getMedicalInformation($id)
     {
-        return fetchData($this->table_medical, '*', 'admission_ID', $id);
+        return fetchData($this->table_medical, '*', [['admission_ID', '=', $id]]);
     }
     #endregion
 
@@ -313,11 +313,11 @@ class AdmissionModel
 
     public function getControlNumber($id)
     {
-        return str_pad(fetchData($this->table_control, 'admission_ControlNumber', 'admission_ID', $id), 5, '0', STR_PAD_LEFT);
+        return str_pad(fetchData($this->table_control, 'admission_ControlNumber', [['admission_ID', '=', $id]]), 5, '0', STR_PAD_LEFT);
     }
 
     public function updateAppointment($id, $date){
-        updateData($this->table_control, 'admission_Appointment', $date, 'admission_ID', $id);
+        updateData($this->table_control, 'admission_Appointment', $date, [['admission_ID', '=', $id]]);
     }
 
     public function hasAppointment($id){
@@ -326,11 +326,11 @@ class AdmissionModel
 
     public function getAppointment($id)
     {
-        return fetchData($this->table_control, 'admission_Appointment', 'admission_ID', $id);
+        return fetchData($this->table_control, 'admission_Appointment', [['admission_ID', '=', $id]]);
     }
 
     public function updateExam($id, $date){
-        updateData($this->table_control, 'admission_Exam', $date, 'admission_ID', $id);
+        updateData($this->table_control, 'admission_Exam', $date, [['admission_ID', '=', $id]]);
     }
 
     public function hasExam($id){
@@ -339,11 +339,11 @@ class AdmissionModel
 
     public function getExam($id)
     {
-        return fetchData($this->table_control, 'admission_Exam', 'admission_ID', $id);
+        return fetchData($this->table_control, 'admission_Exam', [['admission_ID', '=', $id]]);
     }
 
     public function updateResult($id, $date){
-        updateData($this->table_control, 'admission_Result', $date, 'admission_ID', $id);
+        updateData($this->table_control, 'admission_Result', $date, [['admission_ID', '=', $id]]);
     }
 
     public function hasResult($id){
@@ -352,7 +352,7 @@ class AdmissionModel
 
     public function getResult($id)
     {
-        return fetchData($this->table_control, 'admission_Result', 'admission_ID', $id);
+        return fetchData($this->table_control, 'admission_Result', [['admission_ID', '=', $id]]);
     }
     #endregion
 }
@@ -365,7 +365,7 @@ class AdmissionModel
     
         // public function updateUserData($userId, $data)
         // {
-        //     return updateData($this->table, $data, 'admission_ID', $userId);
+        //     return updateData($this->table, $data, [['admission_ID', '=', $userId]]);
         // }
     
         // public function deleteUser($userId)

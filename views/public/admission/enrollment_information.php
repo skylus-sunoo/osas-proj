@@ -283,14 +283,14 @@
                             <section class="enrollment-information-form-section">
                                 <?php
                                 echo generateFormField('fatherName', 'Father\'s name', 'admission_FatherName', 'text', false);
-                                echo generateFormField('fatherNumber', 'Contact Number', 'admission_FatherNumber', 'text', false);
+                                echo generateFormField('fatherNumber', 'Contact Number', 'admission_FatherNumber', 'number', false);
                                 echo generateFormField('fatherOccupation', 'Occupation', 'admission_FatherOccupation', 'text', false);
                                 ?>
                             </section>
                             <section class="enrollment-information-form-section">
                                 <?php
                                 echo generateFormField('motherName', 'Mother\'s name', 'admission_MotherName', 'text', false);
-                                echo generateFormField('motherNumber', 'Contact Number', 'admission_MotherNumber', 'text', false);
+                                echo generateFormField('motherNumber', 'Contact Number', 'admission_MotherNumber', 'number  ', false);
                                 echo generateFormField('motherOccupation', 'Occupation', 'admission_MotherOccupation', 'text', false);
                                 ?>
                             </section>

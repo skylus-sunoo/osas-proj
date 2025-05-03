@@ -26,7 +26,7 @@
                     </span>
 
                     <div class="button-container">
-                    <label for="toggle-read-more-1" class="read-more-label"></label>
+                    <label for="toggle-read-more-1" class="read-more-label primary-button"></label>
                     </div>
 
             </div>
@@ -47,7 +47,7 @@
                 </p>
 
                 <div class="button-container">
-                <label for="toggle-read-more-2" class="read-more-label"></label>
+                <label for="toggle-read-more-2" class="read-more-label primary-button"></label>
                 </div>
             </div>
         </div>

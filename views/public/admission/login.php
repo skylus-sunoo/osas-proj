@@ -95,7 +95,7 @@
     </style>
 </head>
 
-<body>
+<body class="public-body">
     <div class="scaled-wrapper">
         <main class="public-main">
             <section class="auth-note">
