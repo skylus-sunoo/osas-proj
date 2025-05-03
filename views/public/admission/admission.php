@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../../assets/css/public_admission.css">
 </head>
 
-<body class="admission-body">
+<body class="public-body">
     <main class="public-main">
         <header class="public-header">
             <h2>FIRST SEMESTER SY 2025-2026 APPLICATION FOR ADMISSION</h2>

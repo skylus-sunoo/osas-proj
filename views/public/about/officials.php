@@ -7,7 +7,7 @@
     <title>Campus Officials</title>
 </head>
 
-<body class="enrollment-body">
+<body class="public-body">
     <main class="public-main">
         <header class="public-header">
             <h2>SILANG CAMPUS OFFICIALS</h2>

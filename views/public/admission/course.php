@@ -12,7 +12,7 @@
     <link rel="manifest" href="/assets/img/favicon/site.webmanifest">
 </head>
 
-<body class="course-body">
+<body class="public-body font-NotoSans">
     <main class="public-main">
         <header class="public-header">
             <h2>COURSES OFFERED</h2>

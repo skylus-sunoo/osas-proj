@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../../assets/css/public_enrollment.css">
 </head>
 
-<body class="enrollment-body">
+<body class="public-body">
     <main class="public-main">
         <header class="public-header">
             <h2>ENROLLMENT</h2>

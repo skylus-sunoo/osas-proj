@@ -8,6 +8,9 @@ declare(strict_types=1);
 <link rel="icon" type="image/png" sizes="16x16" href="../../../assets/img/favicon/favicon-16x16.png">
 <link rel="manifest" href="../../../assets/img/favicon/site.webmanifest">
 
+<?php if (strpos($_SERVER['REQUEST_URI'], '/admin') !== false): ?>
+<?php else: ?>
+<?php endif; ?>
 <link rel="preload" href="/assets/css/styles.css" as="style" />
 <link rel="stylesheet" href="/assets/css/styles.css">
 
@@ -25,10 +28,15 @@ $router = new Router;
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+$router->add("/admin/home", function () {
+    include_once 'views/admin/include/header.php';
+    include_once 'views/admin/dashboard/home.php';
+});
+
 $router->add("/dashboard/home", function () {
     if (isset($_SESSION['logout'])) {
-        session_unset(); 
-        session_destroy(); 
+        session_unset();
+        session_destroy();
         showAlert("You have successfully logged out.");
     }
 

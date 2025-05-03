@@ -1,9 +1,3 @@
-body,
-.enrollment-body {
-    font-family: "Gotham", sans-serif;
-    color: white;
-}
-
 .enrollment-information-disabled input {
     background-color: #00000033 !important;
     color: white !important;

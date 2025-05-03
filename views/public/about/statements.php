@@ -7,7 +7,7 @@
     <title>Statements</title>
 </head>
 
-<body class="enrollment-body">
+<body class="public-body">
     <main class="public-main">
         <header class="public-header">
             <h2>CvSU MISSION, VISION, QUALITY POLICY</h2>

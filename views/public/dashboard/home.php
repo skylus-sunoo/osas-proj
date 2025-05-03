@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../../assets/css/public_home.css">
 </head>
 
-<body class="home-body">
+<body class="public-body font-NotoSans">
     <main class="public-main home-main">
         <div class="home-admissions">
             <div class="home-admission-card">
