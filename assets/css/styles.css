@@ -160,3 +160,9 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+
+@media (max-width: 1400px) {
+    body {
+        zoom: 0.8;
+    }
+}
