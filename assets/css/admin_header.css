@@ -1,0 +1,42 @@
+header {
+    background-color: var(--primary-hex-green-light);
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    padding-inline: 2.5rem;
+    color: var(--primary-hex-white);
+
+    border-radius: 0;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* ensures it's above most content */
+    box-sizing: border-box;
+    overflow: visible;
+
+}
+
+header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 16px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+header * {
+    flex-grow: 1;
+}
+
+.header-logo {
+    text-align: right;
+}
+
+.header-logo img {
+    width: 75px;
+}

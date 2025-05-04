@@ -13,6 +13,9 @@ define('TB_ADMISSION_FAMILY', 'tb_admission_family');
 define('TB_ADMISSION_EDUCATION', 'tb_admission_education');
 define('TB_ADMISSION_MEDICAL', 'tb_admission_medical');
 define('TB_ADMISSION_CONTROL', 'tb_admission_control');
+
+define('TB_ADMIN_USER', 'tb_admin_user');
+
 define('TB_EVENT', 'tb_event');
 define('TB_STUDENT', 'tb_student');
 
@@ -99,6 +102,111 @@ function fetchData($tableName, $columns = "*", $conditions = null)
 
             // Call mysqli_stmt_bind_param with the unpacked array of bind parameters
             call_user_func_array('mysqli_stmt_bind_param', $bindParams);
+        }
+
+        // Execute the prepared statement
+        mysqli_stmt_execute($stmt);
+
+        // Retrieve the result set
+        $result = mysqli_stmt_get_result($stmt);
+
+        // Check if we're retrieving a single column and a single row of data
+        if ($columns !== "*" && !is_array($columns)) {
+            // Fetch the first row and return the single column value
+            if ($row = mysqli_fetch_assoc($result)) {
+                $singleValue = $row[$columns];
+                mysqli_stmt_close($stmt); // Close the prepared statement
+                return $singleValue; // Return the single value
+            } else {
+                mysqli_stmt_close($stmt); // Close the prepared statement
+                return null; // No data found, return null
+            }
+        } else {
+            // If selecting all columns or multiple columns, always return an array of rows
+            $rows = [];
+            while ($row = mysqli_fetch_assoc($result)) {
+                $rows[] = $row; // Add each row as an associative array to the $rows array
+            }
+            mysqli_stmt_close($stmt); // Close the prepared statement
+            return $rows; // Return the array of rows (could be empty if no results)
+        }
+
+        mysqli_stmt_close($stmt); // Close the prepared statement
+        return $rows; // Return the rows if the query returned multiple columns
+    } else {
+        // If the query preparation fails, display an error message
+        showMySQLiAlert($connections);
+        return null; // Return null to indicate failure
+    }
+}
+
+/**
+ * Fetches a limited number of rows from a specified table with support for pagination.
+ * 
+ * This function is a wrapper around fetchData that allows you to limit the number of rows returned
+ * and implement pagination using the LIMIT and OFFSET SQL clauses.
+ *
+ * @param string $tableName The name of the table to query.
+ * @param string|array $columns The column(s) to retrieve:
+ *                              - Use "*" to fetch all columns.
+ *                              - Provide a string for a single column (e.g., "column_name").
+ *                              - Provide an array for multiple columns (e.g., ["column1", "column2"]).
+ * @param array|null $conditions Optional filtering conditions in the format:
+ *                               - Each condition is an array: ['column', 'operator', 'value' (optional)].
+ * @param int $limit The number of rows to fetch (default is 10).
+ * @param int $offset The starting point for the query (used for pagination, default is 0).
+ * @return mixed Returns the query result based on the input:
+ *               - If a single column is requested, returns the value of that column (or null if no result).
+ *               - If multiple columns or "*" are requested, returns an array of associative arrays (rows).
+ *               - Returns null if an error occurs during query execution.
+ */
+function fetchDataLimited($tableName, $columns = "*", $conditions = null, $limit = 10, $offset = 0)
+{
+    global $connections;  // Use the global database connection variable
+
+    // Format the columns for the SQL query
+    if (is_array($columns)) {
+        // If $columns is an array, wrap each column name with backticks and join them
+        $columnsStr = "`" . implode("`, `", $columns) . "`";
+    } else {
+        // If $columns is a string (could be "*" or a single column name), use it directly
+        $columnsStr = $columns === "*" ? "*" : "`$columns`";
+    }
+
+    // Initialize the SQL query with the selected columns from the table
+    $query = "SELECT $columnsStr FROM `$tableName`";
+
+    // Prepare variables for the WHERE clause (if any)
+    $paramTypes = ""; // String to hold the parameter types for binding
+    $bindValues = []; // Array to hold the values to bind to the query
+
+    // If conditions are provided, build the WHERE clause and prepare bind values
+    buildWhereClause($conditions, $paramTypes, $bindValues, $query);
+
+    // Add the LIMIT and OFFSET clauses to the query
+    $query .= " LIMIT ?, ?";  // Add placeholders for limit and offset
+
+    // Prepare the SQL statement
+    if ($stmt = mysqli_prepare($connections, $query)) {
+        // If there are any conditions (bind values), bind them to the query
+        if (!empty($bindValues)) {
+            // Initialize the array of parameters for binding: first element is the statement, followed by the param types
+            $bindParams = [$stmt, $paramTypes];
+
+            // Loop through each value and bind it by reference
+            foreach ($bindValues as $key => $value) {
+                $bindParams[] = &$bindValues[$key];
+            }
+
+            // Bind the limit and offset as integers
+            $bindParams[] = &$limit;
+            $bindParams[] = &$offset;
+
+            // Call mysqli_stmt_bind_param with the unpacked array of bind parameters
+            call_user_func_array('mysqli_stmt_bind_param', $bindParams);
+        } else {
+            // If no bind values, directly bind limit and offset
+            mysqli_stmt_bind_param($stmt, "ii", $limit, $offset);
         }
 
         // Execute the prepared statement
@@ -399,6 +507,81 @@ function deleteData($tableName, $conditions = null)
 }
 
 /**
+ * Fetches the count of rows from a specified table with optional filtering conditions.
+ * 
+ * This function counts the number of rows in a specified table that match the provided conditions.
+ * It allows for complex filtering with operators such as '=', '!=', '<', '>', 'IS NULL', and others.
+ * 
+ * @param string $tableName The name of the table to query.
+ * @param array|null $conditions Optional filtering conditions in the format:
+ *                               - Each condition is an array: ['column', 'operator', 'value' (optional)].
+ *                               - Example: [['id', '=', 1], ['status', 'IS NOT NULL']].
+ *                               - Supported operators include '=', '!=', '<', '>', '<=', '>=', 'LIKE', 'IS NULL', etc.
+ * @return int|false Returns the count of matching rows, or `false` if an error occurs during query execution.
+ * 
+ * @global mysqli $connections The global MySQLi connection object used for database interaction.
+ * 
+ * @throws Exception If the query preparation or execution fails, an error alert is displayed.
+ * 
+ * @example
+ * // Count rows where status is 'active'
+ * $count = countData('users', [['status', '=', 'active']]);
+ * 
+ * // Count all rows in the table (no conditions)
+ * $count = countData('users');
+ */
+function countData($tableName, $conditions = null)
+{
+    global $connections;  // Use the global connection variable
+
+    // Initialize the base query to count rows in the table
+    $query = "SELECT COUNT(*) AS row_count FROM `$tableName`";
+
+    // Initialize parameter types and values arrays for prepared statement
+    $paramTypes = "";
+    $bindValues = [];
+
+    // If conditions are provided, build the WHERE clause and prepare bind values
+    buildWhereClause($conditions, $paramTypes, $bindValues, $query);
+
+    // Prepare the query
+    if ($stmt = mysqli_prepare($connections, $query)) {
+        // Bind the parameters if there are any
+        if (!empty($bindValues)) {
+            $bindParams = [$stmt, $paramTypes];
+
+            // Loop through each value and bind it by reference
+            foreach ($bindValues as $key => $value) {
+                $bindParams[] = &$bindValues[$key];
+            }
+
+            // Call mysqli_stmt_bind_param with the unpacked array of bind parameters
+            call_user_func_array('mysqli_stmt_bind_param', $bindParams);
+        }
+
+        // Execute the query
+        mysqli_stmt_execute($stmt);
+
+        // Get the result
+        $result = mysqli_stmt_get_result($stmt);
+
+        // Fetch the row count
+        if ($row = mysqli_fetch_assoc($result)) {
+            $rowCount = (int)$row['row_count'];
+            mysqli_stmt_close($stmt); // Close the prepared statement
+            return $rowCount; // Return the count of rows
+        } else {
+            mysqli_stmt_close($stmt); // Close the prepared statement
+            return false; // If no result, return false
+        }
+    } else {
+        // If the query preparation fails, show error
+        showMySQLiAlert($connections);
+        return false; // Return false to indicate failure
+    }
+}
+
+/**
  * Determines the parameter type for a given value.
  *
  * This function is typically used to identify the type of a parameter
@@ -462,9 +645,18 @@ function buildWhereClause($conditions, &$paramTypes, &$bindValues, &$query)
         $operator = strtoupper($condition[1]);
         $value = $condition[2] ?? null;
 
+        // Check if we need to apply 'LIKE' for partial matching
+        if ($operator === 'LIKE' && $value !== null) {
+            // Add the percent signs for a partial match
+            $value = "%" . $value . "%";
+            $operator = 'LIKE';  // Ensure we use LIKE
+        }
+
         if (in_array($operator, ['IS NULL', 'IS NOT NULL'])) {
+            // For IS NULL or IS NOT NULL, no need for parameter binding
             $clauses[] = "`$column` $operator";
         } else {
+            // For other operators, bind the value
             $clauses[] = "`$column` $operator ?";
             $paramTypes .= getParamType($value);
             $bindValues[] = $value;
@@ -708,4 +900,30 @@ function unsetPost($fields)
             unset($_POST[$field]);
         }
     }
+}
+
+/**
+ * Retrieves the provided value if it is set and not null; otherwise, returns a default value.
+ *
+ * @param mixed $value The value to check.
+ * @param mixed $or The default value to return if $value is not set or is null. Default is 'N/A'.
+ * @return mixed Returns $value if it is set and not null; otherwise, returns $or.
+ */
+function getAssocValueOrNA($value, $or = 'N/A')
+{
+    return isset($value) && $value !== null ? $value : $or;
+}
+
+/**
+ * Retrieves the value associated with a given key from an array. 
+ * If the key does not exist or the value is null, a default value is returned.
+ *
+ * @param array $data The array to retrieve the value from.
+ * @param string|int $key The key to look for in the array.
+ * @param mixed $default The default value to return if the key does not exist in the array. Default is 'N/A'.
+ * @return mixed Returns the value associated with the key if it exists; otherwise, returns $default.
+ */
+function getValueOrNA($data, $key, $default = 'N/A')
+{
+    return isset($data[$key]) ? $data[$key] : $default;
 }

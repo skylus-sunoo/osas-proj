@@ -35,7 +35,7 @@
                 <br>
                 <p>Download your application form here!</p>
                 <br>
-                <form method="post" action="../generate-pdf.php" target="_blank">
+                <form method="post" action="/admission/download" target="_blank">
                     <input type="hidden" name="application_form_id" value="<?= $_SESSION['admission_ID'] ?>">
                     <button type="submit" class="primary-button">Download Profile</button>
                 </form>

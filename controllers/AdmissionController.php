@@ -1,14 +1,17 @@
 <?php
 
 require_once 'models/AdmissionModel.php';
+require_once 'models/UserModel.php';
 
 class AdmissionController
 {
     private $model;
+    private $userModel;
 
     public function __construct()
     {
         $this->model = new AdmissionModel();
+        $this->userModel = new UserModel();
     }
 
     public function logoutUser()
@@ -113,27 +116,27 @@ class AdmissionController
 
     private function handleLogin($email, $password)
     {
-        if (!$this->model->userExists($email)) {
+        if (!$this->userModel->userExists($this->userModel->tableAdmission(), $email)) {
             $_SESSION['error'] = 4;
             goToPage('/admission/enrollment');
             return;
         }
 
-        $hashedPassword = $this->model->getUserPassword($email);
+        $hashedPassword = $this->userModel->getUserPassword($this->userModel->tableAdmission(), $email);
         if (!password_verify($password, $hashedPassword)) {
             $_SESSION['error'] = 1;
             goToPage('/admission/enrollment');
             return;
         }
 
-        $_SESSION['admission_ID'] = $this->model->getUserID($email);
+        $_SESSION['admission_ID'] = $this->userModel->getUserID($this->userModel->tableAdmission(), $email);
         $_SESSION['admission_Email'] = $email;
         goToPage('/admission/enrollment');
     }
 
     private function handleSignup($email, $password, $confirmPassword)
     {
-        if ($this->model->userExists($email)) {
+        if ($this->userModel->userExists($this->userModel->tableAdmission(), $email)) {
             $_SESSION['error'] = 2;
             goToPage('/admission/enrollment');
             return;
@@ -145,8 +148,8 @@ class AdmissionController
             return;
         }
 
-        $this->model->createUser($email, $password);
-        $_SESSION['admission_ID'] = $this->model->getUserID($email);
+        $this->userModel->createUser($this->userModel->tableAdmission(), $email, $password);
+        $_SESSION['admission_ID'] = $this->userModel->getUserID($this->userModel->tableAdmission(), $email);
         $_SESSION['admission_Email'] = $email;
         goToPage('/admission/enrollment');
     }
@@ -262,17 +265,17 @@ class AdmissionController
 
             $_SESSION['admission_ControlNumber'] = $this->model->getControlNumber($_SESSION['admission_ID']);
 
-            if($_SESSION['admission_ControlNumber'] == 0){
+            if ($_SESSION['admission_ControlNumber'] == 0) {
                 $_SESSION['admission_ControlNumber'] = null;
             }
             // if($this->model->hasAppointment($_SESSION['admission_ID'])){
-                $_SESSION['admission_Appointment'] = $this->model->getAppointment($_SESSION['admission_ID']);
+            $_SESSION['admission_Appointment'] = $this->model->getAppointment($_SESSION['admission_ID']);
             // }
             // if($this->model->hasExam($_SESSION['admission_ID'])){
-                $_SESSION['admission_Exam'] = $this->model->getExam($_SESSION['admission_ID']);
+            $_SESSION['admission_Exam'] = $this->model->getExam($_SESSION['admission_ID']);
             // }
             // if($this->model->hasResult($_SESSION['admission_ID'])){
-                $_SESSION['admission_Result'] = $this->model->getResult($_SESSION['admission_ID']);
+            $_SESSION['admission_Result'] = $this->model->getResult($_SESSION['admission_ID']);
             // }
 
             include_once 'views/public/admission/enrollment_information.php';

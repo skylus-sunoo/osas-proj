@@ -23,14 +23,69 @@ session_start();
 require_once '_config.php';
 require_once 'classes/Router.php';
 require_once 'controllers/AdmissionController.php';
+require_once 'controllers/AdminController.php';
 
 $router = new Router;
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+$router->add("/admin/logout", function () {
+    $controller = new AdminController();
+    $controller->logoutUser();
+});
+
+$router->add("/admin/login", function () {
+    $controller = new AdminController();
+    $controller->handleLoginRedirect();
+});
+
 $router->add("/admin/home", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    include_once 'views/admin/include/sidebar.php';
     include_once 'views/admin/include/header.php';
     include_once 'views/admin/dashboard/home.php';
+});
+
+$router->add("/admissions/overview", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    include_once 'views/admin/include/sidebar.php';
+    include_once 'views/admin/include/header.php';
+    include_once 'views/admin/admissions/overview.php';
+});
+
+$router->add("/admissions/overview_review", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    $_SESSION['admission_ID'] = $_POST['admission_ID'];
+    
+    goToPage("/admissions/overview?single=true");
+});
+
+$router->add("/admissions/requirements", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    $controller->handleRequirements();
+
+    include_once 'views/admin/include/sidebar.php';
+    include_once 'views/admin/include/header.php';
+    include_once 'views/admin/admissions/requirements.php';
+});
+
+$router->add("/admissions/examinations", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    // $controller->handleExaminations();
+
+    include_once 'views/admin/include/sidebar.php';
+    include_once 'views/admin/include/header.php';
+    include_once 'views/admin/admissions/examinations.php';
 });
 
 $router->add("/dashboard/home", function () {
@@ -57,6 +112,10 @@ $router->add("/admission/application", function () {
 $router->add("/admission/enrollment", function () {
     $controller = new AdmissionController();
     $controller->handleEnrollmentRedirect();
+});
+
+$router->add("/admission/download", function () {
+    goToPage("../generate-pdf.php");
 });
 
 $router->add("/admission/save_admission_information", function () {

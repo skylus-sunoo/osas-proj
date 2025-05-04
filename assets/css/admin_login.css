@@ -1,0 +1,130 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    overflow: hidden;
+}
+
+body {
+    color: black;
+}
+
+main {
+    /* height: 100vh; */
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    border-style: solid;
+    border-color: var(--primary-hex-green-light);
+    background-color: var(--primary-hex-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+.login-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary-hex-green-light);
+    font-weight: 500;
+    padding: 10px;
+    width: 100%;
+    margin: 20px;
+}
+
+.login-header img {
+    width: 125px;
+}
+
+.login-header div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    flex-grow: 0.33;
+}
+
+.login-title {
+    color: var(--primary-hex-white);
+    background-color: var(--primary-hex-green-light);
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 3.5rem;
+    font-weight: 700;
+}
+
+.tab-buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+    border-bottom: 1px solid var(--primary-hex-green-light);
+}
+
+.tab-buttons button {
+    flex: 1;
+    padding: 10px;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    color: var(--primary-hex-green-dark);
+}
+
+.tab-buttons button.active {
+    border-bottom: 3px solid var(--primary-hex-green-light);
+    color: var(--primary-hex-green-light);
+}
+
+.login-form,
+.signup-form {
+    width: 100%;
+    display: none;
+}
+
+.form-section.active {
+    display: block;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 2rem 2rem;
+    row-gap: 1.5rem;
+}
+
+label {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+button[type="submit"] {
+    background-color: var(--primary-hex-green-light);
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--primary-hex-green-dark);
+}

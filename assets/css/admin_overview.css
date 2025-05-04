@@ -1,0 +1,348 @@
+/* Tab Style */
+.tabs {
+    display: flex;
+    padding: 1rem 5rem;
+    column-gap: 5rem;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+    font-family: 'Gotham', sans-serif;
+    /* Use the same font as in the pagination */
+}
+
+.tabs button {
+    background-color: var(--primary-hex-green-dark);
+    border: 1px solid var(--primary-hex-green);
+    color: var(--primary-hex-yellow);
+    padding: 10px 20px;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 1rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.tabs button.active {
+    background-color: var(--primary-hex-yellow);
+    color: var(--primary-hex-green-dark);
+    border: 1px solid var(--primary-hex-yellow);
+    font-weight: 700;
+}
+
+/* Hover effect for the tab buttons */
+.tabs button:hover {
+    background-color: var(--primary-hex-yellow);
+    color: var(--primary-hex-green-dark);
+}
+
+/* Tab content visibility */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Ensure the tabs look cohesive with the rest of the page */
+.tab-content .admin-admissions,
+.tab-content .admin-admissions-single {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling the search input and button */
+.admin-admissions-search input {
+    border: 1px solid var(--primary-hex-green);
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 1rem;
+    color: var(--primary-hex-green-dark);
+    background-color: #f1f1f1;
+    margin-right: 10px;
+}
+
+.admin-admissions-search button {
+    background-color: var(--primary-hex-green-dark);
+    color: var(--primary-hex-yellow);
+    padding: 10px 20px;
+    border: 1px solid var(--primary-hex-green);
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 1rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.admin-admissions-search button:hover {
+    background-color: var(--primary-hex-yellow);
+    color: var(--primary-hex-green-dark);
+}
+
+.admin-admissions table {
+    width: 100%;
+}
+
+.table-wrapper {
+    margin: 10px;
+}
+
+/* Table Styling */
+.admin-admissions table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    /* margin-top: 2rem; */
+    background-color: var(--primary-hex-white);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admin-admissions th:nth-child(2),
+.admin-admissions td:nth-child(2) {
+    width: 50%;
+    /* Email width */
+}
+
+#overview-reviewing {
+    background-color: rgba(var(--primary-rgb-selected), 0.25);
+    /* border-style: dashed;
+    border-color: #00f3aac5;
+    border-width: 2px; */
+}
+
+.admin-admissions th,
+.admin-admissions td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--primary-hex-green-light);
+    color: var(--primary-hex-green-dark);
+}
+
+.admin-admissions th {
+    background-color: var(--primary-hex-green-dark);
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.admin-admissions td {
+    background-color: #fff;
+    font-size: 1rem;
+    text-align: center;
+    /* padding: 0 !important; */
+    padding: 10px;
+}
+
+.admin-admissions tr:hover {
+    /* background-color: var(--primary-hex-green-light); */
+}
+
+.admin-admissions td button.review-btn {
+    background-color: var(--primary-hex-yellow);
+    color: black;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    border: none;
+    cursor: pointer;
+    font-family: 'Gotham', sans-serif;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: bold;
+}
+
+.admin-admissions td button.review-btn:hover {
+    background-color: var(--primary-hex-green);
+    color: white;
+}
+
+/* Additional Styles for Table Row */
+.admin-admissions tr:nth-child(even) td {
+    background-color: var(--primary-hex-white);
+    /* Alternate row color */
+}
+
+.admin-admissions tr:nth-child(odd) td {
+    background-color: #f8f8f8;
+    /* Lighter row color */
+}
+
+/* Column Specific Adjustments */
+.admin-admissions td:nth-child(1),
+.admin-admissions td:nth-child(8) {
+    text-align: center;
+}
+
+/* DONE status cell styling */
+.admin-admissions td div.done {
+    color: var(--primary-hex-green);
+    background-color: rgba(var(--primary-rgb-green), 0.1);
+    font-weight: bold;
+    text-align: center;
+    padding: 0.5rem;
+    border-style: solid;
+    border-color: var(--primary-hex-green);
+    border-radius: 15px;
+    width: 100%;
+    margin: auto;
+    box-sizing: border-box;
+}
+
+/* Not DONE status cell styling */
+.admin-admissions td div.not-done {
+    color: var(--primary-hex-red);
+    background-color: rgba(var(--primary-rgb-red), 0.1);
+    font-weight: bold;
+    text-align: center;
+    padding: 0.5rem;
+    border-style: solid;
+    border-color: var(--primary-hex-red);
+    border-radius: 15px;
+    width: 100%;
+    margin: auto;
+    box-sizing: border-box;
+}
+
+/* Responsive Design for Table */
+@media screen and (max-width: 768px) {
+    .admin-admissions table {
+        font-size: 0.9rem;
+    }
+
+    .admin-admissions th,
+    .admin-admissions td {
+        padding: 0.8rem;
+    }
+
+    .admin-admissions td button.review-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+}
+
+.form-overview {
+    display: flex;
+    flex-direction: column;
+    padding: 0 2rem 2rem 2rem;
+
+    row-gap: 0.5rem;
+}
+
+.form-overview>p {
+    font-size: 1.5rem;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-group {
+    flex: 1;
+}
+
+form input {
+    all: unset;
+    width: 100%;
+    font-weight: bold;
+}
+
+.admin-admissions-search {
+    padding-inline: 1rem;
+}
+
+.search-group {
+    display: flex;
+    column-gap: 1rem;
+}
+
+/* Pagination Container */
+.pagination {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    font-family: 'Gotham';
+    font-size: 1rem;
+    color: white;
+}
+
+.pagination-links {
+    margin-top: 1rem;
+}
+
+/* General Pagination Link Styling */
+.pagination a,
+.pagination .current-page {
+    padding: 8px 12px;
+    margin: 0 5px;
+    text-decoration: none;
+    border-radius: 1rem;
+    color: var(--primary-hex-yellow);
+    background-color: var(--primary-hex-green-dark);
+    border: 1px solid var(--primary-hex-green);
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: 600;
+}
+
+.pagination a span {
+    position: relative;
+    top: 6px;
+    color: var(--primary-hex-yellow);
+}
+
+.pagination a:hover span {
+    color: var(--primary-hex-green-dark);
+}
+
+/* Hover effect for links */
+.pagination a:hover {
+    background-color: var(--primary-hex-yellow);
+    color: var(--primary-hex-green-dark);
+}
+
+/* Style for the current page number */
+.pagination .current-page {
+    background-color: var(--primary-hex-yellow);
+    color: var(--primary-hex-green-dark);
+    border: 1px solid var(--primary-hex-yellow);
+    font-weight: 700;
+}
+
+/* Disabled Pagination Links */
+.pagination a:disabled,
+.pagination .disabled {
+    color: #aaa;
+    cursor: not-allowed;
+    background-color: var(--primary-hex-green-dark);
+    border: 1px solid #ddd;
+}
+
+/* Previous & Next Buttons */
+.pagination a:first-child,
+.pagination a:last-child {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1rem;
+}
+
+/* Hover effect for "Previous" and "Next" buttons */
+.pagination a:hover:not(.disabled) {
+    background-color: rgba(var(--primary-rgb-yellow), 0.25);
+    color: var(--primary-hex-green-dark);
+}
+
+/* General Text Styling */
+.pagination p {
+    color: black;
+    font-size: 1rem;
+    margin: 0 10px;
+    font-size: 1.25rem;
+    font-weight: 500;
+}

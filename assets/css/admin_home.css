@@ -1,0 +1,78 @@
+.home-cards {
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;  /* Allow wrapping of items onto new lines */
+    gap: 3rem;  /* Space between items */
+
+    padding: 3rem;
+}
+
+.home-card {
+    flex: 0 0 calc(33.33% - 3rem);  /* Adjust width to account for gap */
+    box-sizing: border-box; /* Prevent padding from affecting the width */
+
+    display: flex;
+    flex-direction: column;
+
+    border-style: solid;
+    border-radius: 15px;
+
+    /* overflow: hidden; */
+}
+
+.home-card-info {
+    display: flex;
+    border-radius: 10px 10px 0 0;
+}
+
+.home-card-icon span {
+    font-size: 10rem;
+
+    color: var(--primary-hex-white);
+    padding-left: 1rem;
+}
+
+.home-card-text {
+    text-align: end;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-inline: 2rem;
+
+    width: 100%;
+}
+
+.home-card-text h1 {
+    font-size: 3rem;
+
+    color: var(--primary-hex-white);
+}
+
+.home-card-text p {
+    font-size: 1.5rem;
+
+    color: var(--primary-hex-white);
+}
+
+.home-card-redirect {
+    background-color: var(--primary-hex-white);
+    border-radius: 0 0 15px 15px;
+
+    padding: 0.5rem;
+    padding-inline: 2rem;
+}
+
+.home-card-redirect a {
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.home-card-redirect span{
+    margin-left: auto;
+}

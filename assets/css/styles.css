@@ -1,4 +1,7 @@
 :root {
+    --primary-rgb-white: 248, 243, 237;
+    --primary-hex-white: #F8F3ED;
+
     --primary-rgb-yellow: 238, 173, 43;
     --primary-hex-yellow: #eead2b;
 
@@ -14,6 +17,9 @@
 
     --primary-rgb-red: 238, 43, 59;
     --primary-hex-red: #EE2B3B;
+
+    --primary-rgb-selected: 0, 243, 170;
+    --primary-hex-selected: #00f3aa;
 }
 
 * {
@@ -33,7 +39,6 @@ body {
     margin: 0 auto;
     overflow-x: hidden;
     color: white;
-    
 }
 
 .close-button {
@@ -167,4 +172,41 @@ body {
         zoom: 0.8;
         width: 100vw;
     }
+}
+
+.admin-main {
+    color: black;
+    border-style: solid;
+    border-color: var(--primary-hex-green-light);
+    background-color: var(--primary-hex-white);
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+
+    margin-left: 6.3rem;
+    margin-right: 1rem;
+    margin-top: 7rem;
+
+}
+
+.admin-main * {
+    color: black;
+}
+
+.admin-heading {
+    padding: 1rem;
+}
+
+.admin-input {
+    background-color: var(--primary-hex-white);
+    border: solid 1px var(--primary-hex-green-light);
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+
+}
+
+.admin-input:focus {
+    border: solid 1px var(--primary-hex-green-dark);
 }
