@@ -62,7 +62,7 @@
 
             <div class="course-programs">
                 <div class="course-program">
-                    <img src="../../../assets/img/BSPSYCH.jpg" alt="Bachelor of Science in Psychology">
+                    <img src="../../../assets/img/BSPSYCH.jpg" alt="Bachelor of Science in Psychology" style="max-width:300px">
                     <div class="course-program-content">
                         <h3>Bachelor of Science in Psychology</h3>
                         <p>
@@ -104,7 +104,7 @@
                 </div>
         
                 <div class="course-program">
-                    <img src="../../../assets/img/BSHM(1).jpg" alt="Bachelor of Science in Hospitality Management">
+                    <img src="../../../assets/img/BSHM(1).jpg" alt="Bachelor of Science in Hospitality Management" style="max-width:300px">
                     <div class="course-program-content">
                         <h3>Bachelor of Science in Hospitality Management</h3>
                         <p>
