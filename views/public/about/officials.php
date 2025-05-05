@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus Officials</title>
+    <link rel="stylesheet" href="../../../assets/css/officials.css">
 </head>
 
 <body class="public-body">
@@ -15,7 +16,32 @@
             <hr>
         </header>
 
-        <div>
+        <div class="officials-card">  
+            <img src="../../../assets/img/students.png"> 
+            <div>
+            <h1> CvSU Silang OSAS Head </h1> <br>
+            <h2> Rose Mary Pragacha </h2>
+            </div>
+
+        </div>
+        <div class="officials-card">  
+            <img src="../../../assets/img/students.png">
+            
+        </div>
+        <div class="officials-card">  
+            <img src="../../../assets/img/students.png">
+            
+        </div>
+        <div class="officials-card">  
+            <img src="../../../assets/img/students.png">
+            
+        </div>
+        <div class="officials-card">  
+            <img src="../../../assets/img/students.png">
+            
+        </div>
+        <div class="officials-card">  
+            <img src="../../../assets/img/students.png">
             
         </div>
     </main>
