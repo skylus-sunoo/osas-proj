@@ -1,3 +1,59 @@
+/* Tab Style */
+.tabs {
+    display: flex;
+    padding: 1rem 5rem;
+    column-gap: 5rem;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+    font-family: 'Gotham', sans-serif;
+    /* Use the same font as in the pagination */
+}
+
+.tabs button {
+    background-color: var(--primary-hex-green-dark);
+    border: 1px solid var(--primary-hex-green);
+    color: var(--primary-hex-yellow);
+    padding: 10px 20px;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 1rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.tabs button.active {
+    background-color: var(--primary-hex-yellow);
+    color: var(--primary-hex-green-dark);
+    border: 1px solid var(--primary-hex-yellow);
+    font-weight: 700;
+}
+
+/* Hover effect for the tab buttons */
+.tabs button:hover {
+    background-color: var(--primary-hex-yellow);
+    color: var(--primary-hex-green-dark);
+}
+
+/* Tab content visibility */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Ensure the tabs look cohesive with the rest of the page */
+.tab-content .admin-admissions,
+.tab-content .admin-admissions-single {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 /* Container for exam table */
 .admin-exams {
     margin: 0 2rem 2rem 2rem;

@@ -120,28 +120,40 @@
         </div>
         <hr>
 
-        <!-- <?= preformat($_POST) ?> -->
-
-        <div class="admin-examinations-search">
-            <form action="/admissions/exam_create" method="post">
-                <div class="form-group">
-                    <!-- <?=
-                            generateDateMeridiemSelect('exam_Date', 120);
-                            ?> -->
-                    <input class="admin-input" type="date" name="exam_DateCalendar" required>
-                    <select name="exam_DateMeridiem" required>
-                        <option value="AM">AM</option>
-                        <option value="PM">PM</option>
-                    </select>
-                    <input class="admin-input" type="number" name="exam_Capacity" placeholder="Insert capacity" required>
-                    <button type="submit" class="primary-button">Set Exam Date</button>
-                </div>
-            </form>
+        <!-- Tabs for switching content -->
+        <div class="tabs">
+            <button id="tab1" class="active">Exam Dates</button>
+            <button id="tab2">Exam Results</button>
         </div>
 
-        <?php
-        $controller->renderExamTable();
-        ?>
+        <!-- <?= preformat($_POST) ?> -->
+
+        <div class="tab-content admin-exam-dates" id="admin-exam-dates">
+            <div class="admin-examinations-search">
+                <form action="/admissions/exam_create" method="post">
+                    <div class="form-group">
+                        <!-- <?=
+                                generateDateMeridiemSelect('exam_Date', 120);
+                                ?> -->
+                        <input class="admin-input" type="date" name="exam_DateCalendar" required>
+                        <select name="exam_DateMeridiem" required>
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
+                        <input class="admin-input" type="number" name="exam_Capacity" placeholder="Insert capacity" required>
+                        <button type="submit" class="primary-button">Set Exam Date</button>
+                    </div>
+                </form>
+            </div>
+
+            <?php
+            $controller->renderExamTable();
+            ?>
+        </div>
+
+        <div class="tab-content admin-exam-results" id="admin-exam-results">
+
+        </div>
 
         <!-- <form action="/admissions/examinations" method="post">
             <div class="form-group">
@@ -150,6 +162,43 @@
             </div>
         </form> -->
     </main>
+
+    <script>
+        // JavaScript for tab switching
+        document.addEventListener("DOMContentLoaded", function() {
+            // Check if the 'single' GET parameter exists
+            const urlParams = new URLSearchParams(window.location.search);
+            const isSingle = urlParams.has('single'); // true if 'single' exists, otherwise false
+
+            // If 'single' is present in the URL, show the 'Single Admission' tab
+            if (isSingle) {
+                document.getElementById('admin-exam-dates').classList.remove('active');
+                document.getElementById('admin-exam-results').classList.add('active');
+                document.getElementById('tab1').classList.remove('active');
+                document.getElementById('tab2').classList.add('active');
+            } else {
+                document.getElementById('admin-exam-dates').classList.add('active');
+                document.getElementById('admin-exam-results').classList.remove('active');
+                document.getElementById('tab1').classList.add('active');
+                document.getElementById('tab2').classList.remove('active');
+            }
+
+            // Tab switching functionality
+            document.getElementById('tab1').addEventListener('click', function() {
+                document.getElementById('admin-exam-dates').classList.add('active');
+                document.getElementById('admin-exam-results').classList.remove('active');
+                this.classList.add('active');
+                document.getElementById('tab2').classList.remove('active');
+            });
+
+            document.getElementById('tab2').addEventListener('click', function() {
+                document.getElementById('admin-exam-dates').classList.remove('active');
+                document.getElementById('admin-exam-results').classList.add('active');
+                this.classList.add('active');
+                document.getElementById('tab1').classList.remove('active');
+            });
+        });
+    </script>
 
 </body>
 
