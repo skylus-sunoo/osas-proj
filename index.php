@@ -88,6 +88,17 @@ $router->add("/admissions/examinations", function () {
     include_once 'views/admin/admissions/examinations.php';
 });
 
+$router->add("/admissions/exam_results", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    $controller->handleExamResults();
+
+    include_once 'views/admin/include/sidebar.php';
+    include_once 'views/admin/include/header.php';
+    include_once 'views/admin/admissions/examinations.php';
+});
+
 $router->add("/admissions/exam_create", function () {
     $controller = new AdminController();
     $controller->handleAdminRedirect();

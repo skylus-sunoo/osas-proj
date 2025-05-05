@@ -44,13 +44,7 @@
         <li>
             <a href="/admissions/examinations" class="font-teko">
                 <span class="material-symbols-outlined">assignment</span>
-                Exam Dates
-            </a>
-        </li>
-        <li>
-            <a href="/admissions/examinations" class="font-teko">
-                <span class="material-symbols-outlined">assignment_turned_in</span>
-                Exam Results
+                Examinations
             </a>
         </li>
         <li>

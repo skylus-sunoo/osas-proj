@@ -12,7 +12,6 @@
 .tabs button {
     background-color: var(--primary-hex-green-dark);
     border: 1px solid var(--primary-hex-green);
-    color: var(--primary-hex-yellow);
     padding: 10px 20px;
     cursor: pointer;
     flex: 1;
@@ -23,16 +22,26 @@
     transition: background-color 0.3s, color 0.3s;
 }
 
+.tabs button * {
+    color: var(--primary-hex-yellow);
+}
+
 .tabs button.active {
     background-color: var(--primary-hex-yellow);
-    color: var(--primary-hex-green-dark);
     border: 1px solid var(--primary-hex-yellow);
     font-weight: 700;
+}
+
+.tabs button.active * {
+    color: var(--primary-hex-green-dark);
 }
 
 /* Hover effect for the tab buttons */
 .tabs button:hover {
     background-color: var(--primary-hex-yellow);
+}
+
+.tabs button:hover * {
     color: var(--primary-hex-green-dark);
 }
 

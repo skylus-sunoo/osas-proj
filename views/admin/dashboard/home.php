@@ -19,17 +19,28 @@
         <div class="home-cards">
             <?php
             $count = countData(TB_ADMISSION_USER);
-
             $controller->generateHomeCard('orange', 'person', $count, 'Total Users', 'View Users', '/admissions/overview');
 
             $count = countData(TB_ADMISSION_INFO);
-
             $controller->generateHomeCard('var(--primary-hex-blue-dark)', 'school', $count, 'Total Admissions', 'View Admissions', '/admissions/overview');
 
             $count = countData(TB_ADMISSION_CONTROL);
+            $controller->generateHomeCard('coral', 'confirmation_number', $count, 'Total Control Number', 'Search by Control Number', '/admissions/requirements');
 
-            $controller->generateHomeCard('var(--primary-hex-red)', 'confirmation_number', $count, 'Total Control Number', 'View Details', '/admissions/requirements');
+            $count = countData(TB_ADMISSION_CONTROL, [['admission_Picture', 'IS NOT NULL'], ['admission_Folder', 'IS NOT NULL']]);
+            $controller->generateHomeCard('purple', 'upload_file', $count, 'Finished Requirements', 'Setup Requirements', '/admissions/requirements');
+            ?>
+        </div>
+        <hr>
+        <div class="home-cards">
+            <?php
+            $count = countData(TB_ADMISSION_CONTROL, [['admission_Exam', 'IS NOT NULL']]);
+            $controller->generateHomeCard('darkblue', 'event_available', $count, 'Has Exam Schedule', 'Release Exam Schedules', '/admissions/examinations');
 
+            $count = countData(TB_ADMISSION_CONTROL, [['admission_Result', '=', 'PASSED']]);
+            $controller->generateHomeCard('var(--primary-hex-green)', 'sentiment_very_satisfied', $count, 'Passed the Exam', 'Setup Exam Result', '/admissions/examinations?results=true');
+            $count = countData(TB_ADMISSION_CONTROL, [['admission_Result', '=', 'FAILED']]);
+            $controller->generateHomeCard('var(--primary-hex-red)', 'sentiment_very_dissatisfied', $count, 'Failed the Exam', 'Setup Exam Result', '/admissions/examinations?results=true');
             ?>
         </div>
 

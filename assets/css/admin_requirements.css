@@ -1,28 +1,4 @@
-.admin-requirements-search {
-    padding: 2rem;
-}
-
-.admin-requirements-search form div {
-    justify-content: center;
-    align-items: center;
-}
-
-.admin-requirements-search form .form-group {
-    display: flex;
-    flex-direction: row;
-    column-gap: 2rem;
-}
-
 /* Base Styles for the Admin Requirements Form */
-.form-row {
-    display: flex;
-    flex-direction: row;
-    column-gap: 15px;
-}
-
-.form-row div {
-    width: 100%;
-}
 
 .admin-requirements-form {
     width: 100%;
@@ -77,27 +53,4 @@
     left: 3px;
     font-size: 16px;
     color: white;
-}
-
-/* Spacing and Layout */
-.form-group {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 12px;
-}
-
-.form-group div {
-    display: flex;
-    align-items: center;
-    column-gap: 0.25rem;
-}
-
-.form-group input[type="checkbox"] {
-    margin: 0;
-}
-
-.form-group input[type="text"],
-.form-group input[type="number"] {
-    max-width: 400px;
 }

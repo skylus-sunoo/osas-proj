@@ -7,32 +7,9 @@
     <title>OSAS</title>
 
     <link rel="stylesheet" href="../../../assets/css/admin_examinations.css">
+    <link rel="stylesheet" href="../../../assets/css/admin_styles.css">
     <style>
-        .admin-examinations-search {
-            padding: 1rem;
-        }
-
-        .admin-examinations-search form div {
-            justify-content: center;
-            align-items: center;
-        }
-
-        .admin-examinations-search form .form-group {
-            display: flex;
-            flex-direction: row;
-            column-gap: 2rem;
-        }
-
         /* Base Styles for the Admin Requirements Form */
-        .form-row {
-            display: flex;
-            flex-direction: row;
-            column-gap: 15px;
-        }
-
-        .form-row div {
-            width: 100%;
-        }
 
         .admin-requirements-form {
             width: 100%;
@@ -88,28 +65,6 @@
             font-size: 16px;
             color: white;
         }
-
-        /* Spacing and Layout */
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .form-group div {
-            display: flex;
-            align-items: center;
-            column-gap: 0.25rem;
-        }
-
-        .form-group input[type="checkbox"] {
-            margin: 0;
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="number"] {
-            max-width: 400px;
-        }
     </style>
 </head>
 
@@ -122,21 +77,25 @@
 
         <!-- Tabs for switching content -->
         <div class="tabs">
-            <button id="tab1" class="active">Exam Dates</button>
-            <button id="tab2">Exam Results</button>
+            <button id="tab1" class="active">
+                <div class="flex-center"><span class="material-symbols-outlined">calendar_month</span>&nbsp; Exam Dates
+            </button>
+            <button id="tab2">
+                <div class="flex-center"><span class="material-symbols-outlined">assignment_turned_in</span>&nbsp; Exam Results</div>
+            </button>
         </div>
 
         <!-- <?= preformat($_POST) ?> -->
 
         <div class="tab-content admin-exam-dates" id="admin-exam-dates">
-            <div class="admin-examinations-search">
+            <div class="admin-examinations-set">
                 <form action="/admissions/exam_create" method="post">
-                    <div class="form-group">
+                    <div class="admin-form-group" style="flex-direction: row;">
                         <!-- <?=
                                 generateDateMeridiemSelect('exam_Date', 120);
                                 ?> -->
                         <input class="admin-input" type="date" name="exam_DateCalendar" required>
-                        <select name="exam_DateMeridiem" required>
+                        <select name="exam_DateMeridiem" class="admin-select" required>
                             <option value="AM">AM</option>
                             <option value="PM">PM</option>
                         </select>
@@ -152,15 +111,48 @@
         </div>
 
         <div class="tab-content admin-exam-results" id="admin-exam-results">
-
-        </div>
-
-        <!-- <form action="/admissions/examinations" method="post">
-            <div class="form-group">
-                <input type="hidden" name="exam_Release">
-                <button type="submit" class="primary-button">Release exam dates to users.</button>
+            <div class="admin-input-search">
+                <form action="/admissions/exam_results?results=true" method="post">
+                    <div class="admin-form-group" style="flex-direction: row;">
+                        <input class="admin-input" type="number" name="search_ControlNumber" placeholder="Search by control number" style="width: 100%;">
+                        <button type="submit" class="primary-button">Search</button>
+                    </div>
+                </form>
             </div>
-        </form> -->
+
+            <div class="admin-requirements-form">
+
+                <!-- <?= preformat($_POST) ?> -->
+
+                <form action="/admissions/exam_results?results=true" method="post">
+                    <div class="admin-form-row">
+                        <div class="admin-form-group">
+                            <input type="hidden" name="results_ID" value="<?= $_POST['results_ID'] ?? '' ?>">
+                            <label for="results_ControlNumber">Control Number</label>
+                            <input class="admin-input" type="text" name="results_ControlNumber" style="max-width: 100%;" disabled value="<?= $_POST['results_ControlNumber'] ?? 'N/A' ?>">
+
+                            <label for="results_Name">Name</label>
+                            <input class="admin-input" type="text" name="results_Name" style="max-width: 100%;" disabled value="<?= $_POST['results_Name'] ?? 'N/A' ?>">
+                        </div>
+
+                        <div class="admin-form-group">
+                            <label for="results_Email">Email</label>
+                            <input class="admin-input" type="text" name="results_Email" style="max-width: 100%;" disabled value="<?= $_POST['results_Email'] ?? 'N/A' ?>">
+
+                            <label for="results_ControlNumber">Exam Result</label>
+                            <select name="results_Result" class="admin-select">
+                                <option value=""></option>
+                                <option value="FAILED" <?= (isset($_POST['results_Result']) && $_POST['results_Result'] == 'FAILED') ? 'selected' : '' ?>>Failed</option>
+                                <option value="PASSED" <?= (isset($_POST['results_Result']) && $_POST['results_Result'] == 'PASSED') ? 'selected' : '' ?>>Passed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="admin-form-row">
+                        <button type="submit" class="primary-button" style="width: 100%;">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -168,7 +160,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             // Check if the 'single' GET parameter exists
             const urlParams = new URLSearchParams(window.location.search);
-            const isSingle = urlParams.has('single'); // true if 'single' exists, otherwise false
+            const isSingle = urlParams.has('results'); // true if 'single' exists, otherwise false
 
             // If 'single' is present in the URL, show the 'Single Admission' tab
             if (isSingle) {

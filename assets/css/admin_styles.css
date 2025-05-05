@@ -1,0 +1,46 @@
+.admin-input-search {
+    padding: 2rem;
+}
+
+.admin-input-search form div {
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-input-search form .form-group {
+    display: flex;
+    flex-direction: row;
+    column-gap: 2rem;
+}
+
+.admin-form-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 15px;
+}
+
+.admin-form-row div {
+    width: 100%;
+}
+
+/* Spacing and Layout */
+.admin-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-form-group div {
+    display: flex;
+    align-items: center;
+    column-gap: 0.25rem;
+}
+
+.admin-form-group input[type="checkbox"] {
+    margin: 0;
+}
+
+.admin-form-group input[type="text"],
+.admin-form-group input[type="number"] {
+    max-width: 400px;
+}

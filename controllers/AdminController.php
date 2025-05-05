@@ -125,11 +125,13 @@ class AdminController
     #endregion
 
     #region Home 
-    public function generateHomeCard($color, $icon, $value, $text, $redirect, $link)
+    public function generateHomeCard($color, $icon, $value, $text, $redirect = null, $link = null)
     {
 
+        $noRedirectRadius = ($redirect === null && $link == null) ? 'border-radius: 10px 10px;' : '';
+
         echo '<section class="home-card" style="border-color: ' . $color . ';">
-                <div class="home-card-info" style="background-color: ' . $color . ';">
+                <div class="home-card-info" style="background-color: ' . $color . '; ' . $noRedirectRadius . '">
                     <div class="home-card-icon">
                         <span class="material-symbols-outlined">' . $icon . '</span>
                     </div>
@@ -137,14 +139,18 @@ class AdminController
                         <h1>' . $value . '</h1>
                         <p>' . $text . '</p>
                     </div>
-                </div>
-                <div class="home-card-redirect">
-                    <a href="' . $link . '" style="color: ' . $color . ';">
-                        ' . $redirect . '
-                        <span class="material-symbols-outlined" style="color: ' . $color . ';">open_in_new</span>
-                    </a>
-                </div>  
-            </section>';
+                </div>';
+
+        if ($redirect != null && $link != null) {
+            echo '
+                    <div class="home-card-redirect">
+                        <a href="' . $link . '" style="color: ' . $color . ';">
+                            ' . $redirect . '
+                            <span class="material-symbols-outlined" style="color: ' . $color . ';">open_in_new</span>
+                        </a>
+                    </div>';
+        }
+        echo '</section>';
     }
     #endregion
 
@@ -213,7 +219,7 @@ class AdminController
     public function renderAdmissionsOverview()
     {
         // Set the number of items per page and the current page
-        $itemsPerPage = 10;
+        $itemsPerPage = 12;
         $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 
         // Calculate the starting row for the SQL query (Offset)
@@ -809,6 +815,54 @@ class AdminController
     {
         $this->model->deleteExamDate($_POST['exam_Date']);
         goToPage('/admissions/examinations');
+    }
+
+    public function handleExamResults()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            return;
+        }
+
+        // Handle search by Control Number
+        if (isset($_POST['search_ControlNumber'])) {
+            $controlNumber = $_POST['search_ControlNumber'];
+
+            if (!$this->admissionModel->verifyControlNumber($controlNumber)) {
+                showAlert('No user with this control number exists.');
+                return;
+            }
+
+            $id = $this->admissionModel->getIDFromControlNumber($controlNumber);
+            $this->populateResultsPostData($id);
+            return;
+        }
+
+        // Handle requirement update
+        if (isset($_POST['results_ID'])) {
+            $id = $_POST['results_ID'];
+
+            $data = [
+                'results_Result' => $_POST['results_Result'] ?? null
+            ];
+
+            normalizeData($data);
+
+            $this->admissionModel->updateResult($id, $data);
+            $this->populateResultsPostData($id);
+            return;
+        }
+    }
+
+    /**
+     * Populate $_POST with user and results data based on ID
+     */
+    private function populateResultsPostData($id)
+    {
+        $_POST['results_ID'] = $id;
+        $_POST['results_ControlNumber'] = $this->admissionModel->getControlNumber($id);
+        $_POST['results_Name'] = $this->admissionModel->getFullName($id);
+        $_POST['results_Email'] = $this->userModel->getUserEmail($this->userModel->tableAdmission(), $id);
+        $_POST['results_Result'] = $this->admissionModel->getResult($id);
     }
     #endregion
 }

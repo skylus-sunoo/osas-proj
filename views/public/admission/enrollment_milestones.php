@@ -31,7 +31,14 @@ $totalSteps = count($steps);
 $controlNumber = isset($_SESSION['admission_ControlNumber']) ? $_SESSION['admission_ControlNumber'] : '<span style="color: var(--primary-hex-red)">N/A</span>';
 $submissionSchedule = isset($_SESSION['admission_Appointment']) ? $_SESSION['admission_Appointment'] : '<span style="color: var(--primary-hex-red)">N/A</span>';
 $examSchedule = isset($_SESSION['admission_Exam']) ? $_SESSION['admission_Exam'] : '<span style="color: var(--primary-hex-red)">N/A</span>';
-$admissionResult = isset($_SESSION['admission_Result']) ? $_SESSION['admission_Result'] : '<span style="color: var(--primary-hex-red)">N/A</span>';
+$admissionResult = '<span style="color: var(--primary-hex-red)">N/A</span>';
+if (isset($_SESSION['admission_Result'])) {
+    if ($_SESSION['admission_Result'] == 'PASSED') {
+        $admissionResult = $_SESSION['admission_Result'];
+    } else {
+        $admissionResult = '<span style="color: var(--primary-hex-red)">' . $_SESSION['admission_Result'] . '</span>';
+    }
+}
 
 // Define text for each step
 $stepTexts = [

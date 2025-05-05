@@ -31,23 +31,23 @@ if (mysqli_connect_error()) {
 
 function runQuery($sql, $params = [])
 {
-    global $connections; // or use $this->conn if you're inside a class with a connection property
+    global $connections;
 
     $stmt = $connections->prepare($sql);
     if (!$stmt) {
-        die("Prepare failed: " . $connections->error);
+        die("Prepare failed: " . $connections->error); // This will tell you exactly what went wrong
     }
 
     if (!empty($params)) {
-        // Dynamically build the types string (e.g., 's' for string, 'i' for integer)
         $types = str_repeat('s', count($params)); // assuming all are strings for now
-
-        // Bind parameters dynamically
         $stmt->bind_param($types, ...$params);
     }
 
-    $stmt->execute();
-    return $stmt; // or $stmt->affected_rows if you need the count
+    if (!$stmt->execute()) {
+        die("Execute failed: " . $stmt->error); // This will tell you if execution fails
+    }
+
+    return $stmt;
 }
 
 /**

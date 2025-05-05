@@ -7,6 +7,7 @@
     <title>OSAS</title>
 
     <link rel="stylesheet" href="../../../assets/css/admin_requirements.css">
+    <link rel="stylesheet" href="../../../assets/css/admin_styles.css">
 </head>
 
 <body class="admin-body">
@@ -16,9 +17,9 @@
         </div>
         <hr>
 
-        <div class="admin-requirements-search">
+        <div class="admin-input-search">
             <form action="/admissions/requirements" method="post">
-                <div class="form-group">
+                <div class="admin-form-group" style="flex-direction: row;">
                     <input class="admin-input" type="number" name="search_ControlNumber" placeholder="Search by control number" style="width: 100%;">
                     <button type="submit" class="primary-button">Search</button>
                 </div>
@@ -30,8 +31,8 @@
             <!-- <?= preformat($_POST) ?> -->
 
             <form action="/admissions/requirements" method="post">
-                <div class="form-row">
-                    <div class="form-group">
+                <div class="admin-form-row">
+                    <div class="admin-form-group">
                         <input type="hidden" name="requirements_ID" value="<?= $_POST['requirements_ID'] ?? '' ?>">
                         <label for="requirements_ControlNumber">Control Number</label>
                         <input class="admin-input" type="text" name="requirements_ControlNumber" disabled value="<?= $_POST['requirements_ControlNumber'] ?? 'N/A' ?>">
@@ -43,7 +44,7 @@
                         <input class="admin-input" type="text" name="requirements_Email" disabled value="<?= $_POST['requirements_Email'] ?? 'N/A' ?>">
                     </div>
 
-                    <div class="form-group">
+                    <div class="admin-form-group">
                         <label for="requirements_ControlNumber">Requirements</label>
                         <div>
                             <input type="checkbox" name="requirements_Picture" value="Yes" <?= (isset($_POST['admission_Picture'])) ? 'checked' : '' ?>>

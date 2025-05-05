@@ -41,6 +41,12 @@ body {
     color: white;
 }
 
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .close-button {
     background-color: #ccc;
     color: black;
@@ -206,13 +212,13 @@ body {
     font-weight: 600;
 }
 
-select {
+.admin-select {
     background-color: var(--primary-hex-white);
     border: solid 1px var(--primary-hex-green-light);
     border-radius: 10px;
     padding: 10px;
     font-size: 1.2rem;
-    /* font-weight: 600; */
+    font-weight: 600;
 }
 
 .admin-input:focus {
