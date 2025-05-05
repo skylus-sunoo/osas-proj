@@ -3,16 +3,16 @@
         <button data-step="enrollment-admission-information">
             <h1>Admission Information <?= markedAsComplete(1); ?></h1>
         </button>
-        <button data-step="enrollment-personal-information">
+        <button data-step="enrollment-personal-information" class="<?= (isset($_SESSION['enrollmentPage']) && $_SESSION['enrollmentPage'] == 2) ? 'aside-selected' : ''?>">
             <h1>Personal Information <?= markedAsComplete(2); ?></h1>
         </button>
-        <button data-step="enrollment-family-information">
+        <button data-step="enrollment-family-information" class="<?= (isset($_SESSION['enrollmentPage']) && $_SESSION['enrollmentPage'] == 3) ? 'aside-selected' : ''?>">
             <h1>Family Background <?= markedAsComplete(3); ?></h1>
         </button>
-        <button data-step="enrollment-education-information">
+        <button data-step="enrollment-education-information" class="<?= (isset($_SESSION['enrollmentPage']) && $_SESSION['enrollmentPage'] == 4) ? 'aside-selected' : ''?>">
             <h1>Educational History <?= markedAsComplete(4); ?></h1>
         </button>
-        <button data-step="enrollment-medical-information">
+        <button data-step="enrollment-medical-information" class="<?= (isset($_SESSION['enrollmentPage']) && $_SESSION['enrollmentPage'] == 5) ? 'aside-selected' : ''?>">
             <h1>Medical Background <?= markedAsComplete(5); ?></h1>
         </button>
         <section class="enrollment-information-control-section">
@@ -54,7 +54,7 @@
                     <p>Select a date to submit <b>all</b> of your requirements.</p>
                     <br>
                     <?=
-                    $this->generateAppointmentSelect(60);
+                    generateDateMeridiemSelect('enrollment-information-appointment', 60);
                     ?>
                     <br>
                     <br>

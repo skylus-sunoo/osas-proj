@@ -17,6 +17,7 @@
         </header>
 
         <?php include_once 'enrollment_milestones.php' ?>
+        <!-- <?= preformat($_SESSION) ?> -->
 
         <div class="enrollment-information">
             <?php include_once 'enrollment_aside.php' ?>
@@ -77,7 +78,7 @@
                                     echo generateSelectFieldEntryNew('typeStudent', 'Type of New Student', $options, 'admission_TypeStudent', true);
                                 }
 
-                                echo generateFormFieldEntryNew('LRN', 'Learner Reference Number', 'admission_LRN', 'number', true);
+                                echo generateFormFieldEntryNew('LRN', 'Learner Reference Number (12 digits)', 'admission_LRN', 'number', true);
                                 ?>
                             </section>
                         </div>
@@ -428,3 +429,86 @@
 </html>
 
 <script src="../../../assets/js/enrollment.js"></script>
+
+<script>
+    //#region Enrollment Sidebar
+    // Select all button elements inside the "enrollment-information-aside"
+    const buttons = document.querySelectorAll('.enrollment-information-aside button');
+
+    const targetDivs = [
+        document.querySelector('.enrollment-admission-information'),
+        document.querySelector('.enrollment-personal-information'),
+        document.querySelector('.enrollment-family-information'),
+        document.querySelector('.enrollment-education-information'),
+        document.querySelector('.enrollment-medical-information')
+    ];
+
+    // console.log(targetDivs);
+
+    // Function to handle button selection
+    function handleButtonClick(button) {
+        const selectedStep = button.getAttribute('data-step');
+
+        // Show/hide target divs
+        targetDivs.forEach(div => {
+            div.style.display = div.classList.contains(selectedStep) ? 'block' : 'none';
+        });
+
+        // Update button colors
+        buttons.forEach(btn => {
+            const h1 = btn.querySelector('h1');
+            if (h1) { // Check if h1 exists
+                if (btn === button) {
+                    h1.style.color = 'var(--primary-hex-yellow)';
+                } else {
+                    h1.style.color = 'white';
+                }
+            }
+        });
+    }
+
+    // Attach click event to each button
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            handleButtonClick(this);
+        });
+    });
+
+    // Check if any div in targetDivs has the class .aside-selected
+    let selectedDiv = targetDivs.find(div => div.classList.contains('aside-selected'));
+    // If no div has .aside-selected, set the first div in the array to have it
+    if (!selectedDiv) {
+        selectedDiv = targetDivs[0]; // Choose the first div as selected
+        selectedDiv.classList.add('aside-selected');
+
+        // Now, update the corresponding button based on selectedDiv
+        const selectedStep = selectedDiv.classList[0]; // Assuming the div's first class is the step name
+        const selectedButton = document.querySelector(`button[data-step="${selectedStep}"]`);
+        selectedButton.classList.add('aside-selected');
+    }
+    var selectedButton = document.querySelector(`.aside-selected`);
+
+    const enrollmentPage = <?php echo json_encode($_SESSION['enrollmentPage']); ?>;
+    switch (enrollmentPage) {
+        case '2':
+            selectedButton = document.querySelector(`button[data-step="enrollment-personal-information"]`);
+            break;
+        case '3':
+            selectedButton = document.querySelector(`button[data-step="enrollment-family-information"]`);
+            break;
+        case '4':
+            selectedButton = document.querySelector(`button[data-step="enrollment-education-information"]`);
+            break;
+        case '5':
+            selectedButton = document.querySelector(`button[data-step="enrollment-medical-information"]`);
+            break;
+        default:
+            selectedButton = document.querySelector(`button[data-step="enrollment-admission-information"]`);
+            break;
+    }
+
+    if (selectedButton) {
+        handleButtonClick(selectedButton);
+    }
+    //#endregion
+</script>

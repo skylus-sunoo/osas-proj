@@ -85,6 +85,12 @@ class AdminController
 
     private function handleLogin($email, $password)
     {
+        if (!$this->userModel->userExists($this->userModel->tableAdmin(), $email)) {
+            $_SESSION['error'] = 4;
+            goToPage('/admin/login');
+            return;
+        }
+
         $hashedPassword = $this->userModel->getUserPassword($this->userModel->tableAdmin(), $email);
         if (!password_verify($password, $hashedPassword)) {
             $_SESSION['error'] = 1;
@@ -686,4 +692,123 @@ class AdminController
 
     #endregion
 
+    #region Examinations
+    public function renderExamTable()
+    {
+        echo "<br>";
+        $exams = fetchData(TB_ADMIN_EXAM, '*');
+
+        // Sort by 'exam_DateCalendar' in ascending order
+        usort($exams, function ($a, $b) {
+            return strcmp($a['exam_DateCalendar'], $b['exam_DateCalendar']);
+        });
+        echo '<div class="admin-exams">';
+        echo '<table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Capacity</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>';
+
+        foreach ($exams as $exam) {
+            echo '<tr>';
+            echo "<td>" . $exam['exam_Date'] . "</td>";
+            echo "<td>" . $exam['exam_Capacity'] . "</td>";
+
+            if ($exam['exam_Status'] == null) {
+                echo '<td>
+                <div class="released-flex"> 
+                <form action="/admissions/exam_release" method="post">
+                    <input type="hidden" name="exam_Date" value="' . $exam['exam_Date'] . '">
+                    <input type="hidden" name="exam_Capacity" value="' . $exam['exam_Capacity'] . '">
+                    <button class="review-btn" type="submit">Release</button>
+                </form>
+                <form action="/admissions/exam_delete" method="post">
+                    <input type="hidden" name="exam_Date" value="' . $exam['exam_Date'] . '">
+                    <input type="hidden" name="exam_Capacity" value="' . $exam['exam_Capacity'] . '">
+                    <button class="delete-btn" type="submit">Delete</button>
+                </form>
+                ';
+            } else {
+                echo '<td>
+                <div class="released-flex"> <div class="released">Released</div>
+                <form action="/admissions/exam_delete" method="post">
+                    <input type="hidden" name="exam_Date" value="' . $exam['exam_Date'] . '">
+                    <input type="hidden" name="exam_Capacity" value="' . $exam['exam_Capacity'] . '">
+                    <button class="delete-btn" type="submit">Delete</button>
+                </form></div>
+                ';
+            }
+            echo '</td>';
+            echo '</tr>';
+        }
+
+        echo '</tbody>
+        </table>';
+        echo '</div>';
+    }
+
+    public function createExam()
+    {
+        // Parse the date
+        $date = new DateTime($_POST['exam_DateCalendar']);
+
+        // Format the date like "May 8, 2025"
+        $formattedDate = $date->format('F j, Y');
+
+        // Append the AM/PM value
+        $exam_Date = $formattedDate . ' ' . strtoupper($_POST['exam_DateMeridiem']);
+
+        $data = [
+            'exam_Date' => $exam_Date,
+            'exam_DateCalendar' => $_POST['exam_DateCalendar'],
+            'exam_DateMeridiem' => $_POST['exam_DateMeridiem'],
+            'exam_Capacity' => $_POST['exam_Capacity']
+        ];
+
+        normalizeData($data);
+
+        if ($this->model->examDateExists($data['exam_Date'])) {
+            $this->model->updateExamDate($data, $data['exam_Date']);
+            goToPage('/admissions/examinations');
+        } else {
+            $this->model->createExamDate($data, $data['exam_Date']);
+            goToPage('/admissions/examinations');
+        }
+    }
+
+    public function releaseExam()
+    {
+        $exam_Status = 'RELEASED';
+
+        $data = [
+            'exam_Status' => $exam_Status
+        ];
+
+        normalizeData($data);
+
+        if ($this->model->examDateExists($_POST['exam_Date'])) {
+            $this->model->updateExamStatus($data, $_POST['exam_Date']);
+            $occ = 0;
+
+            for ($i = 0; $i < $_POST['exam_Capacity']; $i++) {
+                $this->model->assignExamSlot($_POST['exam_Date']);
+                $occ++;
+            }
+
+            $this->model->updateExamOccupied(['exam_Occupied' => $occ], $_POST['exam_Date']);
+
+            goToPage('/admissions/examinations');
+        }
+    }
+
+    public function deleteExam()
+    {
+        $this->model->deleteExamDate($_POST['exam_Date']);
+        goToPage('/admissions/examinations');
+    }
+    #endregion
 }

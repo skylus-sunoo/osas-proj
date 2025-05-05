@@ -69,7 +69,12 @@ class AdmissionController
 
         $this->handleBranchSelection();
 
+        if(!isset($_SESSION['enrollmentPage'])){
+            $_SESSION['enrollmentPage'] = '1';
+        }
         $this->renderEnrollmentView();
+
+        
     }
 
     private function getControlNumber()
@@ -311,6 +316,7 @@ class AdmissionController
 
         $this->model->updateAdmissionInformation($data, $_SESSION['admission_ID']);
 
+        $_SESSION['enrollmentPage'] = '2';
         goToPage('/admission/enrollment');
     }
 
@@ -336,6 +342,7 @@ class AdmissionController
 
         normalizeData($data);
 
+        $_SESSION['enrollmentPage'] = '3';
         if ($this->model->userPersonalInfoExists($_SESSION['admission_ID'])) {
             $this->model->updatePersonalInformation($data, $_SESSION['admission_ID']);
             goToPage('/admission/enrollment');
@@ -369,6 +376,7 @@ class AdmissionController
             $data['admission_BirthOrder'] = null;
         }
 
+        $_SESSION['enrollmentPage'] = '4';
         if ($this->model->userFamilyInfoExists($_SESSION['admission_ID'])) {
             $this->model->updateFamilyInformation($data, $_SESSION['admission_ID']);
             goToPage('/admission/enrollment');
@@ -408,6 +416,7 @@ class AdmissionController
             return;
         }
 
+        $_SESSION['enrollmentPage'] = '5';
         if ($this->model->userEducationInfoExists($_SESSION['admission_ID'])) {
             $this->model->updateEducationInformation($data, $_SESSION['admission_ID']);
             goToPage('/admission/enrollment');
@@ -435,6 +444,7 @@ class AdmissionController
 
         normalizeData($data);
 
+        $_SESSION['enrollmentPage'] = '1';
         if ($this->model->userMedicalInfoExists($_SESSION['admission_ID'])) {
             $this->model->updateMedicalInformation($data, $_SESSION['admission_ID']);
             goToPage('/admission/enrollment');
@@ -442,61 +452,6 @@ class AdmissionController
             $this->model->createMedicalInformation($data, $_SESSION['admission_ID']);
             goToPage('/admission/enrollment');
         }
-    }
-
-    /**
-     * Generates a 'select' element where the options are a list of dates, both AM and PM included.
-     * 
-     * @param int|string $input       Int is for the number of valid days. String (YYYY-MM-DD) is for the end date.
-     * @param bool       $includeSundays Whether to include Sundays or skip them.
-     * @param string     $start       Start date as a string (e.g., 'tomorrow', '2024-06-01').
-     * @return string     HTML 'select' element.
-     */
-    public function generateAppointmentSelect($input, $includeSundays = false, $start = 'tomorrow')
-    {
-        $options = [];
-
-        try {
-            $startDate = new DateTime($start);
-        } catch (Exception $e) {
-            // Fallback to tomorrow if invalid start date
-            $startDate = new DateTime('tomorrow');
-        }
-
-        // Case 1: Integer input — number of valid days (excluding Sundays if needed)
-        if (is_int($input)) {
-            $validDaysCount = 0;
-            while ($validDaysCount < $input) {
-                $dayOfWeek = $startDate->format('w');
-                if ($includeSundays || $dayOfWeek != 0) {
-                    $formattedDate = $startDate->format('F j, Y');
-                    $options[] = "<option value='{$formattedDate} AM'>{$formattedDate} AM</option>";
-                    $options[] = "<option value='{$formattedDate} PM'>{$formattedDate} PM</option>";
-                    $validDaysCount++;
-                }
-                $startDate->modify('+1 day');
-            }
-        }
-        // Case 2: String input — treat as an end date
-        elseif (is_string($input)) {
-            try {
-                $endDate = new DateTime($input);
-            } catch (Exception $e) {
-                return '<select name="enrollment-information-appointment" id="enrollment-information-appointment"></select>'; // Return empty if end date is invalid
-            }
-
-            while ($startDate <= $endDate) {
-                $dayOfWeek = $startDate->format('w');
-                if ($includeSundays || $dayOfWeek != 0) {
-                    $formattedDate = $startDate->format('F j, Y');
-                    $options[] = "<option value='{$formattedDate} AM'>{$formattedDate} AM</option>";
-                    $options[] = "<option value='{$formattedDate} PM'>{$formattedDate} PM</option>";
-                }
-                $startDate->modify('+1 day');
-            }
-        }
-
-        return '<select name="enrollment-information-appointment" id="enrollment-information-appointment">' . implode("\n", $options) . '</select>';
     }
 
     public function setAppointment()
