@@ -18,6 +18,10 @@
 
         <div class="home-cards">
             <?php
+            $count = countData(TB_ADMISSION_USER);
+
+            $controller->generateHomeCard('orange', 'person', $count, 'Total Users', 'View Users', '/admissions/overview');
+
             $count = countData(TB_ADMISSION_INFO);
 
             $controller->generateHomeCard('var(--primary-hex-blue-dark)', 'school', $count, 'Total Admissions', 'View Admissions', '/admissions/overview');

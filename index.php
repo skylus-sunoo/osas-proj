@@ -14,7 +14,7 @@ declare(strict_types=1);
 <link rel="preload" href="/assets/css/styles.css" as="style" />
 <link rel="stylesheet" href="/assets/css/styles.css">
 
-<link rel="preload" href="/assets/css/fonts.css" as="style" />
+<link rel="preload" href="/assets/fonts/fonts.css" as="style" />
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
 
 <?php
@@ -62,7 +62,7 @@ $router->add("/admissions/overview_review", function () {
     $controller->handleAdminRedirect();
 
     $_SESSION['admission_ID'] = $_POST['admission_ID'];
-    
+
     goToPage("/admissions/overview?single=true");
 });
 
@@ -86,6 +86,27 @@ $router->add("/admissions/examinations", function () {
     include_once 'views/admin/include/sidebar.php';
     include_once 'views/admin/include/header.php';
     include_once 'views/admin/admissions/examinations.php';
+});
+
+$router->add("/admissions/exam_create", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    $controller->createExam();
+});
+
+$router->add("/admissions/exam_release", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    $controller->releaseExam();
+});
+
+$router->add("/admissions/exam_delete", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    $controller->deleteExam();
 });
 
 $router->add("/dashboard/home", function () {
@@ -349,5 +370,60 @@ function generateSelectFieldEntryNew($fieldTag, $label, $options, $sessionKey, $
     return $fieldHTML;
 }
 
+/**
+ * Generates a 'select' element where the options are a list of dates, both AM and PM included.
+ * 
+ * @param string $element       Element name of the select
+ * @param int|string $input       Int is for the number of valid days. String (YYYY-MM-DD) is for the end date.
+ * @param bool       $includeSundays Whether to include Sundays or skip them.
+ * @param string     $start       Start date as a string (e.g., 'tomorrow', '2024-06-01').
+ * @return string     HTML 'select' element.
+ */
+function generateDateMeridiemSelect($element, $input, $includeSundays = false, $start = 'tomorrow')
+{
+    $options = [];
+
+    try {
+        $startDate = new DateTime($start);
+    } catch (Exception $e) {
+        // Fallback to tomorrow if invalid start date
+        $startDate = new DateTime('tomorrow');
+    }
+
+    // Case 1: Integer input — number of valid days (excluding Sundays if needed)
+    if (is_int($input)) {
+        $validDaysCount = 0;
+        while ($validDaysCount < $input) {
+            $dayOfWeek = $startDate->format('w');
+            if ($includeSundays || $dayOfWeek != 0) {
+                $formattedDate = $startDate->format('F j, Y');
+                $options[] = "<option value='{$formattedDate} AM'>{$formattedDate} AM</option>";
+                $options[] = "<option value='{$formattedDate} PM'>{$formattedDate} PM</option>";
+                $validDaysCount++;
+            }
+            $startDate->modify('+1 day');
+        }
+    }
+    // Case 2: String input — treat as an end date
+    elseif (is_string($input)) {
+        try {
+            $endDate = new DateTime($input);
+        } catch (Exception $e) {
+            return '<select name="' . $element . '" id="' . $element . '"></select>'; // Return empty if end date is invalid
+        }
+
+        while ($startDate <= $endDate) {
+            $dayOfWeek = $startDate->format('w');
+            if ($includeSundays || $dayOfWeek != 0) {
+                $formattedDate = $startDate->format('F j, Y');
+                $options[] = "<option value='{$formattedDate} AM'>{$formattedDate} AM</option>";
+                $options[] = "<option value='{$formattedDate} PM'>{$formattedDate} PM</option>";
+            }
+            $startDate->modify('+1 day');
+        }
+    }
+
+    return '<select name="' . $element . '" id="' . $element . '">' . implode("\n", $options) . '</select>';
+}
 
 ?>

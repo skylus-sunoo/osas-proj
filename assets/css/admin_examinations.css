@@ -1,0 +1,100 @@
+/* Container for exam table */
+.admin-exams {
+    margin: 0 2rem 2rem 2rem;
+}
+
+/* Inherit table styling from admin-admissions for consistency */
+.admin-exams table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--primary-hex-white);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.admin-exams th,
+.admin-exams td {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--primary-hex-green-light);
+    color: var(--primary-hex-green-dark);
+}
+
+.admin-exams th {
+    background-color: var(--primary-hex-green-dark);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.admin-exams tr:nth-child(even) td {
+    background-color: var(--primary-hex-white);
+}
+
+.admin-exams tr:nth-child(odd) td {
+    background-color: #f8f8f8;
+}
+
+/* Release button styling (same as .review-btn) */
+.admin-exams button.review-btn {
+    background-color: var(--primary-hex-yellow);
+    color: black;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    border: none;
+    cursor: pointer;
+    font-family: 'Gotham', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.admin-exams button.review-btn:hover {
+    background-color: var(--primary-hex-green);
+    color: white;
+}
+
+/* Status cell: Released */
+.admin-exams td.released {
+    font-weight: bold;
+    color: var(--primary-hex-green);
+}
+
+.released-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 2rem;
+}
+
+.released {
+    color: var(--primary-hex-green);
+    background-color: rgba(var(--primary-rgb-green), 0.1);
+    font-weight: bold;
+    text-align: center;
+    padding: 0.5rem;
+    border-style: solid;
+    border-color: var(--primary-hex-green);
+    border-radius: 15px;
+}
+
+
+.admin-exams button.delete-btn {
+    background-color: rgba(var(--primary-rgb-red), 0.5);
+    color: black;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    border: none;
+    cursor: pointer;
+    font-family: 'Gotham', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.admin-exams button.delete-btn:hover {
+    background-color: var(--primary-hex-red);
+    color: white;
+}

@@ -16,6 +16,8 @@ define('TB_ADMISSION_CONTROL', 'tb_admission_control');
 
 define('TB_ADMIN_USER', 'tb_admin_user');
 
+define('TB_ADMIN_EXAM', 'tb_admin_exam');
+
 define('TB_EVENT', 'tb_event');
 define('TB_STUDENT', 'tb_student');
 
@@ -25,6 +27,27 @@ $connections = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 // Check the connection
 if (mysqli_connect_error()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
+
+function runQuery($sql, $params = [])
+{
+    global $connections; // or use $this->conn if you're inside a class with a connection property
+
+    $stmt = $connections->prepare($sql);
+    if (!$stmt) {
+        die("Prepare failed: " . $connections->error);
+    }
+
+    if (!empty($params)) {
+        // Dynamically build the types string (e.g., 's' for string, 'i' for integer)
+        $types = str_repeat('s', count($params)); // assuming all are strings for now
+
+        // Bind parameters dynamically
+        $stmt->bind_param($types, ...$params);
+    }
+
+    $stmt->execute();
+    return $stmt; // or $stmt->affected_rows if you need the count
 }
 
 /**

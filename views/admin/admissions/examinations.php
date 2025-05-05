@@ -8,16 +8,16 @@
 
     <link rel="stylesheet" href="../../../assets/css/admin_examinations.css">
     <style>
-        .admin-requirements-search {
-            padding: 2rem;
+        .admin-examinations-search {
+            padding: 1rem;
         }
 
-        .admin-requirements-search form div {
+        .admin-examinations-search form div {
             justify-content: center;
             align-items: center;
         }
 
-        .admin-requirements-search form .form-group {
+        .admin-examinations-search form .form-group {
             display: flex;
             flex-direction: row;
             column-gap: 2rem;
@@ -120,60 +120,35 @@
         </div>
         <hr>
 
-        <form action="/admissions/examinations" method="post">
-            <div class="form-group">
-                <input class="admin-input" type="number" name="search_ControlNumber" placeholder="Search by control number" style="width: 100%;">
-                <button type="submit" class="primary-button">Search</button>
-            </div>
-        </form>
-        <h2>Create Exam Date</h2>
+        <!-- <?= preformat($_POST) ?> -->
 
-        <div class="admin-requirements-search">
-            <form action="/admissions/requirements" method="post">
+        <div class="admin-examinations-search">
+            <form action="/admissions/exam_create" method="post">
                 <div class="form-group">
-                    <input class="admin-input" type="number" name="search_ControlNumber" placeholder="Search by control number" style="width: 100%;">
-                    <button type="submit" class="primary-button">Search</button>
+                    <!-- <?=
+                            generateDateMeridiemSelect('exam_Date', 120);
+                            ?> -->
+                    <input class="admin-input" type="date" name="exam_DateCalendar" required>
+                    <select name="exam_DateMeridiem" required>
+                        <option value="AM">AM</option>
+                        <option value="PM">PM</option>
+                    </select>
+                    <input class="admin-input" type="number" name="exam_Capacity" placeholder="Insert capacity" required>
+                    <button type="submit" class="primary-button">Set Exam Date</button>
                 </div>
             </form>
         </div>
 
-        <div class="admin-requirements-form">
+        <?php
+        $controller->renderExamTable();
+        ?>
 
-            <!-- <?= preformat($_POST) ?> -->
-
-            <form action="/admissions/requirements" method="post">
-                <div class="form-row">
-                    <div class="form-group">
-                        <input type="hidden" name="requirements_ID" value="<?= $_POST['requirements_ID'] ?? '' ?>">
-                        <label for="requirements_ControlNumber">Control Number</label>
-                        <input class="admin-input" type="text" name="requirements_ControlNumber" disabled value="<?= $_POST['requirements_ControlNumber'] ?? 'N/A' ?>">
-
-                        <label for="requirements_Name">Name</label>
-                        <input class="admin-input" type="text" name="requirements_Name" disabled value="<?= $_POST['requirements_Name'] ?? 'N/A' ?>">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="requirements_ControlNumber">Requirements</label>
-                        <div>
-                            <input type="checkbox" name="requirements_Picture" value="Yes" <?= (isset($_POST['admission_Picture'])) ? 'checked' : '' ?>>
-                            <label for="requirements_Picture">ID Picture</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="requirements_Folder" value="Yes" <?= (isset($_POST['admission_Folder'])) ? 'checked' : '' ?>>
-                            <label for="requirements_Folder">Short Folder</label>
-                        </div>
-
-                        <div>
-                            <input type="checkbox" name="requirements_Certificate" value="Yes" <?= (isset($_POST['admission_Certificate'])) ? 'checked' : '' ?>>
-                            <label for="requirements_Certificate">Certified True Copy of G12 report card <br> Certificate of ALS Rating</label>
-                        </div>
-                    </div>
-                </div>
-                <button type="submit" class="primary-button">Save</button>
-            </form>
-        </div>
-
+        <!-- <form action="/admissions/examinations" method="post">
+            <div class="form-group">
+                <input type="hidden" name="exam_Release">
+                <button type="submit" class="primary-button">Release exam dates to users.</button>
+            </div>
+        </form> -->
     </main>
 
 </body>
