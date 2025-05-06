@@ -236,7 +236,7 @@
 
                         <div style="display: flex; column-gap: 1rem">
                             <div>
-                                <label for="incident_Location">Location</label>
+                                <label for="incident_Location">Location Of Incident</label>
                                 <input class="admin-input" type="text" name="incident_Location" required value="<?= $_POST['incident_Location'] ?? '' ?>">
                             </div>
                             <div>

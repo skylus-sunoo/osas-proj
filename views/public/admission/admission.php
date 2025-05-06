@@ -27,7 +27,7 @@
                         CvSU MAIN CAMPUS: </b> </h2>
                 <p> <a href="https://admission.cvsu.edu.ph/"> https://admission.cvsu.edu.ph/ </a> <br> <br>
                     For more information, please read and follow the instructions in the photos provided.
-                    To know more about Frequently Asked Questions, check this link below:
+                    To know more about Frequently Asked Questions, check this link below: <br>  <br>
                     <a href="https://www.facebook.com/CaviteStateU/posts/pfbid035fkefvY6sxfFLyEpA8m3F7XqZLQV936fzsixdZ1tn5jB1q8kv8G8pDur1eypa5aVl">https://www.facebook.com/CaviteStateU</a>
                     <br> <br>
                 </p>
