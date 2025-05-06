@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2025 at 04:32 PM
+-- Generation Time: May 06, 2025 at 04:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -84,7 +84,7 @@ CREATE TABLE `tb_admission_control` (
 --
 
 INSERT INTO `tb_admission_control` (`admission_ControlNumber`, `admission_ID`, `admission_Appointment`, `admission_Picture`, `admission_Folder`, `admission_Certificate`, `admission_Exam`, `admission_Result`) VALUES
-(6, 35, 'May 9, 2025 PM', 'Yes', 'Yes', NULL, 'May 16, 2025 PM', NULL);
+(6, 35, '', 'Yes', 'Yes', NULL, 'May 16, 2025 PM', NULL);
 
 -- --------------------------------------------------------
 
@@ -307,23 +307,20 @@ CREATE TABLE `tb_event` (
 
 CREATE TABLE `tb_incident` (
   `incident_ID` int(11) NOT NULL,
-  `student_ID` int(11) NOT NULL,
+  `incident_Name` varchar(512) NOT NULL,
   `incident_DateTime` datetime NOT NULL,
   `incident_Location` varchar(255) NOT NULL,
   `incident_Type` varchar(255) NOT NULL,
   `incident_Description` mediumtext DEFAULT NULL,
-  `incident_Status` enum('Ongoing','Resolved','Dismissed') NOT NULL,
-  `user_ID` int(11) NOT NULL
+  `incident_Status` enum('Ongoing','Resolved','Dismissed') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tb_incident`
 --
 
-INSERT INTO `tb_incident` (`incident_ID`, `student_ID`, `incident_DateTime`, `incident_Location`, `incident_Type`, `incident_Description`, `incident_Status`, `user_ID`) VALUES
-(24, 134, '2025-04-27 22:23:00', 'fsa', 'sfa', 'fsa', 'Ongoing', 0),
-(26, 414, '2025-04-04 22:31:00', 'fsa', 'sfa', 'sfa', 'Resolved', 0),
-(27, 414, '2025-04-04 22:31:00', 'fsa', 'sfa', 'sfa', 'Resolved', 0);
+INSERT INTO `tb_incident` (`incident_ID`, `incident_Name`, `incident_DateTime`, `incident_Location`, `incident_Type`, `incident_Description`, `incident_Status`) VALUES
+(11, 'Skidmore, John Patrick', '2025-05-06 22:01:00', 'Main Library - 2nd Floor', 'Destruction of Property', 'sada', 'Ongoing');
 
 -- --------------------------------------------------------
 
@@ -412,7 +409,7 @@ ALTER TABLE `tb_event`
 --
 ALTER TABLE `tb_incident`
   ADD PRIMARY KEY (`incident_ID`),
-  ADD KEY `fk_student_ID` (`student_ID`);
+  ADD KEY `fk_student_ID` (`incident_Name`);
 
 --
 -- Indexes for table `tb_student`
@@ -452,7 +449,7 @@ ALTER TABLE `tb_event`
 -- AUTO_INCREMENT for table `tb_incident`
 --
 ALTER TABLE `tb_incident`
-  MODIFY `incident_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `incident_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tb_student`

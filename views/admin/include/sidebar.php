@@ -48,7 +48,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="font-teko">
+            <a href="/incidents/overview" class="font-teko">
                 <span class="material-symbols-outlined">gavel</span>
                 Incidents
             </a>
@@ -83,13 +83,13 @@
         </li>
     </ul>
     <div id="sidebar-user-account">
-        <div id="sidebar-user-profile">
+        <!-- <div id="sidebar-user-profile">
             <img src="data:image/png;base64,<?php echo $_SESSION['user_Picture']; ?>" id="sidebar-profile" alt="Profile Picture">
             <div id="sidebar-user-detail">
                 <h4 class="font-teko"><?php echo $_SESSION['user_FullName']; ?></h4>
                 <p class="font-teko"><?php echo $_SESSION['user_Email']; ?></p>
             </div>
-        </div>
+        </div> -->
     </div>
 </aside>
 

@@ -17,6 +17,7 @@ define('TB_ADMISSION_CONTROL', 'tb_admission_control');
 define('TB_ADMIN_USER', 'tb_admin_user');
 
 define('TB_ADMIN_EXAM', 'tb_admin_exam');
+define('TB_ADMIN_INCIDENT', 'tb_incident');
 
 define('TB_EVENT', 'tb_event');
 define('TB_STUDENT', 'tb_student');

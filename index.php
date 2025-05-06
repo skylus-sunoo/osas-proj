@@ -120,6 +120,17 @@ $router->add("/admissions/exam_delete", function () {
     $controller->deleteExam();
 });
 
+$router->add("/incidents/overview", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    $controller->handleIncidentActions();
+
+    include_once 'views/admin/include/sidebar.php';
+    include_once 'views/admin/include/header.php';
+    include_once 'views/admin/incidents/overview.php';
+});
+
 $router->add("/dashboard/home", function () {
     if (isset($_SESSION['logout'])) {
         session_unset();

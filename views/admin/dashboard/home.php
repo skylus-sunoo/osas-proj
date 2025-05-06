@@ -44,7 +44,7 @@
             ?>
         </div>
 
-        <div class="admin-admissions-content">
+        <!-- <div class="admin-admissions-content">
             <div class="admissions-card">
                 <h2>New Applications</h2>
                 <p>Number of new applications: <?= $newApplicationsCount; ?></p>
@@ -65,7 +65,7 @@
                 <h2>Application Statistics</h2>
                 <p>Statistics of applications: <?= $applicationStatistics; ?></p>
             </div>
-        </div>
+        </div> -->
     </main>
 </body>
 

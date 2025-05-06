@@ -3,18 +3,21 @@
 require_once 'models/AdminModel.php';
 require_once 'models/UserModel.php';
 require_once 'models/AdmissionModel.php';
+require_once 'models/IncidentModel.php';
 
 class AdminController
 {
     private $model;
     private $userModel;
     private $admissionModel;
+    private $incidentModel;
 
     public function __construct()
     {
         $this->model = new AdminModel();
         $this->userModel = new UserModel();
         $this->admissionModel = new AdmissionModel();
+        $this->incidentModel = new IncidentModel();
     }
 
     public function getModelAdmission()
@@ -863,6 +866,131 @@ class AdminController
         $_POST['results_Name'] = $this->admissionModel->getFullName($id);
         $_POST['results_Email'] = $this->userModel->getUserEmail($this->userModel->tableAdmission(), $id);
         $_POST['results_Result'] = $this->admissionModel->getResult($id);
+    }
+    #endregion
+
+    #region
+    public function handleIncidentActions()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if($_POST['form_action'] != null) {
+                $action = $_POST['form_action'];
+    
+                $data = [
+                    'incident_Name' => $_POST['incident_Name'],
+                    'incident_Type' => $_POST['incident_Type'],
+                    'incident_DateTime' => $_POST['incident_DateTime'],
+                    'incident_Location' => $_POST['incident_Location'],
+                    'incident_Status' => $_POST['incident_Status'],
+                    'incident_Description' => $_POST['incident_Description']
+                ];
+    
+                normalizeData($data);
+    
+                // echo $action;
+                switch ($action) {
+                    case 'create':
+                        $this->incidentModel->createIncident($data, $_POST['incident_ID']);
+                        break;
+                    case 'update':
+                        $this->incidentModel->updateIncident($data, $_POST['incident_ID']);
+                        break;
+                    case 'delete':
+                        $this->incidentModel->deleteIncident($_POST['incident_ID']);
+                        break;
+                }
+            }
+        }
+    }
+
+    public function renderIncidentsOverview()
+    {
+        // Set the number of items per page and the current page
+        $itemsPerPage = 12;
+        $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+
+        // Calculate the starting row for the SQL query (Offset)
+        $startRow = ($currentPage - 1) * $itemsPerPage;
+
+        $filters = [];
+
+        if (isset($_POST['filter_Name']) && !empty($_POST['filter_Name'])) {
+            $filters[] = ['incident_Name', 'LIKE', $_POST['filter_Name']];
+        }
+
+        if (isset($_POST['filter_Type']) && !empty($_POST['filter_Type'])) {
+            $filters[] = ['incident_Type', '=', $_POST['filter_Type']];
+        }
+
+        if (isset($_POST['filter_Status']) && !empty($_POST['filter_Status'])) {
+            $filters[] = ['incident_Status', '=', $_POST['filter_Status']];
+        }
+
+        // Fetch paginated admissions data
+
+        if ($filters != null) {
+            $incidents = fetchData(TB_ADMIN_INCIDENT, '*', $filters);
+            echo "<br> <h3>Showing " . count($incidents) . " results.</h3>";
+        } else {
+            $incidents = fetchDataLimited(TB_ADMIN_INCIDENT, '*', $filters, $startRow, $itemsPerPage);
+        }
+
+        echo "<br>";
+        // preformat($incidents);
+
+        // Fetch the total number of rows for pagination
+        $totalIncidents = countData(TB_ADMIN_INCIDENT);  // Fetch all records to count total
+        $totalPages = ceil($totalIncidents / $itemsPerPage);  // Calculate total pages
+
+        echo '<table>
+        <thead>
+            <tr>
+                <th hidden>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Date Time</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>';
+
+        foreach ($incidents as $incident) {
+            $id = $incident['incident_ID'];
+
+            echo '<tr>';
+            echo "<td hidden>$id</td>";
+            echo "<td>{$incident['incident_Name']}</td>";
+            echo "<td>{$incident['incident_Type']}</td>";
+            echo "<td>{$incident['incident_DateTime']}</td>";
+            echo "<td>{$incident['incident_Location']}</td>";
+            echo "<td>{$incident['incident_Status']}</td>";
+
+            // Add the "Review" button in the Actions column
+            echo "<td>";
+            echo '
+                <form action="/incidents/overview?review=true" method="post">
+                    <input type="hidden" name="incident_ID" value="' . $id . '">
+                    <input type="hidden" name="incident_Name" value="' . $incident['incident_Name'] . '">
+                    <input type="hidden" name="incident_Type" value="' . $incident['incident_Type'] . '">
+                    <input type="hidden" name="incident_DateTime" value="' . $incident['incident_DateTime'] . '">
+                    <input type="hidden" name="incident_Location" value="' . $incident['incident_Location'] . '">
+                    <input type="hidden" name="incident_Status" value="' . $incident['incident_Status'] . '">
+                    <input type="hidden" name="incident_Description" value="' . $incident['incident_Description'] . '">
+                    <button class="review-btn" type="submit">Review</button>
+                </form>';
+            echo '</td>';
+
+            echo '</tr>';
+        }
+
+        echo '</tbody>
+        </table>';
+
+        if ($filters == null) {
+            $this->renderPaginationControls($currentPage, $totalPages, $totalIncidents);
+        }
     }
     #endregion
 }
