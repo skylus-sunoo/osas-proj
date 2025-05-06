@@ -50,7 +50,7 @@
                 </div>
             </div>
         </section>
-        <br> 
+        <br>
         <hr>
         <section class="course-department">
             <div class="course-info">
@@ -60,9 +60,9 @@
                 </p>
             </div>
 
-            <div class="course-programs">
+            <div class="course-programs program-section-2">
                 <div class="course-program">
-                    <img src="../../../assets/img/BSPSYCH.jpg" alt="Bachelor of Science in Psychology" style="max-width:300px">
+                    <img src="../../../assets/img/BSPSYCH.jpg" alt="Bachelor of Science in Psychology">
                     <div class="course-program-content">
                         <h3>Bachelor of Science in Psychology</h3>
                         <p>
@@ -72,8 +72,8 @@
                 </div>
             </div>
         </section>
-            <br> 
-            <hr>
+        <br>
+        <hr>
         <section class="course-department">
             <div class="course-info">
                 <h2>DEPARTMENT OF MANAGEMENT PROGRAMS</h2>
@@ -82,7 +82,7 @@
                 </p>
             </div>
 
-            <div class="course-programs">
+            <div class="course-programs program-section-1">
                 <div class="course-program">
                     <img src="../../../assets/img/BSTM.jpg" alt="Bachelor of Science in Tourism Management">
                     <div class="course-program-content">
@@ -102,9 +102,9 @@
                         </p>
                     </div>
                 </div>
-        
+
                 <div class="course-program">
-                    <img src="../../../assets/img/BSHM(1).jpg" alt="Bachelor of Science in Hospitality Management" style="max-width:300px">
+                    <img src="../../../assets/img/BSHM(1).jpg" alt="Bachelor of Science in Hospitality Management">
                     <div class="course-program-content">
                         <h3>Bachelor of Science in Hospitality Management</h3>
                         <p>
@@ -114,7 +114,7 @@
                 </div>
             </div>
         </section>
-        <br> 
+        <br>
         <hr>
         <section class="course-department">
             <div class="course-info">

@@ -17,31 +17,31 @@
         </header>
 
         <div class="officials-card">  
-            <img src="../../../assets/img/students.png"> 
+            <img src="../../../assets/img/school_1.png"> 
             <div>
             <h1> CvSU Silang OSAS Head </h1> <br>
-            <h2> Rose Mary Pragacha </h2>
+            <h2> John Patrick Skidmore </h2>
             </div>
 
         </div>
         <div class="officials-card">  
-            <img src="../../../assets/img/students.png">
+            <img src="../../../assets/img/school_1.png">
             
         </div>
         <div class="officials-card">  
-            <img src="../../../assets/img/students.png">
+            <img src="../../../assets/img/school_1.png">
             
         </div>
         <div class="officials-card">  
-            <img src="../../../assets/img/students.png">
+            <img src="../../../assets/img/school_1.png">
             
         </div>
         <div class="officials-card">  
-            <img src="../../../assets/img/students.png">
+            <img src="../../../assets/img/school_1.png">
             
         </div>
         <div class="officials-card">  
-            <img src="../../../assets/img/students.png">
+            <img src="../../../assets/img/school_1.png">
             
         </div>
     </main>

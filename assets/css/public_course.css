@@ -11,7 +11,7 @@
 }
 
 .course-info p {
-    font-size: 16px;
+    font-size: 19px;
     line-height: 1.5;
 }
 
@@ -19,7 +19,7 @@
     display: flex;
     gap: 30px;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
     padding-inline: 5rem;
 }
 
@@ -30,8 +30,19 @@
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     width: 40%;
-
     flex-grow: 1;
+}
+
+.program-section-1>.course-program:nth-child(3) img {
+    width: 315px;
+    height: auto;
+    object-fit: cover;
+}
+
+.program-section-2>.course-program:nth-child(1) img {
+    width: 315px;
+    height: auto;
+    object-fit: cover;
 }
 
 .course-program img {
@@ -62,6 +73,7 @@
 hr {
     border: 1px solid white;
 }
+
 @media (max-width: 1200px) {
     .course-programs {
         flex-direction: column;
