@@ -32,8 +32,9 @@ class Router
         //     $handler = $this->routes[$path];
         //     call_user_func($handler);
         // } else {
-        echo "Page not found";
+        echo "<p style='color: black;'>Page not found.</p>";
         // }
+        echo "<a href='dashboard/home'>Go back to home</a>";
 
     }
 }

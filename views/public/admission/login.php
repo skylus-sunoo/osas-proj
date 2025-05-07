@@ -16,7 +16,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            transform: scale(1.25);
+            transform: scale(1.5);
             transform-origin: top center;
         }
 

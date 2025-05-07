@@ -58,11 +58,11 @@
                                 <?php
                                 $options = [
                                     'STEM',
-                                    'ICT',
                                     'HUMSS',
-                                    'GAS',
                                     'ABM',
-                                    'HE'
+                                    'GAS',
+                                    'TVL-ICT',
+                                    'TVL-HE'
                                 ];
                                 echo generateSelectFieldEntryNew('strand', 'SHS Strand', $options, 'admission_Strand', true);
 

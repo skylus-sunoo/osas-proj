@@ -30,12 +30,12 @@ function is_active_sub($needle)
             </div>
         </div>
 
-        <div class="dropdown">
+        <!-- <div class="dropdown">
             <a href="#" class="dropbtn <?= is_active('students') ?>">STUDENTS</a>
             <div class="dropdown-content">
                 <a href="../dashboard/students" class="<?= is_active_sub('students') ?>">Student Portal</a>
             </div>
-        </div>
+        </div> -->
 
         <div class="dropdown">
             <a href="#" class="dropbtn <?= is_active('/about/') ?>">ABOUT CVSU</a>

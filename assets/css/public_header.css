@@ -113,7 +113,11 @@
 
 /* HEADER MEDIA QUERY */
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1400px) {
+
+    .public-header {
+        font-size: 0.75rem;
+    }
 
     /* Main header layout na responsive*/
     .header-main {

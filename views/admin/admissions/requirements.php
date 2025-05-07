@@ -28,8 +28,6 @@
 
         <div class="admin-requirements-form">
 
-            <!-- <?= preformat($_POST) ?> -->
-
             <form action="/admissions/requirements" method="post">
                 <div class="admin-form-row">
                     <div class="admin-form-group">

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campus Officials</title>
-    <link rel="stylesheet" href="../../../assets/css/officials.css">
+    <link rel="stylesheet" href="../../../assets/css/public_officials.css">
 </head>
 
 <body class="public-body">

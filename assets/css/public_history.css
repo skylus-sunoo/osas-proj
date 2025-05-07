@@ -17,4 +17,8 @@
     border-radius: 6px;
 }
 
+h2 {
+    color: var(--primary-hex-yellow);
+}
+
 

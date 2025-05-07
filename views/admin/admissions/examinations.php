@@ -85,7 +85,7 @@
             </button>
         </div>
 
-        <!-- <?= preformat($_POST) ?> -->
+<?= preformat($_POST) ?>
 
         <div class="tab-content admin-exam-dates" id="admin-exam-dates">
             <div class="admin-examinations-set">
@@ -111,7 +111,23 @@
         </div>
 
         <div class="tab-content admin-exam-results" id="admin-exam-results">
-            <div class="admin-input-search">
+            <div class="admin-examinations-set">
+                <form action="/admissions/exam_results?results=true" method="post">
+                    <div class="admin-form-group" style="flex-direction: row;">
+                        <input class="admin-input" type="date" name="exam_DateCalendar" required>
+                        <select name="exam_DateMeridiem" class="admin-select" required>
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                        </select>
+                        <button type="submit" class="primary-button">Search</button>
+                    </div>
+                </form>
+            </div>
+
+            <?php
+            $controller->renderExamBatch();
+            ?>
+            <!-- <div class="admin-input-search">
                 <form action="/admissions/exam_results?results=true" method="post">
                     <div class="admin-form-group" style="flex-direction: row;">
                         <input class="admin-input" type="number" name="search_ControlNumber" placeholder="Search by control number" style="width: 100%;">
@@ -121,9 +137,6 @@
             </div>
 
             <div class="admin-requirements-form">
-
-                <!-- <?= preformat($_POST) ?> -->
-
                 <form action="/admissions/exam_results?results=true" method="post">
                     <div class="admin-form-row">
                         <div class="admin-form-group">
@@ -151,7 +164,7 @@
                         <button type="submit" class="primary-button" style="width: 100%;">Save</button>
                     </div>
                 </form>
-            </div>
+            </div> -->
         </div>
     </main>
 

@@ -826,34 +826,48 @@ class AdminController
             return;
         }
 
+        if (isset($_POST['exam_DateCalendar']) && isset($_POST['exam_DateMeridiem'])) {
+            $date = new DateTime($_POST['exam_DateCalendar']);
+
+            // Format the date like "May 8, 2025"
+            $formattedDate = $date->format('F j, Y');
+
+            // Append the AM/PM value
+            $_POST['batch_Exam'] = $formattedDate . ' ' . strtoupper($_POST['exam_DateMeridiem']);
+        }
+
+        if (isset($_POST['exam_Batch'])) {
+            // $_
+        }
+
         // Handle search by Control Number
-        if (isset($_POST['search_ControlNumber'])) {
-            $controlNumber = $_POST['search_ControlNumber'];
+        // if (isset($_POST['search_ControlNumber'])) {
+        //     $controlNumber = $_POST['search_ControlNumber'];
 
-            if (!$this->admissionModel->verifyControlNumber($controlNumber)) {
-                showAlert('No user with this control number exists.');
-                return;
-            }
+        //     if (!$this->admissionModel->verifyControlNumber($controlNumber)) {
+        //         showAlert('No user with this control number exists.');
+        //         return;
+        //     }
 
-            $id = $this->admissionModel->getIDFromControlNumber($controlNumber);
-            $this->populateResultsPostData($id);
-            return;
-        }
+        //     $id = $this->admissionModel->getIDFromControlNumber($controlNumber);
+        //     $this->populateResultsPostData($id);
+        //     return;
+        // }
 
-        // Handle requirement update
-        if (isset($_POST['results_ID'])) {
-            $id = $_POST['results_ID'];
+        // // Handle requirement update
+        // if (isset($_POST['results_ID'])) {
+        //     $id = $_POST['results_ID'];
 
-            $data = [
-                'results_Result' => $_POST['results_Result'] ?? null
-            ];
+        //     $data = [
+        //         'results_Result' => $_POST['results_Result'] ?? null
+        //     ];
 
-            normalizeData($data);
+        //     normalizeData($data);
 
-            $this->admissionModel->updateResult($id, $data);
-            $this->populateResultsPostData($id);
-            return;
-        }
+        //     $this->admissionModel->updateResult($id, $data);
+        //     $this->populateResultsPostData($id);
+        //     return;
+        // }
     }
 
     /**
@@ -867,15 +881,68 @@ class AdminController
         $_POST['results_Email'] = $this->userModel->getUserEmail($this->userModel->tableAdmission(), $id);
         $_POST['results_Result'] = $this->admissionModel->getResult($id);
     }
+
+    public function renderExamBatch()
+    {
+        echo "<br>";
+        if (isset($_POST['batch_Exam'])) {
+            $batches = fetchData(TB_ADMISSION_CONTROL, '*', [['admission_Exam', '=', $_POST['batch_Exam']]]);
+            echo '<h3 style="text-align: center;">Showing examinees for <span style="color: var(--primary-hex-blue)">' . $_POST['batch_Exam'] . '</span></h3>';
+        }
+        echo "<br>";
+        // Sort by 'exam_DateCalendar' in ascending order
+        echo '<div class="admin-exams">';
+        echo '<table>
+        <thead>
+            <tr>
+                <th style="display: none;">ID</th>
+                <th>Control Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>';
+
+        echo '<form action="/admissions/exam_results?results=true" method="post">
+                    <input type="hidden" name="exam_Batch" value="true">
+                    <input type="hidden" name="exam_DateCalendar" value="' . ($_POST['exam_DateCalendar'] ?? null) . '">
+                    <input type="hidden" name="exam_DateMeridiem" value="' . ($_POST['exam_DateMeridiem'] ?? null ). '">
+        ';
+
+        if (isset($_POST['batch_Exam'])) {
+            foreach ($batches as $batch) {
+                echo '<tr>';
+                echo "<td style='display: none;'>" . $batch['admission_ID'] . "</td>";
+                echo "<td>" . $batch['admission_ControlNumber'] . "</td>";
+                echo '<td style="display: flex; justify-content: center; column-gap: 1rem;">';
+                echo '<div style="margin: auto 0">
+                        <input type="radio" name="' . $batch['admission_ControlNumber'] . '" ' . ($batch['admission_Result'] == 'PASSED' ? 'checked' : '') . ' value="PASSED">
+                        <label for="' . $batch['admission_ControlNumber'] . '">Passed</label>
+                      </div>
+                      <div style="margin: auto 0">
+                        <input type="radio" name="' . $batch['admission_ControlNumber'] . '" ' . ($batch['admission_Result'] == 'FAILED' ? 'checked' : '') . ' value="FAILED">
+                        <label for="' . $batch['admission_ControlNumber'] . '">Failed</label>
+                      </div>';
+                echo '</td>';
+                echo '</tr>';
+            }
+        }
+
+        echo '</tbody>
+        </table>';
+
+        echo '<button type="submit" class="primary-button">Save</button>
+                        </form>';
+        echo '</div>';
+    }
     #endregion
 
     #region
     public function handleIncidentActions()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if($_POST['form_action'] != null) {
+            if ($_POST['form_action'] != null) {
                 $action = $_POST['form_action'];
-    
+
                 $data = [
                     'incident_Name' => $_POST['incident_Name'],
                     'incident_Type' => $_POST['incident_Type'],
@@ -884,9 +951,9 @@ class AdminController
                     'incident_Status' => $_POST['incident_Status'],
                     'incident_Description' => $_POST['incident_Description']
                 ];
-    
+
                 normalizeData($data);
-    
+
                 // echo $action;
                 switch ($action) {
                     case 'create':
