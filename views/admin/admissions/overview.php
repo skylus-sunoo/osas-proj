@@ -18,8 +18,8 @@
 
         <!-- Tabs for switching content -->
         <div class="tabs">
-            <button id="tab1" class="active"><div class="flex-center"><span class="material-symbols-outlined">groups</span>&nbsp; Admissions Overview</button>
-            <button id="tab2"><div class="flex-center"><span class="material-symbols-outlined">data_loss_prevention</span>&nbsp; Single Admission</div></button>
+            <button id="tab1" class="active"><div class="flex-center"><span class="font-MaterialSymbolsOutlined">groups</span>&nbsp; Admissions Overview</button>
+            <button id="tab2"><div class="flex-center"><span class="font-MaterialSymbolsOutlined">data_loss_prevention</span>&nbsp; Single Admission</div></button>
         </div>
 
         <!-- Admin Admissions Search and Overview -->

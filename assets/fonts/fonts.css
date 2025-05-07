@@ -7,6 +7,17 @@
 .font-Heebo {
     font-family: 'Heebo';
 }
+.font-MaterialSymbolsOutlined {
+    font-family: 'Material Symbols Outlined';
+}
+
+/* MaterialSymbolsOutlined font-family */
+@font-face {
+    font-family: 'Material Symbols Outlined';
+    src: url('MaterialSymbolsOutlined/MaterialSymbolsOutlined-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
 
 /* Gotham font-family */
 @font-face {

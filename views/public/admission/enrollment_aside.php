@@ -54,7 +54,7 @@
                     <p>Select a date to submit <b>all</b> of your requirements.</p>
                     <br>
                     <?=
-                    generateDateMeridiemSelect('enrollment-information-appointment', 60);
+                    generateDateMeridiemSelect('enrollment-information-appointment', 60, ['MON', 'TUE', 'WED']);
                     ?>
                     <br>
                     <br>

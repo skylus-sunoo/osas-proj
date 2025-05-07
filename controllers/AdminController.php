@@ -136,7 +136,7 @@ class AdminController
         echo '<section class="home-card" style="border-color: ' . $color . ';">
                 <div class="home-card-info" style="background-color: ' . $color . '; ' . $noRedirectRadius . '">
                     <div class="home-card-icon">
-                        <span class="material-symbols-outlined">' . $icon . '</span>
+                        <span class="font-MaterialSymbolsOutlined">' . $icon . '</span>
                     </div>
                     <div class="home-card-text">
                         <h1>' . $value . '</h1>
@@ -149,7 +149,7 @@ class AdminController
                     <div class="home-card-redirect">
                         <a href="' . $link . '" style="color: ' . $color . ';">
                             ' . $redirect . '
-                            <span class="material-symbols-outlined" style="color: ' . $color . ';">open_in_new</span>
+                            <span class="font-MaterialSymbolsOutlined" style="color: ' . $color . ';">open_in_new</span>
                         </a>
                     </div>';
         }
@@ -169,9 +169,9 @@ class AdminController
         echo "<div class='pagination-links'>";
         if ($currentPage > 1) {
             // Link to the first page
-            echo '<a href="?page=1"><span class="material-symbols-outlined">first_page</span></a>';
+            echo '<a href="?page=1"><span class="font-MaterialSymbolsOutlined">first_page</span></a>';
             // Link to the previous page
-            echo '<a href="?page=' . ($currentPage - 1) . '" style="margin-right: ' . $controlLinkGap . 'rem;"><span class="material-symbols-outlined">chevron_left</span></a>';
+            echo '<a href="?page=' . ($currentPage - 1) . '" style="margin-right: ' . $controlLinkGap . 'rem;"><span class="font-MaterialSymbolsOutlined">chevron_left</span></a>';
         }
 
         // Display a range of page numbers (e.g., 1 2 3 ... Last)
@@ -211,9 +211,9 @@ class AdminController
 
         if ($currentPage < $totalPages) {
             // Link to the next page
-            echo '<a href="?page=' . ($currentPage + 1) . '" style="margin-left: ' . $controlLinkGap . 'rem;"><span class="material-symbols-outlined">chevron_right</span></a>';
+            echo '<a href="?page=' . ($currentPage + 1) . '" style="margin-left: ' . $controlLinkGap . 'rem;"><span class="font-MaterialSymbolsOutlined">chevron_right</span></a>';
             // Link to the last page
-            echo '<a href="?page=' . $totalPages . '"><span class="material-symbols-outlined">last_page</span></a>';
+            echo '<a href="?page=' . $totalPages . '"><span class="font-MaterialSymbolsOutlined">last_page</span></a>';
         }
 
         echo '</div></div>';
@@ -837,7 +837,13 @@ class AdminController
         }
 
         if (isset($_POST['exam_Batch'])) {
-            // $_
+            foreach ($_POST as $key => $value) {
+                if (!is_numeric($key)) {
+                    continue;
+                }
+
+                $this->admissionModel->updateResult($value, $key);
+            }
         }
 
         // Handle search by Control Number
@@ -896,8 +902,9 @@ class AdminController
         <thead>
             <tr>
                 <th style="display: none;">ID</th>
-                <th>Control Number</th>
-                <th>Actions</th>
+                <th style="width: 15%">Control Number</th>
+                <th>Name</th>
+                <th style="width: 25%">Actions</th>
             </tr>
         </thead>
         <tbody>';
@@ -905,34 +912,45 @@ class AdminController
         echo '<form action="/admissions/exam_results?results=true" method="post">
                     <input type="hidden" name="exam_Batch" value="true">
                     <input type="hidden" name="exam_DateCalendar" value="' . ($_POST['exam_DateCalendar'] ?? null) . '">
-                    <input type="hidden" name="exam_DateMeridiem" value="' . ($_POST['exam_DateMeridiem'] ?? null ). '">
+                    <input type="hidden" name="exam_DateMeridiem" value="' . ($_POST['exam_DateMeridiem'] ?? null) . '">
         ';
 
-        if (isset($_POST['batch_Exam'])) {
+        if (!isset($batches) || !$batches) {
+            echo '<tr> 
+                    <td>No Result</td>
+                    <td>No Result</td>
+                    <td>No Result</td>';
+            echo '</tr>';
+        } elseif (isset($_POST['batch_Exam'])) {
             foreach ($batches as $batch) {
                 echo '<tr>';
                 echo "<td style='display: none;'>" . $batch['admission_ID'] . "</td>";
                 echo "<td>" . $batch['admission_ControlNumber'] . "</td>";
-                echo '<td style="display: flex; justify-content: center; column-gap: 1rem;">';
-                echo '<div style="margin: auto 0">
-                        <input type="radio" name="' . $batch['admission_ControlNumber'] . '" ' . ($batch['admission_Result'] == 'PASSED' ? 'checked' : '') . ' value="PASSED">
-                        <label for="' . $batch['admission_ControlNumber'] . '">Passed</label>
-                      </div>
-                      <div style="margin: auto 0">
-                        <input type="radio" name="' . $batch['admission_ControlNumber'] . '" ' . ($batch['admission_Result'] == 'FAILED' ? 'checked' : '') . ' value="FAILED">
-                        <label for="' . $batch['admission_ControlNumber'] . '">Failed</label>
-                      </div>';
+                echo "<td>" . $this->admissionModel->getFullName($batch['admission_ID']) . "</td>";
+                echo '<td class="radio-container">';
+                echo '<div>
+                            <input type="radio" id="passed-' . $batch['admission_ControlNumber'] . '" name="' . $batch['admission_ControlNumber'] . '" ' . ($batch['admission_Result'] == 'PASSED' ? 'checked' : '') . ' value="PASSED" class="passed-radio">
+                            <label for="passed-' . $batch['admission_ControlNumber'] . '" class="passed-label">Passed</label>
+                        </div>';
+                echo '<br>';
+                echo '<div>
+                            <input type="radio" id="failed-' . $batch['admission_ControlNumber'] . '" name="' . $batch['admission_ControlNumber'] . '" ' . ($batch['admission_Result'] == 'FAILED' ? 'checked' : '') . ' value="FAILED" class="failed-radio">
+                            <label for="failed-' . $batch['admission_ControlNumber'] . '" class="failed-label">Failed</label>
+                        </div>';
                 echo '</td>';
                 echo '</tr>';
             }
         }
 
-        echo '</tbody>
-        </table>';
 
-        echo '<button type="submit" class="primary-button">Save</button>
-                        </form>';
-        echo '</div>';
+        echo '      </tbody>
+                </table>
+                <br>
+                <div style="display: flex; justify-content: center;">
+                    <button type="submit" class="primary-button" style="width: 15%;">Save</button>
+                </div>
+            </form>
+        </div>';
     }
     #endregion
 

@@ -54,8 +54,50 @@
                                 echo generateSelectField('typeApplicant', 'Applicant Type', $options, 'admission_TypeApplicant');
                                 ?>
                             </section>
+                            <!-- <?php preformat($_SESSION) ?> -->
                             <section class="enrollment-information-form-section">
+
+                                <div>
+                                    <h4>* SHS Strand </h4>
+                                    <select name="enrollment-information-strand" id="strand" required="required" style="height: 60%">
+                                        <option value=""></option>
+                                        <option <?= optionIsSession('admission_Strand', 'STEM') ?>>STEM</option>
+                                        <option <?= optionIsSession('admission_Strand', 'HUMSS') ?>>HUMSS</option>
+                                        <option <?= optionIsSession('admission_Strand', 'ABM') ?>>ABM</option>
+                                        <!-- <option <?= optionIsSession('admission_Strand', 'GAS') ?>>GAS</option> -->
+                                        <option <?= optionIsSession('admission_Strand', 'TVL-ICT') ?>>TVL-ICT</option>
+                                        <option <?= optionIsSession('admission_Strand', 'TVL-HE') ?>>TVL-HE</option>
+                                    </select>
+                                </div>
+
                                 <?php
+                                $strands = [
+                                    'STEM' => [
+                                        'name' => 'STEM',
+                                        'programs' => ['BSCS', 'BSIT']
+                                    ],
+                                    'HUMSS' => [
+                                        'name' => 'HUMSS',
+                                        'programs' => ['BSCE', 'BSE']
+                                    ],
+                                    'ABM' => [
+                                        'name' => 'ABM',
+                                        'programs' => ['BSBA']
+                                    ],
+                                    'GAS' => [
+                                        'name' => 'GAS',
+                                        'programs' => ['BSBA', 'BSPSY']
+                                    ],
+                                    'TVL-ICT' => [
+                                        'name' => 'TVL-ICT',
+                                        'programs' => ['BSIT']
+                                    ],
+                                    'TVL-HE' => [
+                                        'name' => 'TVL-HE',
+                                        'programs' => ['BSCS', 'BSHM']
+                                    ]
+                                ];
+
                                 $options = [
                                     'STEM',
                                     'HUMSS',
@@ -64,7 +106,7 @@
                                     'TVL-ICT',
                                     'TVL-HE'
                                 ];
-                                echo generateSelectFieldEntryNew('strand', 'SHS Strand', $options, 'admission_Strand', true);
+                                // echo generateSelectFieldEntryNew('strand', 'SHS Strand', $options, 'admission_Strand', true);
 
                                 $options = [
                                     'GR12' => 'Grade 12 Student',
@@ -91,25 +133,72 @@
                         <h4>* Program Name </h4>
 
                         <section class="enrollment-information-form-section">
-                            <select name="enrollment-information-program" required>
-                                <option value=""></option>
-                                <option <?= optionIsSession('admission_Program', 'BSCE') ?>>Bachelor of Early Childhood Education</option>
-                                <option <?= optionIsSession('admission_Program', 'BSE') ?>>Bachelor of Secondary Education Major in English </option>
-                                <option <?= optionIsSession('admission_Program', 'BSE') ?>>Bachelor of Secondary Education Major in Mathematics </option>
-                                <option <?= optionIsSession('admission_Program', 'BSE') ?>>Bachelor of Secondary Education Major in Science </option>
-                                <option <?= optionIsSession('admission_Program', 'BSBA') ?>>Bachelor of Science in Business Administration Major in Finance</option>
-                                <option <?= optionIsSession('admission_Program', 'BSBA') ?>>Bachelor of Science in Business Administration Major in Marketing Management</option>
-                                <option <?= optionIsSession('admission_Program', 'BSBA') ?>>Bachelor of Science in Business Administration Major in Human Resource Management</option>
-                                <option <?= optionIsSession('admission_Program', 'BSCS') ?>>Bachelor of Science in Computer Science</option>
-                                <option <?= optionIsSession('admission_Program', 'BSIT') ?>>Bachelor of Science in Information Technology</option>
-                                <option <?= optionIsSession('admission_Program', 'BSHM') ?>>Bachelor of Science in Hospitality Management</option>
-                                <option <?= optionIsSession('admission_Program', 'BSTM') ?>>Bachelor of Science in Tourism Management</option>
-                                <option <?= optionIsSession('admission_Program', 'BSPSY') ?>>Bachelor of Science in Psychology</option>
 
+                            <!-- Program Selection -->
+                            <select name="enrollment-information-program" id="program" required="required" style="width: 80%">
+                                <!-- Program Options generated with PHP, all options are in the HTML from the start -->
+                                <option value=""></option>
+
+                                <!-- These are the program options with PHP embedded -->
+                                <option <?= optionIsSession('admission_Program', 'BSCS') ?> class="STEM GAS TVL-ICT">Bachelor of Science in Computer Science</option>
+                                <option <?= optionIsSession('admission_Program', 'BSIT') ?> class="GAS TVL-ICT">Bachelor of Science in Information Technology</option>
+                                <option <?= optionIsSession('admission_Program', 'BSCE') ?> class="STEM HUMSS">Bachelor of Early Childhood Education</option>
+                                <option <?= optionIsSession('admission_Program', 'BSE') ?> class="STEM ABM">Bachelor of Secondary Education Major in English</option>
+                                <option <?= optionIsSession('admission_Program', 'BSE') ?> class="STEM HUMSS">Bachelor of Secondary Education Major in Mathematics</option>
+                                <option <?= optionIsSession('admission_Program', 'BSE') ?> class="STEM ABM">Bachelor of Secondary Education Major in Science</option>
+                                <option <?= optionIsSession('admission_Program', 'BSBA') ?> class="STEM HUMSS ABM GAS">Bachelor of Science in Business Administration Major in Finance</option>
+                                <option <?= optionIsSession('admission_Program', 'BSBA') ?> class="STEM HUMSS ABM GAS">Bachelor of Science in Business Administration Major in Marketing Management</option>
+                                <option <?= optionIsSession('admission_Program', 'BSBA') ?> class="STEM HUMSS ABM GAS TVL-ICT">Bachelor of Science in Business Administration Major in Human Resource Management</option>
+                                <option <?= optionIsSession('admission_Program', 'BSHM') ?> class="STEM HUMSS ABM TVL-HE TVL-ICT">Bachelor of Science in Hospitality Management</option>
+                                <option <?= optionIsSession('admission_Program', 'BSTM') ?> class="STEM HUMSS ABM TVL-HE">Bachelor of Science in Tourism Management</option>
+                                <option <?= optionIsSession('admission_Program', 'BSPSY') ?> class="STEM HUMSS TVL-HE">Bachelor of Science in Psychology</option>
                             </select>
 
                             <button type="submit" class="primary-button">Save Admission Information</button>
                         </section>
+
+                        <script>
+                            // JavaScript to filter program options based on strand selection
+                            document.getElementById('strand').addEventListener('change', function() {
+                                var strand = this.value;
+                                var programSelect = document.getElementById('program');
+                                var options = programSelect.querySelectorAll('option');
+
+                                // If no strand is selected (empty value), hide all program options
+                                if (!strand) {
+                                    options.forEach(function(option) {
+                                        option.style.display = 'none'; // Hide all options
+                                    });
+                                } else {
+                                    // Show all options first
+                                    options.forEach(function(option) {
+                                        option.style.display = 'block'; // Default: show
+                                    });
+
+                                    // If a strand is selected, hide the options that do not belong to that strand
+                                    options.forEach(function(option) {
+                                        if (!option.classList.contains(strand)) {
+                                            option.style.display = 'none'; // Hide options that don't match the strand
+                                        }
+                                    });
+                                }
+                            });
+
+                            // Initially hide options based on selected strand (if any)
+                            document.addEventListener('DOMContentLoaded', function() {
+                                var strand = document.getElementById('strand').value;
+                                if (strand) {
+                                    document.getElementById('strand').dispatchEvent(new Event('change')); // Trigger change handler
+                                } else {
+                                    // If the strand is empty on page load, hide all program options
+                                    var programSelect = document.getElementById('program');
+                                    var options = programSelect.querySelectorAll('option');
+                                    options.forEach(function(option) {
+                                        option.style.display = 'none'; // Hide all options
+                                    });
+                                }
+                            });
+                        </script>
                     </form>
                 </div>
 

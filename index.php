@@ -397,13 +397,34 @@ function generateSelectFieldEntryNew($fieldTag, $label, $options, $sessionKey, $
  * 
  * @param string $element       Element name of the select
  * @param int|string $input       Int is for the number of valid days. String (YYYY-MM-DD) is for the end date.
- * @param bool       $includeSundays Whether to include Sundays or skip them.
+ * @param array       $includeDays Array of days of the week to include (e.g., ['MON', 'TUE', 'WED']).
  * @param string     $start       Start date as a string (e.g., 'tomorrow', '2024-06-01').
  * @return string     HTML 'select' element.
  */
-function generateDateMeridiemSelect($element, $input, $includeSundays = false, $start = 'tomorrow')
+function generateDateMeridiemSelect($element, $input, $includeDays = [], $start = 'tomorrow')
 {
     $options = [];
+
+    // Map of day abbreviations to numeric values (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    $dayMap = [
+        'SUN' => 0,
+        'MON' => 1,
+        'TUE' => 2,
+        'WED' => 3,
+        'THU' => 4,
+        'FRI' => 5,
+        'SAT' => 6
+    ];
+
+    // Make sure the input array is in uppercase for consistency
+    $includeDays = array_map('strtoupper', $includeDays);
+
+    // Check if all included days are valid
+    foreach ($includeDays as $day) {
+        if (!isset($dayMap[$day])) {
+            throw new InvalidArgumentException("Invalid day provided: {$day}. Must be one of: SUN, MON, TUE, WED, THU, FRI, SAT.");
+        }
+    }
 
     try {
         $startDate = new DateTime($start);
@@ -412,12 +433,14 @@ function generateDateMeridiemSelect($element, $input, $includeSundays = false, $
         $startDate = new DateTime('tomorrow');
     }
 
-    // Case 1: Integer input — number of valid days (excluding Sundays if needed)
+    // Case 1: Integer input — number of valid days (excluding days not in the $includeDays array)
     if (is_int($input)) {
         $validDaysCount = 0;
         while ($validDaysCount < $input) {
-            $dayOfWeek = $startDate->format('w');
-            if ($includeSundays || $dayOfWeek != 0) {
+            $dayOfWeek = $startDate->format('w'); // Numeric day (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+            $dayName = strtoupper($startDate->format('D')); // Abbreviated day name (e.g., 'Mon', 'Tue', etc.)
+
+            if (in_array($dayName, $includeDays)) {
                 $formattedDate = $startDate->format('F j, Y');
                 $options[] = "<option value='{$formattedDate} AM'>{$formattedDate} AM</option>";
                 $options[] = "<option value='{$formattedDate} PM'>{$formattedDate} PM</option>";
@@ -435,8 +458,10 @@ function generateDateMeridiemSelect($element, $input, $includeSundays = false, $
         }
 
         while ($startDate <= $endDate) {
-            $dayOfWeek = $startDate->format('w');
-            if ($includeSundays || $dayOfWeek != 0) {
+            $dayOfWeek = $startDate->format('w'); // Numeric day (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+            $dayName = strtoupper($startDate->format('D')); // Abbreviated day name (e.g., 'Mon', 'Tue', etc.)
+
+            if (in_array($dayName, $includeDays)) {
                 $formattedDate = $startDate->format('F j, Y');
                 $options[] = "<option value='{$formattedDate} AM'>{$formattedDate} AM</option>";
                 $options[] = "<option value='{$formattedDate} PM'>{$formattedDate} PM</option>";

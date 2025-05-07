@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 06, 2025 at 04:24 PM
+-- Generation Time: May 07, 2025 at 02:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,7 +41,9 @@ CREATE TABLE `tb_admin_exam` (
 --
 
 INSERT INTO `tb_admin_exam` (`exam_Date`, `exam_DateCalendar`, `exam_DateMeridiem`, `exam_Capacity`, `exam_Occupied`, `exam_Status`) VALUES
-('May 16, 2025 PM', '2025-05-16', 'PM', 20, 20, 'RELEASED');
+('May 14, 2025 AM', '2025-05-14', 'AM', 5, 5, 'RELEASED'),
+('May 8, 2025 AM', '2025-05-08', 'AM', 50, 50, 'RELEASED'),
+('May 9, 2025 PM', '2025-05-09', 'PM', 10, 10, 'RELEASED');
 
 -- --------------------------------------------------------
 
@@ -60,7 +62,9 @@ CREATE TABLE `tb_admin_user` (
 --
 
 INSERT INTO `tb_admin_user` (`admin_ID`, `admin_Email`, `admin_Password`) VALUES
-(1, 'johnpatrick.skidmore@gmail.com', '$2y$10$P4AJu5B.LasWhRkvDnw86uB5tO9dQiI5Ncznhxc7MtbPhTVOkJAWq');
+(1, 'johnpatrick.skidmore@gmail.com', '$2y$10$P4AJu5B.LasWhRkvDnw86uB5tO9dQiI5Ncznhxc7MtbPhTVOkJAWq'),
+(2, 'cj@gmail.com', '$2y$10$8IkwzjpqWGZZwuL3w/0MU.h2aIdDBRus6wtEIvpvW4uGv21uJ.XvO'),
+(3, 'seb@gmail.com', '$2y$10$YHZqlqqDPvgfmAIvX.u/J.wlCP2HJpLIRlyxlyHW.ugGOYm9PNBsG');
 
 -- --------------------------------------------------------
 
@@ -84,7 +88,8 @@ CREATE TABLE `tb_admission_control` (
 --
 
 INSERT INTO `tb_admission_control` (`admission_ControlNumber`, `admission_ID`, `admission_Appointment`, `admission_Picture`, `admission_Folder`, `admission_Certificate`, `admission_Exam`, `admission_Result`) VALUES
-(6, 35, '', 'Yes', 'Yes', NULL, 'May 16, 2025 PM', NULL);
+(7, 35, 'May 8, 2025 AM', 'Yes', 'Yes', 'Yes', 'May 14, 2025 AM', NULL),
+(9, 38, 'May 13, 2025 PM', 'Yes', 'Yes', 'Yes', 'May 14, 2025 AM', 'PASSED');
 
 -- --------------------------------------------------------
 
@@ -117,7 +122,8 @@ CREATE TABLE `tb_admission_education` (
 --
 
 INSERT INTO `tb_admission_education` (`admission_ID`, `admission_ElementaryName`, `admission_ElementaryAddress`, `admission_ElementaryYear`, `admission_ElementaryType`, `admission_HighschoolName`, `admission_HighschoolAddress`, `admission_HighschoolYear`, `admission_HighschoolType`, `admission_SeniorName`, `admission_SeniorAddress`, `admission_SeniorYear`, `admission_SeniorType`, `admission_VocationalName`, `admission_VocationalAddress`, `admission_VocationalYear`, `admission_VocationalType`) VALUES
-(35, 'Pintong Gubat Elementary School', '8XCM+RQ4, Paliparan Rd, Dasmariñas, Cavite', 2017, 'Public', 'Paliparan II Integrated High School', '8X3V+686, Paliparan 2, Dasmariñas, 4114 Cavite', 2021, 'Public', 'Philippine Christian University - Dasmarinas', '7XV6+3X2, Aguinaldo Hwy, Dasmariñas, 4114 Cavite', 2023, 'Private', NULL, NULL, NULL, NULL);
+(35, 'Pintong Gubat Elementary School', '8XCM+RQ4, Paliparan Rd, Dasmariñas, Cavite', 2017, 'Public', 'Paliparan II Integrated High School', '8X3V+686, Paliparan 2, Dasmariñas, 4114 Cavite', 2021, 'Public', 'Philippine Christian University - Dasmarinas', '7XV6+3X2, Aguinaldo Hwy, Dasmariñas, 4114 Cavite', 2023, 'Private', NULL, NULL, NULL, NULL),
+(38, 'PES', 'Parklane', 2017, 'Public', 'FEBIHS', 'Dasma', 2021, 'Public', 'EAC-C', 'Burol', 2023, 'Private', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -146,7 +152,8 @@ CREATE TABLE `tb_admission_family` (
 --
 
 INSERT INTO `tb_admission_family` (`admission_ID`, `admission_FatherName`, `admission_FatherNumber`, `admission_FatherOccupation`, `admission_MotherName`, `admission_MotherNumber`, `admission_MotherOccupation`, `admission_Income`, `admission_Siblings`, `admission_BirthOrder`, `admission_GuardianName`, `admission_GuardianNumber`, `admission_GuardianOccupation`) VALUES
-(35, 'Joseph Bosul Skidmore', 9178354163, 'Sales Agent', 'Erly Enraca Skidmore', 9472902443, 'Housewife', '11,000-20,000', 1, 'Eldest', 'Erly Enraca Skidmore', 9472902443, 'Housewife');
+(35, 'Joseph Bosul Skidmore', 9178354163, 'Sales Agent', 'Erly Enraca Skidmore', 9472902443, 'Housewife', '11,000-20,000', 1, 'Eldest', 'Erly Enraca Skidmore', 9472902443, 'Housewife'),
+(38, 'Symon De Jesus', 9958723566, 'Rider', 'Rosalyn De Jesus', 9958723566, 'VA', '21,000-30,000', 1, 'Eldest', 'Jose De Jesus', 9958723566, 'Driver');
 
 -- --------------------------------------------------------
 
@@ -171,7 +178,8 @@ CREATE TABLE `tb_admission_info` (
 
 INSERT INTO `tb_admission_info` (`admission_ID`, `admission_Branch`, `admission_Entry`, `admission_TypeApplicant`, `admission_Strand`, `admission_TypeStudent`, `admission_LRN`, `admission_Program`) VALUES
 (1, 'Silang', NULL, NULL, NULL, NULL, NULL, NULL),
-(35, 'Silang', 'New', 'Filipino', 'STEM', 'GR12', 107923130246, 'BSCS');
+(35, 'Silang', 'New', 'Filipino', 'STEM', 'GR12', 107923130246, 'BSCS'),
+(38, 'Silang', 'New', 'Filipino', 'ICT', 'SHS', 107963100122, 'BSCS');
 
 -- --------------------------------------------------------
 
@@ -198,7 +206,8 @@ CREATE TABLE `tb_admission_medical` (
 --
 
 INSERT INTO `tb_admission_medical` (`admission_ID`, `admission_Medication`, `admission_Allergy`, `admission_Scoliosis`, `admission_Asthma`, `admission_Hypertension`, `admission_Diabetes`, `admission_Insomnia`, `admission_Vertigo`, `admission_Others`, `admission_PWD`) VALUES
-(35, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No');
+(35, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
+(38, NULL, 'Yes', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No');
 
 -- --------------------------------------------------------
 
@@ -229,7 +238,8 @@ CREATE TABLE `tb_admission_personal` (
 --
 
 INSERT INTO `tb_admission_personal` (`admission_ID`, `admission_FirstName`, `admission_MiddleName`, `admission_LastName`, `admission_Suffix`, `admission_Region`, `admission_Province`, `admission_ContactNumber`, `admission_LandlineNumber`, `admission_CivilStatus`, `admission_Sex`, `admission_BirthDate`, `admission_BirthPlace`, `admission_Religion`, `admission_Indigenous`) VALUES
-(35, 'John Patrick', 'Enraca', 'Skidmore', NULL, 'IV_A', 'Cavite', 9918285766, NULL, 'Single', 'Male', '2005-11-23', 'Trece Martires', 'Roman Catholic', 'No');
+(35, 'John Patrick', 'Enraca', 'Skidmore', NULL, 'IV_A', 'Cavite', 9918285766, NULL, 'Single', 'Male', '2005-11-23', 'Trece Martires', 'Roman Catholic', 'No'),
+(38, 'Seb', 'Silva', 'De Jesus', NULL, 'IV_A', 'Cavite', 9958723566, NULL, 'Single', 'Male', '2004-12-04', 'Pasay, Manila', 'Catholic', 'No');
 
 -- --------------------------------------------------------
 
@@ -284,7 +294,8 @@ INSERT INTO `tb_admission_user` (`admission_ID`, `admission_Email`, `admission_P
 (34, 'daveulrich.santos@gmail.com', '$2y$10$iUd8nVYtUOrpolD3tr7HduSH7AXofWOpLkN9vfTMmrgEAbI3j7.AS'),
 (35, 'johnpatrick.skidmore@gmail.com', '$2y$10$o5M5Knkw1lHyrMEmUBHU7.uLnWp4de5hr60bhVGJeJtcAOXJK7mrq'),
 (36, 'ghia.tabago@gmail.com', '$2y$10$6s./Kd8lsk0QqALHn9Kz8.N71VkjXu4P99NSNsVVXZbXIKpvrkDVS'),
-(37, 'cedrick.toledana@gmail.com', '$2y$10$vP6aAWKYRzl5EnUMlCohGO6G1AnlumOf0cMJ2hPhEl3mbhbkjqB4.');
+(37, 'cedrick.toledana@gmail.com', '$2y$10$vP6aAWKYRzl5EnUMlCohGO6G1AnlumOf0cMJ2hPhEl3mbhbkjqB4.'),
+(38, 'seb@gmail.com', '$2y$10$RwWgAB.Gx4o3txvyUktKReg863udyYJ06ABKVyCpRr.WFy8X24JiS');
 
 -- --------------------------------------------------------
 
@@ -320,7 +331,8 @@ CREATE TABLE `tb_incident` (
 --
 
 INSERT INTO `tb_incident` (`incident_ID`, `incident_Name`, `incident_DateTime`, `incident_Location`, `incident_Type`, `incident_Description`, `incident_Status`) VALUES
-(11, 'Skidmore, John Patrick', '2025-05-06 22:01:00', 'Main Library - 2nd Floor', 'Destruction of Property', 'sada', 'Ongoing');
+(11, 'Skidmore, John Patrick', '2025-05-06 22:01:00', 'Main Library - 2nd Floor', 'Destruction of Property', 'sada', 'Ongoing'),
+(13, 'Gonzaga, Kaishaun', '2025-04-24 12:38:00', 'CL3', 'Vandalism', 'Fire alarm prank', 'Resolved');
 
 -- --------------------------------------------------------
 
@@ -425,19 +437,19 @@ ALTER TABLE `tb_student`
 -- AUTO_INCREMENT for table `tb_admin_user`
 --
 ALTER TABLE `tb_admin_user`
-  MODIFY `admin_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `admin_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tb_admission_control`
 --
 ALTER TABLE `tb_admission_control`
-  MODIFY `admission_ControlNumber` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `admission_ControlNumber` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tb_admission_user`
 --
 ALTER TABLE `tb_admission_user`
-  MODIFY `admission_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `admission_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `tb_event`
@@ -449,7 +461,7 @@ ALTER TABLE `tb_event`
 -- AUTO_INCREMENT for table `tb_incident`
 --
 ALTER TABLE `tb_incident`
-  MODIFY `incident_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `incident_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tb_student`

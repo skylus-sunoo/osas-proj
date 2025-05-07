@@ -78,21 +78,21 @@
         <!-- Tabs for switching content -->
         <div class="tabs">
             <button id="tab1" class="active">
-                <div class="flex-center"><span class="material-symbols-outlined">calendar_month</span>&nbsp; Exam Dates
+                <div class="flex-center"><span class="font-MaterialSymbolsOutlined">calendar_month</span>&nbsp; Exam Dates
             </button>
             <button id="tab2">
-                <div class="flex-center"><span class="material-symbols-outlined">assignment_turned_in</span>&nbsp; Exam Results</div>
+                <div class="flex-center"><span class="font-MaterialSymbolsOutlined">assignment_turned_in</span>&nbsp; Exam Results</div>
             </button>
         </div>
 
-<?= preformat($_POST) ?>
+        <!-- <?= preformat($_POST) ?> -->
 
         <div class="tab-content admin-exam-dates" id="admin-exam-dates">
             <div class="admin-examinations-set">
                 <form action="/admissions/exam_create" method="post">
                     <div class="admin-form-group" style="flex-direction: row;">
                         <!-- <?=
-                                generateDateMeridiemSelect('exam_Date', 120);
+                                generateDateMeridiemSelect('exam_Date', 120, ['MON']);
                                 ?> -->
                         <input class="admin-input" type="date" name="exam_DateCalendar" required>
                         <select name="exam_DateMeridiem" class="admin-select" required>
@@ -123,6 +123,7 @@
                     </div>
                 </form>
             </div>
+
 
             <?php
             $controller->renderExamBatch();

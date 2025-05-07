@@ -356,9 +356,9 @@ class AdmissionModel
         return fetchData($this->table_control, 'admission_Exam', [['admission_ID', '=', $id]]);
     }
 
-    public function updateResult($id, $result)
+    public function updateResult($result, $id)
     {
-        updateData($this->table_control, 'admission_Result', $result, [['admission_ID', '=', $id]]);
+        updateData($this->table_control, 'admission_Result', $result, [['admission_ControlNumber', '=', $id]]);
     }
 
     public function hasResult($id)
