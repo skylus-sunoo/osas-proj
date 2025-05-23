@@ -24,6 +24,7 @@ require_once '_config.php';
 require_once 'classes/Router.php';
 require_once 'controllers/AdmissionController.php';
 require_once 'controllers/AdminController.php';
+require_once 'controllers/NewsController.php';
 
 $router = new Router;
 
@@ -46,6 +47,47 @@ $router->add("/admin/home", function () {
     include_once 'views/admin/include/sidebar.php';
     include_once 'views/admin/include/header.php';
     include_once 'views/admin/dashboard/home.php';
+});
+
+$router->add("/admin/news", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    include_once 'views/admin/include/sidebar.php';
+    include_once 'views/admin/include/header.php';
+    include_once 'views/admin/dashboard/news.php';
+});
+
+$router->add("/admin/news_review", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    $_SESSION['news_ID'] = $_POST['news_ID'];
+
+    goToPage("/admin/news?single=true");
+});
+
+$router->add("/admin/news_delete", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    $controller->deleteNews();
+});
+
+$router->add("/admin/news_save", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    $controller->saveNews();
+});
+
+$router->add("/admin/news_clear", function () {
+    $controller = new AdminController();
+    $controller->handleAdminRedirect();
+
+    unset($_SESSION['news_ID']);
+    
+    goToPage("/admin/news?single=true");
 });
 
 $router->add("/admissions/overview", function () {
@@ -138,8 +180,32 @@ $router->add("/dashboard/home", function () {
         showAlert("You have successfully logged out.");
     }
 
+    $controller = new NewsController();
     include_once 'views/public/include/header.php';
     include_once 'views/public/dashboard/home.php';
+    include_once 'views/public/include/news_list.php';
+    include_once 'views/public/include/footer.php';
+});
+
+$router->add("/dashboard/news", function () {
+    $controller = new NewsController();
+    include_once 'views/public/include/header.php';
+    include_once 'views/public/dashboard/news.php';
+    include_once 'views/public/include/news_list.php';
+    include_once 'views/public/include/footer.php';
+});
+
+$router->add("/dashboard/news_updates", function () {
+    $controller = new NewsController();
+    include_once 'views/public/include/header.php';
+    include_once 'views/public/dashboard/news_updates.php';
+    include_once 'views/public/include/footer.php';
+});
+
+$router->add("/dashboard/downloads", function () {
+    include_once 'views/public/include/header.php';
+    include_once 'views/public/dashboard/downloads.php';
+    include_once 'views/public/include/footer.php';
 });
 
 $router->add("/admission/logout", function () {
@@ -150,11 +216,13 @@ $router->add("/admission/logout", function () {
 $router->add("/admission/application", function () {
     include_once 'views/public/include/header.php';
     include_once 'views/public/admission/admission.php';
+    include_once 'views/public/include/footer.php';
 });
 
 $router->add("/admission/enrollment", function () {
     $controller = new AdmissionController();
     $controller->handleEnrollmentRedirect();
+    include_once 'views/public/include/footer.php';
 });
 
 $router->add("/admission/download", function () {
@@ -194,26 +262,31 @@ $router->add("/admission/updateAppointment", function () {
 $router->add("/admission/course", function () {
     include_once 'views/public/include/header.php';
     include_once 'views/public/admission/course.php';
+    include_once 'views/public/include/footer.php';
 });
 
 $router->add("/dashboard/students", function () {
     include_once 'views/public/include/header.php';
     include_once 'views/public/dashboard/students.php';
+    include_once 'views/public/include/footer.php';
 });
 
 $router->add("/about/statements", function () {
     include_once 'views/public/include/header.php';
     include_once 'views/public/about/statements.php';
+    include_once 'views/public/include/footer.php';
 });
 
 $router->add("/about/history", function () {
     include_once 'views/public/include/header.php';
     include_once 'views/public/about/history.php';
+    include_once 'views/public/include/footer.php';
 });
 
 $router->add("/about/officials", function () {
     include_once 'views/public/include/header.php';
     include_once 'views/public/about/officials.php';
+    include_once 'views/public/include/footer.php';
 });
 
 $router->dispatch($path);
@@ -471,6 +544,60 @@ function generateDateMeridiemSelect($element, $input, $includeDays = [], $start 
     }
 
     return '<select name="' . $element . '" id="' . $element . '">' . implode("\n", $options) . '</select>';
+}
+
+
+function renderPaginationControls($currentPage, $totalPages, $totalCount)
+{
+    echo '<div class="pagination">';
+    echo "<p>Page $currentPage of $totalPages from $totalCount items</p>";
+    $controlLinkGap = 1.5; // Gap between buttons and number links
+    echo "<div class='pagination-links'>";
+    if ($currentPage > 1) {
+        // Link to the first page
+        echo '<a href="?page=1"><span class="font-MaterialSymbolsOutlined">first_page</span></a>';
+        // Link to the previous page
+        echo '<a href="?page=' . ($currentPage - 1) . '" style="margin-right: ' . $controlLinkGap . 'rem;"><span class="font-MaterialSymbolsOutlined">chevron_left</span></a>';
+    }
+    // Display a range of page numbers (e.g., 1 2 3 ... Last)
+    $maxPagesToShow = 7; // Max number of page links to display
+    // Calculate the start and end page
+    if ($totalPages <= $maxPagesToShow) {
+        // If there are fewer than 5 pages, show all pages
+        $startPage = 1;
+        $endPage = $totalPages;
+    } else {
+        // Calculate the start and end page dynamically
+        if ($currentPage <= floor($maxPagesToShow / 2)) {
+            // Near the start, show pages from 1
+            $startPage = 1;
+            $endPage = min($maxPagesToShow, $totalPages);
+        } elseif ($currentPage >= $totalPages - floor($maxPagesToShow / 2)) {
+            // Near the end, show the last $maxPagesToShow pages
+            $startPage = max(1, $totalPages - $maxPagesToShow + 1);
+            $endPage = $totalPages;
+        } else {
+            // In the middle, show $maxPagesToShow pages centered around the current page
+            $startPage = $currentPage - floor($maxPagesToShow / 2);
+            $endPage = $currentPage + floor($maxPagesToShow / 2);
+        }
+    }
+    // Show the page numbers
+    for ($page = $startPage; $page <= $endPage; $page++) {
+        if ($page == $currentPage) {
+            // Highlight the current page with an underline
+            echo '<span class="current-page">' . $page . '</span>';
+        } else {
+            echo '<a href="?page=' . $page . '">' . $page . '</a>';
+        }
+    }
+    if ($currentPage < $totalPages) {
+        // Link to the next page
+        echo '<a href="?page=' . ($currentPage + 1) . '" style="margin-left: ' . $controlLinkGap . 'rem;"><span class="font-MaterialSymbolsOutlined">chevron_right</span></a>';
+        // Link to the last page
+        echo '<a href="?page=' . $totalPages . '"><span class="font-MaterialSymbolsOutlined">last_page</span></a>';
+    }
+    echo '</div></div>';
 }
 
 ?>

@@ -27,7 +27,7 @@
     font-size: 1.5rem;
     margin-top: 0;
     text-decoration: underline;
-    
+
 }
 
 .home-admission-card p {
@@ -43,6 +43,7 @@
     padding: 20px;
     border-radius: 10px;
     flex: 1;
+    max-width: 40%;
 
     font-family: 'Gotham', sans-serif;
 }
@@ -96,23 +97,25 @@
 
 .read-more-toggle {
     display: none;
-   
+
 }
 
 .more-text {
     display: none;
 }
 
-.read-more-toggle:checked ~ p .more-text {
+.read-more-toggle:checked~p .more-text {
     display: inline;
 }
 
-.read-more-toggle:checked ~ p .dots {
+.read-more-toggle:checked~p .dots {
     display: none;
 }
+
 .button-container {
     text-align: right;
 }
+
 .read-more-label {
     display: inline-block;
     color: black;
@@ -127,7 +130,7 @@
 }
 
 
-.read-more-toggle:checked ~ .button-container .read-more-label::after {
+.read-more-toggle:checked~.button-container .read-more-label::after {
     content: "SHOW LESS";
 }
 
@@ -138,6 +141,10 @@
         padding-inline: 2rem;
         margin-left: 50px;
     }
+
+    .home-news {
+        max-width: 100%;
+    }
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
@@ -146,7 +153,10 @@
         gap: 20px;
         padding-inline: 2rem;
         margin-left: 50px;
+    }
 
+    .home-news {
+        max-width: 100%;
     }
 
     .home-news-item img {
@@ -154,10 +164,4 @@
         height: 100%;
         object-fit: cover;
     }
-
 }
-
-
-
-
- 

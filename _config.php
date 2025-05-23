@@ -1,11 +1,6 @@
 <?php
 
 // Database constants
-define("DB_HOST", "localhost");
-define("DB_USER", "root");
-define("DB_PASSWORD", "");
-define('DB_NAME', 'db_osas');
-
 define('TB_ADMISSION_USER', 'tb_admission_user');
 define('TB_ADMISSION_INFO', 'tb_admission_info');
 define('TB_ADMISSION_PERSONAL', 'tb_admission_personal');
@@ -19,11 +14,14 @@ define('TB_ADMIN_USER', 'tb_admin_user');
 define('TB_ADMIN_EXAM', 'tb_admin_exam');
 define('TB_ADMIN_INCIDENT', 'tb_incident');
 
+define('TB_NEWS', 'tb_news');
+
 define('TB_EVENT', 'tb_event');
 define('TB_STUDENT', 'tb_student');
 
 // Database connection
-$connections = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+require_once 'classes/Database.php';
+$connections = Database::getInstance();
 
 // Check the connection
 if (mysqli_connect_error()) {
@@ -36,20 +34,35 @@ function runQuery($sql, $params = [])
 
     $stmt = $connections->prepare($sql);
     if (!$stmt) {
-        die("Prepare failed: " . $connections->error); // This will tell you exactly what went wrong
+        error_log("Prepare failed: " . $connections->error);
+        throw new Exception("Database error occurred.");
     }
 
     if (!empty($params)) {
-        $types = str_repeat('s', count($params)); // assuming all are strings for now
+        $types = '';
+        foreach ($params as $param) {
+            $types .= getParamType($param);
+        }
         $stmt->bind_param($types, ...$params);
     }
 
     if (!$stmt->execute()) {
-        die("Execute failed: " . $stmt->error); // This will tell you if execution fails
+        error_log("Execute failed: " . $stmt->error);
+        throw new Exception("Database error occurred.");
     }
 
-    return $stmt;
+    // Check if it's a SELECT query
+    if (preg_match('/^\s*SELECT/i', $sql)) {
+        $result = $stmt->get_result();
+        if ($result === false) {
+            throw new Exception("Fetching result failed: " . $stmt->error);
+        }
+        return $result->fetch_all(MYSQLI_ASSOC); // Return data rows
+    }
+
+    return $stmt; // For UPDATE, INSERT, DELETE, etc.
 }
+
 
 /**
  * Fetches data from a specified table with support for multiple filters and flexible column selection.
@@ -613,14 +626,16 @@ function countData($tableName, $conditions = null)
  * is required.
  *
  * @param mixed $value The value to evaluate.
- *                      - If the value is an integer, the function returns 'i'.
- *                      - For all other types, the function returns 's' (string).
- *
- * @return string Returns 'i' if the value is an integer, otherwise returns 's'.
+ * @return string Returns 'i', 'd', or 's'.
  */
-function getParamType($value)
-{
-    return is_int($value) ? 'i' : 's';
+function getParamType($param) {
+    if (is_int($param)) {
+        return 'i';
+    } elseif (is_double($param)) {
+        return 'd';
+    } else {
+        return 's';
+    }
 }
 
 /**
@@ -843,6 +858,23 @@ function showAlert($alert)
           </script>";
 }
 
+// Helper function to generate an <option> tag with the 'selected' attribute if needed
+/**
+ * Generates an <option> tag with the 'selected' attribute if the current value matches the option value.
+ *
+ * @param string $category The current selected category.
+ * @param string $optionValue The value for this <option> tag.
+ * @param string $optionLabel The label to display for this <option> tag. Defaults to $optionValue if not provided.
+ * @return string The complete HTML for the <option> tag, including the 'selected' attribute if needed.
+ */
+function getSelectedOption($category, $optionValue, $optionLabel = null) {
+    // If $optionLabel is not provided, use $optionValue as the label
+    $optionLabel = $optionLabel ?: $optionValue;
+
+    $selected = $category === $optionValue ? ' selected' : '';
+    return '<option value="' . htmlspecialchars($optionValue) . '"' . $selected . '>' . htmlspecialchars($optionLabel) . '</option>';
+}
+
 /**
  * Displays a MySQLi error alert message in JavaScript.
  * 
@@ -901,6 +933,37 @@ function preformat($item)
     echo '<pre>';
     print_r($item);
     echo '</pre>';
+}
+
+/**
+ * Truncates a string to a specific number of characters and appends an ellipsis if truncated.
+ *
+ * This function safely truncates multibyte strings (like UTF-8) and appends "..." only
+ * if the original string exceeds the specified character count.
+ *
+ * @param string $originalString The original string to be truncated.
+ * @param int $charCount The maximum number of characters before truncation occurs.
+ * @return string The truncated string with an ellipsis if needed.
+ *
+ * @example
+ * echo truncate("This is a very long sentence that should be shortened.", 20);
+ * // Output: "This is a very long..."
+ */
+function truncate($originalString, $charCount)
+{
+    if (mb_strlen($originalString) <= $charCount) {
+        return $originalString;
+    }
+
+    $truncated = mb_substr($originalString, 0, $charCount);
+    
+    // Avoid cutting in the middle of a word
+    $lastSpace = mb_strrpos($truncated, ' ');
+    if ($lastSpace !== false) {
+        $truncated = mb_substr($truncated, 0, $lastSpace);
+    }
+
+    return $truncated . '...';
 }
 
 /**

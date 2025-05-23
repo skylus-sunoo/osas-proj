@@ -19,9 +19,9 @@
             </a>
         </li>
         <li>
-            <a href="#" class="font-teko">
-                <span class="font-MaterialSymbolsOutlined">overview</span>
-                Overview
+            <a href="/admin/news" class="font-teko">
+                <span class="font-MaterialSymbolsOutlined">breaking_news</span>
+                News
             </a>
         </li>
         <h4>

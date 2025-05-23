@@ -1,0 +1,113 @@
+
+
+.home-news-list {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    margin-top: 5rem;
+    margin-inline: 10%;
+}
+
+.home-news-list>h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.home-news-list>a {
+    font-size: 0.95rem;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    transition: color 0.2s ease;
+}
+
+.home-news-list>a:hover {
+    color: var(--primary-hex-yellow);
+}
+
+/* Make the entire news item clickable */
+.home-news-link {
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.home-news-link h3 {
+    transition: color 0.5s ease;
+}
+
+.home-news-link:hover h3 {
+    color: var(--primary-hex-yellow);
+}
+
+.home-news-link img {
+    transition: transform 0.3s ease;
+}
+
+.home-news-link:hover img {
+    transform: scale(1.03);
+}
+
+.home-news-list-grid {
+    display: grid;
+    /* grid-template-columns: 25% 25% 25% 25%; */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+}
+
+.home-news-list-item {
+    padding: 1rem;
+    max-width: 100%;
+}
+
+.home-news-list-item img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    display: block;
+    margin-bottom: 10px;
+
+    height: 10rem;
+    object-position: top;
+}
+
+.home-news-list-item div {
+    text-align: left;
+}
+
+.home-news-list-item>div>h6 {
+    font-weight: 400;
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    text-align: center;
+}
+
+.home-news-list-item>div>h5 {
+    font-weight: 400;
+    margin-top: 0.5rem;
+}
+
+.news-image-container {
+    position: relative;
+    width: 100%;
+}
+
+.news-category {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 1;
+    text-transform: capitalize;
+}

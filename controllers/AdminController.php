@@ -4,6 +4,7 @@ require_once 'models/AdminModel.php';
 require_once 'models/UserModel.php';
 require_once 'models/AdmissionModel.php';
 require_once 'models/IncidentModel.php';
+require_once 'models/NewsModel.php';
 
 class AdminController
 {
@@ -11,6 +12,7 @@ class AdminController
     private $userModel;
     private $admissionModel;
     private $incidentModel;
+    private $newsModel;
 
     public function __construct()
     {
@@ -18,6 +20,7 @@ class AdminController
         $this->userModel = new UserModel();
         $this->admissionModel = new AdmissionModel();
         $this->incidentModel = new IncidentModel();
+        $this->newsModel = new NewsModel();
     }
 
     public function getModelAdmission()
@@ -158,67 +161,6 @@ class AdminController
     #endregion
 
     #region Admissions
-    public function renderPaginationControls($currentPage, $totalPages, $totalCount)
-    {
-        echo '<div class="pagination">';
-
-        echo "<p>Page $currentPage of $totalPages from $totalCount items</p>";
-
-        $controlLinkGap = 1.5; // Gap between buttons and number links
-
-        echo "<div class='pagination-links'>";
-        if ($currentPage > 1) {
-            // Link to the first page
-            echo '<a href="?page=1"><span class="font-MaterialSymbolsOutlined">first_page</span></a>';
-            // Link to the previous page
-            echo '<a href="?page=' . ($currentPage - 1) . '" style="margin-right: ' . $controlLinkGap . 'rem;"><span class="font-MaterialSymbolsOutlined">chevron_left</span></a>';
-        }
-
-        // Display a range of page numbers (e.g., 1 2 3 ... Last)
-        $maxPagesToShow = 7; // Max number of page links to display
-
-        // Calculate the start and end page
-        if ($totalPages <= $maxPagesToShow) {
-            // If there are fewer than 5 pages, show all pages
-            $startPage = 1;
-            $endPage = $totalPages;
-        } else {
-            // Calculate the start and end page dynamically
-            if ($currentPage <= floor($maxPagesToShow / 2)) {
-                // Near the start, show pages from 1
-                $startPage = 1;
-                $endPage = min($maxPagesToShow, $totalPages);
-            } elseif ($currentPage >= $totalPages - floor($maxPagesToShow / 2)) {
-                // Near the end, show the last $maxPagesToShow pages
-                $startPage = max(1, $totalPages - $maxPagesToShow + 1);
-                $endPage = $totalPages;
-            } else {
-                // In the middle, show $maxPagesToShow pages centered around the current page
-                $startPage = $currentPage - floor($maxPagesToShow / 2);
-                $endPage = $currentPage + floor($maxPagesToShow / 2);
-            }
-        }
-
-        // Show the page numbers
-        for ($page = $startPage; $page <= $endPage; $page++) {
-            if ($page == $currentPage) {
-                // Highlight the current page with an underline
-                echo '<span class="current-page">' . $page . '</span>';
-            } else {
-                echo '<a href="?page=' . $page . '">' . $page . '</a>';
-            }
-        }
-
-        if ($currentPage < $totalPages) {
-            // Link to the next page
-            echo '<a href="?page=' . ($currentPage + 1) . '" style="margin-left: ' . $controlLinkGap . 'rem;"><span class="font-MaterialSymbolsOutlined">chevron_right</span></a>';
-            // Link to the last page
-            echo '<a href="?page=' . $totalPages . '"><span class="font-MaterialSymbolsOutlined">last_page</span></a>';
-        }
-
-        echo '</div></div>';
-    }
-
     public function renderAdmissionsOverview()
     {
         // Set the number of items per page and the current page
@@ -308,7 +250,7 @@ class AdminController
         </table>';
 
         if ($filters == null) {
-            $this->renderPaginationControls($currentPage, $totalPages, $totalAdmissions);
+            renderPaginationControls($currentPage, $totalPages, $totalAdmissions);
         }
     }
 
@@ -1014,10 +956,10 @@ class AdminController
         // Fetch paginated admissions data
 
         if ($filters != null) {
-            $incidents = fetchData(TB_ADMIN_INCIDENT, '*', $filters);
+            $incidents = array_reverse(fetchData(TB_ADMIN_INCIDENT, '*', $filters));
             echo "<br> <h3>Showing " . count($incidents) . " results.</h3>";
         } else {
-            $incidents = fetchDataLimited(TB_ADMIN_INCIDENT, '*', $filters, $startRow, $itemsPerPage);
+            $incidents = array_reverse(fetchDataLimited(TB_ADMIN_INCIDENT, '*', $filters, $startRow, $itemsPerPage));
         }
 
         echo "<br>";
@@ -1074,8 +1016,222 @@ class AdminController
         </table>';
 
         if ($filters == null) {
-            $this->renderPaginationControls($currentPage, $totalPages, $totalIncidents);
+            renderPaginationControls($currentPage, $totalPages, $totalIncidents);
         }
+    }
+    #endregion
+
+    #region News
+    public function deleteNews()
+    {
+        $this->newsModel->deleteNews($_POST['news_ID']);
+        goToPage('/admin/news');
+    }
+
+    public function saveNews()
+    {
+        $data = [
+            'news_Title' => $_POST['news_Title'],
+            'news_Category' => $_POST['news_Category'],
+            'news_Date' => $_POST['news_Date'],
+            'news_Description' => $_POST['news_Description']
+        ];
+        if (isset($_POST['news_ID'])) {
+            $this->newsModel->updateNews($data, $_POST['news_ID']);
+        } else {
+            $this->newsModel->createNews($data);
+        }
+
+        showAlert(isset($_POST['news_ID']) ? 'News updated.' : 'News created.');
+
+        $news_ID = $_POST['news_ID'] ?? $this->newsModel->getLastInsertedID();
+
+        // Check if an image is uploaded
+        if (isset($_FILES['news_Picture']) && $_FILES['news_Picture']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = dirname(__DIR__, 1) . '/assets/img/news';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            $destination = $uploadDir . DIRECTORY_SEPARATOR . $news_ID . '.png';
+
+            $finfo = new finfo(FILEINFO_MIME_TYPE);
+            $mime = $finfo->file($_FILES['news_Picture']['tmp_name']);
+
+            // if ($mime === 'image/png') {
+            if (move_uploaded_file($_FILES['news_Picture']['tmp_name'], $destination)) {
+                echo 'Image uploaded to: ' . $destination;
+            } else {
+                echo 'Failed to move uploaded file.';
+            }
+            // } else {
+            //     echo 'Invalid file type. Please upload a PNG image.';
+            // }
+        }
+
+        unset($_SESSION['news_ID']);
+
+        goToPage('/admin/news');
+    }
+
+    public function renderNewsOverview()
+    {
+        // Set the number of items per page and the current page
+        $itemsPerPage = 12;
+        $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+
+        // Calculate the starting row for the SQL query (Offset)
+        $startRow = ($currentPage - 1) * $itemsPerPage;
+
+        $filters = [];
+
+        if (isset($_POST['filter_News']) && !empty($_POST['filter_News'])) {
+            $filters[] = ['news_Title', '=', $_POST['filter_News']];
+        }
+
+        // Fetch paginated news list data
+
+        if ($filters != null) {
+            $newsList = array_reverse(fetchData(TB_NEWS, ['news_ID', 'news_Title', 'news_Timestamp'], [['news_Title', 'LIKE', $_POST['filter_News']]]));
+            echo "<br> <h3>Showing " . count($newsList) . " results for '" . $_POST['filter_News'] . "'</h3>";
+        } else {
+            $newsList = array_reverse(fetchDataLimited(TB_NEWS, ['news_ID', 'news_Title', 'news_Timestamp'], $filters, $startRow, $itemsPerPage));
+        }
+
+        echo "<br>";
+        // preformat($admissions);
+
+        // Fetch the total number of rows for pagination
+        $totalAdmissions = countData(TB_NEWS);  // Fetch all records to count total
+        $totalPages = ceil($totalAdmissions / $itemsPerPage);  // Calculate total pages
+
+        echo '<table>
+        <thead>
+            <tr>
+                <th hidden>ID</th>
+                <th>Title</th>
+                <th>Timestamp</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>';
+
+        foreach ($newsList as $news) {
+            $id = $news['news_ID'];
+            $isReviewing = false;
+            if (isset($_SESSION['news_ID']) && $id == $_SESSION['news_ID']) {
+                $isReviewing = true;
+            }
+
+            echo '<tr>';
+            echo "<td hidden>$id</td>";
+            echo "<td " . ($isReviewing ? 'id="overview-reviewing"' : '') . ">{$news['news_Title']}</td>";
+            echo "<td " . ($isReviewing ? 'id="overview-reviewing"' : '') . ">{$news['news_Timestamp']}</td>";
+
+
+            // Add the "Review" button in the Actions column
+            echo "<td " . ($isReviewing ? 'id="overview-reviewing"' : '') . ">";
+            echo '
+                <div class="released-flex"> 
+                <form action="/admin/news_review" method="post">
+                    <input type="hidden" name="news_ID" value="' . $id . '">
+                    <button class="review-btn" type="submit">Review</button>
+                </form>
+                <form action="/admin/news_delete" method="post">
+                    <input type="hidden" name="news_ID" value="' . $id . '">
+                    <button class="delete-btn" type="submit">Delete</button>
+                </form>
+                </div>';
+            echo '</td>';
+
+            echo '</tr>';
+        }
+
+        echo '</tbody>
+        </table>';
+
+        if ($filters == null) {
+            renderPaginationControls($currentPage, $totalPages, $totalAdmissions);
+        }
+    }
+
+    public function renderNewsOverviewSingle()
+    {
+        if (isset($_SESSION['news_ID'])) {
+            $dataRaw = fetchData(TB_NEWS, '*', [['news_ID', '=', $_SESSION['news_ID']]]);
+            $data = $dataRaw[0] ?? [];
+            normalizeData($data);
+
+            echo '
+                <form class="form-overview" action="/admin/news_clear" method="post">
+                    <section class="form-row">
+                        <div class="form-group">
+                            <button class="delete-btn">Clear Selection</button>
+                        </div>
+                    </section> 
+                </form>';
+        }
+
+        if (!isset($data)) {
+            $data = [
+                'news_Title' => '',
+                'news_Category' => '',
+                'news_Date' => '',
+                'news_Description' => ''
+            ];
+        }
+
+        $category = !empty($data['news_Category']) ? $data['news_Category'] : 'ANNOUNCEMENT';
+
+        echo '
+                <form class="form-overview" enctype="multipart/form-data" action="/admin/news_save" method="post">
+                    <section class="form-row" style="column-gap: 0.5rem;">
+                        <div class="form-group">
+                            <input class="admin-input" type="text" name="news_Title" placeholder="Title" required value="' . getValueOrNA($data, 'news_Title') . '">
+                        </div>
+                        <div class="admin-form-group">
+                           <select name="news_Category" class="admin-select" required>
+                                ' . getSelectedOption($category, 'ANNOUNCEMENT') . '
+                                ' . getSelectedOption($category, 'ARTICLE') . '
+                                ' . getSelectedOption($category, 'EVENT') . '
+                                ' . getSelectedOption($category, 'NEWS') . '
+                                ' . getSelectedOption($category, 'JOB PLACEMENT') . '
+                                ' . getSelectedOption($category, 'JOB VACANCY') . '
+                            </select>
+                        </div>
+                        <div class="admin-form-group">
+                            <input class="admin-input" type="date" name="news_Date" required value="' . (!empty($data['news_Date']) ? htmlspecialchars($data['news_Date']) : '') . '">
+                        </div>
+                    </section>
+                    
+                    <section class="form-row">
+                        <div class="form-group">
+                            <textarea class="admin-input" name="news_Description" placeholder="Description" style="width: 100%; resize: none;" required rows="15" style="width: 100%; resize: none;">' . getValueOrNA($data, 'news_Description') . '</textarea>
+                        </div>
+                    </section>
+
+                    <section class="form-row" style="align-items: center; font-size: 2rem; gap: 2rem; margin-bottom: 1rem;">
+                        <div class="form-group">
+                            <br>
+                            <label>Upload Image (PNG only):</label>
+                            <input class="admin-input" type="file" name="news_Picture" accept="image/png" style="margin-top: 1rem; cursor: pointer;">
+                        </div>
+                ';
+        if (isset($_SESSION['news_ID'])) {
+            $imagePath = '../../../assets/img/news/' . htmlspecialchars($_SESSION['news_ID']) . '.png';
+            echo '
+                        <div class="form-group">
+                            <img src="' . $imagePath . '" alt="News Image" style="max-width: 100%;">
+                        </div>
+                        
+                        <input type="hidden" name="news_ID" value="' . $_SESSION['news_ID'] . '">
+                            
+                            ';
+        }
+        echo '
+                    </section>
+                    <button type="submit" class="primary-button">Save</button>
+                </form>';
     }
     #endregion
 }

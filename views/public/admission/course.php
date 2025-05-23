@@ -30,7 +30,7 @@
 
             <div class="course-programs">
                 <div class="course-program">
-                    <img src="../../../assets/img/students.png" alt="Bachelor of Science in Computer Science">
+                    <img src="../../../assets/img/courses/BSCS.png" alt="Bachelor of Science in Computer Science">
                     <div class="course-program-content">
                         <h3>Bachelor of Science in Computer Science</h3>
                         <p>
@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="course-program">
-                    <img src="../../../assets/img/BSIT.jpg" alt="Bachelor of Science in Information Technology">
+                    <img src="../../../assets/img/courses/BSIT.jpg" alt="Bachelor of Science in Information Technology">
                     <div class="course-program-content">
                         <h3>Bachelor of Science in Information Technology</h3>
                         <p>
@@ -62,7 +62,7 @@
 
             <div class="course-programs program-section-2">
                 <div class="course-program" style="margin-inline: 25%">
-                    <img src="../../../assets/img/BSPSYCH.jpg" alt="Bachelor of Science in Psychology">
+                    <img src="../../../assets/img/courses/BSPSYCH.jpg" alt="Bachelor of Science in Psychology">
                     <div class="course-program-content">
                         <h3>Bachelor of Science in Psychology</h3>
                         <p>
@@ -84,7 +84,7 @@
 
             <div class="course-programs program-section-1">
                 <div class="course-program">
-                    <img src="../../../assets/img/BSTM.jpg" alt="Bachelor of Science in Tourism Management">
+                    <img src="../../../assets/img/courses/BSTM.jpg" alt="Bachelor of Science in Tourism Management">
                     <div class="course-program-content">
                         <h3>Bachelor of Science in Tourism Management</h3>
                         <p>
@@ -94,7 +94,7 @@
                 </div>
 
                 <div class="course-program">
-                    <img src="../../../assets/img/BSBA.jpg" alt="Bachelor of Science in Business Administration">
+                    <img src="../../../assets/img/courses/BSBA.jpg" alt="Bachelor of Science in Business Administration">
                     <div class="course-program-content">
                         <h3>Bachelor of Science in Business Administration</h3>
                         <p>
@@ -104,7 +104,7 @@
                 </div>
 
                 <div class="course-program" style="margin-inline: 25%">
-                    <img src="../../../assets/img/BSHM(1).jpg" alt="Bachelor of Science in Hospitality Management">
+                    <img src="../../../assets/img/courses/BSHM(1).jpg" alt="Bachelor of Science in Hospitality Management">
                     <div class="course-program-content">
                         <h3>Bachelor of Science in Hospitality Management</h3>
                         <p>
@@ -126,7 +126,7 @@
 
             <div class="course-programs">
                 <div class="course-program">
-                    <img src="../../../assets/img/BSE.jpg" alt="Bachelor of Secondary Education">
+                    <img src="../../../assets/img/courses/BSE.jpg" alt="Bachelor of Secondary Education">
                     <div class="course-program-content">
                         <h3>Bachelor of Secondary Education</h3>
                         <p>
@@ -136,7 +136,7 @@
                 </div>
 
                 <div class="course-program">
-                    <img src="../../../assets/img/BECE.jpg" alt="Bachelor of Early Childhood Education">
+                    <img src="../../../assets/img/courses/BECE.jpg" alt="Bachelor of Early Childhood Education">
                     <div class="course-program-content">
                         <h3>Bachelor of Early Childhood Education</h3>
                         <p>

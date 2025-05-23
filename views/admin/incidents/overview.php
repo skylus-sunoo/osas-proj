@@ -241,10 +241,13 @@
                             </div>
                             <div>
                                 <label for="incident_Status">Status</label>
+                                <?php
+                                $status = !empty($_POST['incident_Status']) ? $_POST['incident_Status'] : 'Ongoing';
+                                ?>
                                 <select name="incident_Status" class="admin-select" required style="width: 100%; box-sizing: border-box;">
-                                    <option value="Ongoing">Ongoing</option>
-                                    <option value="Resolved">Resolved</option>
-                                    <option value="Dismissed">Dismissed</option>
+                                    <?= getSelectedOption($status, 'Ongoing') ?>
+                                    <?= getSelectedOption($status, 'Resolved') ?>
+                                    <?= getSelectedOption($status, 'Dismissed') ?>
                                 </select>
                             </div>
                         </div>
