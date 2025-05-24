@@ -25,7 +25,7 @@ $conditions .= $_SESSION['admission_Others'] ? $_SESSION['admission_Others'] : '
 
 date_default_timezone_set('Asia/Manila');
 
-$html = file_get_contents("template.html");
+$html = file_get_contents("form_application.html");
 $html = str_replace([
     "{{ datetime }}",
     "{{ control_number }}",

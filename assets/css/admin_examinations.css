@@ -192,7 +192,7 @@
 }
 
 /* Custom radio button style */
-.radio-container input[type="radio"] + label {
+.radio-container input[type="radio"]+label {
     position: relative;
     padding-left: 35px;
     cursor: pointer;
@@ -203,7 +203,7 @@
 }
 
 /* The circular part of the custom radio button */
-.radio-container input[type="radio"] + label::before {
+.radio-container input[type="radio"]+label::before {
     content: '';
     position: absolute;
     left: 0;
@@ -218,19 +218,19 @@
 }
 
 /* When the radio button is checked */
-.radio-container input[type="radio"]:checked + label::before {
+.radio-container input[type="radio"]:checked+label::before {
     background-color: var(--primary-hex-green);
     border-color: var(--primary-hex-green);
 }
 
 /* When the "Failed" radio button is checked */
-.radio-container input[type="radio"].failed-radio:checked + label::before {
+.radio-container input[type="radio"].failed-radio:checked+label::before {
     background-color: var(--primary-hex-red);
     border-color: var(--primary-hex-red);
 }
 
 /* Hover effect on the label */
-.radio-container input[type="radio"]:hover + label::before {
+.radio-container input[type="radio"]:hover+label::before {
     border-color: var(--primary-hex-yellow) !important;
 }
 
@@ -245,13 +245,70 @@
 }
 
 /* When "Failed" radio is checked, change the label color */
-.radio-container input[type="radio"].failed-radio:checked + label {
+.radio-container input[type="radio"].failed-radio:checked+label {
     color: var(--primary-hex-red);
 }
 
 
 /* When the "Failed" radio button is checked */
 label.failed-label::before {
-    border-color: var(--primary-hex-red) !important;     /* Change border to red */
+    border-color: var(--primary-hex-red) !important;
+    /* Change border to red */
 }
 
+
+/* Base Styles for the Admin Requirements Form */
+.admin-requirements-form {
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.admin-requirements-form form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+}
+
+.admin-requirements-form label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Checkboxes */
+.admin-requirements-form input[type="checkbox"]:hover {
+    cursor: pointer;
+}
+
+.admin-requirements-form input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid #ccc;
+    background-color: var(--primary-hex-white);
+    ;
+    transition: background-color 0.3s, border-color 0.3s;
+    margin-right: 10px;
+}
+
+.admin-requirements-form input[type="checkbox"]:checked {
+    background-color: var(--primary-hex-green-light);
+    border-color: var(--primary-hex-green-light);
+}
+
+.admin-requirements-form input[type="checkbox"]:checked::before {
+    content: '✔';
+    position: absolute;
+    top: -2px;
+    left: 3px;
+    font-size: 16px;
+    color: white;
+}

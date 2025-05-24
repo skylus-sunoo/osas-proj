@@ -141,6 +141,10 @@ $router->add("/admissions/exam_results", function () {
     include_once 'views/admin/admissions/examinations.php';
 });
 
+$router->add("/admissions/exam_reports", function () {
+    goToPage("../form_exam_results.php");
+});
+
 $router->add("/admissions/exam_create", function () {
     $controller = new AdminController();
     $controller->handleAdminRedirect();
@@ -226,7 +230,7 @@ $router->add("/admission/enrollment", function () {
 });
 
 $router->add("/admission/download", function () {
-    goToPage("../generate-pdf.php");
+    goToPage("../form_application.php");
 });
 
 $router->add("/admission/save_admission_information", function () {
