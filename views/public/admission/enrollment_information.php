@@ -64,48 +64,21 @@
                                         <option <?= optionIsSession('admission_Strand', 'STEM') ?>>STEM</option>
                                         <option <?= optionIsSession('admission_Strand', 'HUMSS') ?>>HUMSS</option>
                                         <option <?= optionIsSession('admission_Strand', 'ABM') ?>>ABM</option>
-                                        <!-- <option <?= optionIsSession('admission_Strand', 'GAS') ?>>GAS</option> -->
+                                        <option <?= optionIsSession('admission_Strand', 'GAS') ?>>GAS</option>
                                         <option <?= optionIsSession('admission_Strand', 'TVL-ICT') ?>>TVL-ICT</option>
                                         <option <?= optionIsSession('admission_Strand', 'TVL-HE') ?>>TVL-HE</option>
                                     </select>
                                 </div>
 
                                 <?php
-                                $strands = [
-                                    'STEM' => [
-                                        'name' => 'STEM',
-                                        'programs' => ['BSCS', 'BSIT']
-                                    ],
-                                    'HUMSS' => [
-                                        'name' => 'HUMSS',
-                                        'programs' => ['BSCE', 'BSE']
-                                    ],
-                                    'ABM' => [
-                                        'name' => 'ABM',
-                                        'programs' => ['BSBA']
-                                    ],
-                                    'GAS' => [
-                                        'name' => 'GAS',
-                                        'programs' => ['BSBA', 'BSPSY']
-                                    ],
-                                    'TVL-ICT' => [
-                                        'name' => 'TVL-ICT',
-                                        'programs' => ['BSIT']
-                                    ],
-                                    'TVL-HE' => [
-                                        'name' => 'TVL-HE',
-                                        'programs' => ['BSCS', 'BSHM']
-                                    ]
-                                ];
-
-                                $options = [
-                                    'STEM',
-                                    'HUMSS',
-                                    'ABM',
-                                    'GAS',
-                                    'TVL-ICT',
-                                    'TVL-HE'
-                                ];
+                                // $options = [
+                                //     'STEM',
+                                //     'HUMSS',
+                                //     'ABM',
+                                //     'GAS',
+                                //     'TVL-ICT',
+                                //     'TVL-HE'
+                                // ];
                                 // echo generateSelectFieldEntryNew('strand', 'SHS Strand', $options, 'admission_Strand', true);
 
                                 $options = [
