@@ -113,18 +113,18 @@
                                 <option value=""></option>
 
                                 <!-- These are the program options with PHP embedded -->
-                                <option <?= optionIsSession('admission_Program', 'BSCS') ?> class="STEM GAS TVL-ICT">Bachelor of Science in Computer Science</option>
-                                <option <?= optionIsSession('admission_Program', 'BSIT') ?> class="GAS TVL-ICT">Bachelor of Science in Information Technology</option>
-                                <option <?= optionIsSession('admission_Program', 'BSCE') ?> class="STEM HUMSS">Bachelor of Early Childhood Education</option>
-                                <option <?= optionIsSession('admission_Program', 'BSE') ?> class="STEM ABM">Bachelor of Secondary Education Major in English</option>
-                                <option <?= optionIsSession('admission_Program', 'BSE') ?> class="STEM HUMSS">Bachelor of Secondary Education Major in Mathematics</option>
-                                <option <?= optionIsSession('admission_Program', 'BSE') ?> class="STEM ABM">Bachelor of Secondary Education Major in Science</option>
-                                <option <?= optionIsSession('admission_Program', 'BSBA') ?> class="STEM HUMSS ABM GAS">Bachelor of Science in Business Administration Major in Finance</option>
-                                <option <?= optionIsSession('admission_Program', 'BSBA') ?> class="STEM HUMSS ABM GAS">Bachelor of Science in Business Administration Major in Marketing Management</option>
-                                <option <?= optionIsSession('admission_Program', 'BSBA') ?> class="STEM HUMSS ABM GAS TVL-ICT">Bachelor of Science in Business Administration Major in Human Resource Management</option>
-                                <option <?= optionIsSession('admission_Program', 'BSHM') ?> class="STEM HUMSS ABM TVL-HE TVL-ICT">Bachelor of Science in Hospitality Management</option>
-                                <option <?= optionIsSession('admission_Program', 'BSTM') ?> class="STEM HUMSS ABM TVL-HE">Bachelor of Science in Tourism Management</option>
-                                <option <?= optionIsSession('admission_Program', 'BSPSY') ?> class="STEM HUMSS TVL-HE">Bachelor of Science in Psychology</option>
+                                <option <?= optionIsSession('admission_Program', 'BSCS') ?> class="STEM TVL-ICT">Bachelor of Science in Computer Science</option>
+                                <option <?= optionIsSession('admission_Program', 'BSIT') ?> class="STEM TVL-ICT">Bachelor of Science in Information Technology</option>
+                                <option <?= optionIsSession('admission_Program', 'BSCE') ?> class="STEM HUMSS GAS">Bachelor of Early Childhood Education</option>
+                                <option <?= optionIsSession('admission_Program', 'BSE') ?> class="STEM HUMSS GAS ">Bachelor of Secondary Education Major in English</option>
+                                <option <?= optionIsSession('admission_Program', 'BSE') ?> class="STEM HUMSS GAS">Bachelor of Secondary Education Major in Mathematics</option>
+                                <option <?= optionIsSession('admission_Program', 'BSE') ?> class="STEM HUMSS GAS">Bachelor of Secondary Education Major in Science</option>
+                                <option <?= optionIsSession('admission_Program', 'BSBA') ?> class="STEM ABM GAS">Bachelor of Science in Business Administration Major in Finance</option>
+                                <option <?= optionIsSession('admission_Program', 'BSBA') ?> class="STEM ABM GAS">Bachelor of Science in Business Administration Major in Marketing Management</option>
+                                <option <?= optionIsSession('admission_Program', 'BSBA') ?> class="STEM ABM GAS ">Bachelor of Science in Business Administration Major in Human Resource Management</option>
+                                <option <?= optionIsSession('admission_Program', 'BSHM') ?> class="STEM HUMSS ABM TVL-HE TVL-ICT GAS">Bachelor of Science in Hospitality Management</option>
+                                <option <?= optionIsSession('admission_Program', 'BSTM') ?> class="STEM HUMSS ABM TVL-HE TVL-ICT GAS">Bachelor of Science in Tourism Management</option>
+                                <option <?= optionIsSession('admission_Program', 'BSPSY') ?> class="STEM HUMSS GAS">Bachelor of Science in Psychology</option>
                             </select>
 
                             <button type="submit" class="primary-button">Save Admission Information</button>
