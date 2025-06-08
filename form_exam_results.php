@@ -23,7 +23,7 @@ $sql = "SELECT
                 ON 
                     c.admission_ID = i.admission_ID
                 WHERE
-                    c.admission_Result IS NULL;";
+                    c.admission_Result = 'PASSED';";
 
 // $sql = "SELECT * FROM tb_admission_user;";
 
