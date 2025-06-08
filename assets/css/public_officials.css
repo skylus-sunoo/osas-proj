@@ -18,6 +18,8 @@
     margin-left:20%;
     margin-right:20%;
     margin-top: 30px;
+
+    gap: 30px;
 }
 
 .officials-card img {
@@ -27,4 +29,12 @@
     object-fit: cover;         /* Ensure the image fills the area */
     border: 3px solid white;   /* Optional: nice clean border */
     display: block;
+}
+
+.officials-card h1 {
+    color:orange
+}
+
+.officials-card h2 {
+    color:white
 }

@@ -100,6 +100,13 @@
         <br>
 
         <h1 class="download-heading">OSAS Files</h1>
+
+        <br> 
+
+        <h3>NOTE: For all the transactions within the CvSU Silang Office of the Student Affairs and Services,
+            please proceed to Room 313 at CvSU Silang Campus.
+        </h3>
+
         <section class="download-form-grid">
             <?=
             generateFormItem(
@@ -126,6 +133,10 @@
         </section>
 
         <h1 class="download-heading">Registrar Files:</h1>
+        <br>
+          <h3>NOTE: For all the transactions within the CvSU Silang Registrar,
+            please proceed to Room 311 at CvSU Silang Campus.
+        </h3>
         <section class="download-form-grid">
             <?=
             generateFormItem(

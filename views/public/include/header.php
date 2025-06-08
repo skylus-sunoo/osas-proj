@@ -14,7 +14,7 @@ function is_active_sub($needle)
 <header class="header-main">
     <div class="header-school">
         <img src="../../../assets/img/logo.png" alt="">
-        <h1>CVSU SILANG <br> OFFICE OF STUDENT AFFAIRS AND SERVICE</h1>
+        <h1>CVSU SILANG <br> OFFICE OF STUDENT AFFAIRS AND SERVICES</h1>
     </div>
 
     <div class="hamburger" id="hamburger">&#9776;</div>
@@ -42,7 +42,7 @@ function is_active_sub($needle)
             <div class="dropdown-content">
                 <a href="../about/statements" class="<?= is_active_sub('statements') ?>">Statements</a>
                 <a href="../about/history" class="<?= is_active_sub('history') ?>">History</a>
-                <a href="../about/officials " class="<?= is_active_sub('officials') ?>">Campus Officials</a>
+                <a href="../about/officials " class="<?= is_active_sub('officials') ?>">About the System</a>
             </div>
         </div>
 
