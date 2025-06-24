@@ -3,16 +3,16 @@
         <button data-step="enrollment-admission-information">
             <h1>Admission Information <?= markedAsComplete(1); ?></h1>
         </button>
-        <button data-step="enrollment-personal-information" class="<?= (isset($_SESSION['enrollmentPage']) && $_SESSION['enrollmentPage'] == 2) ? 'aside-selected' : ''?>">
+        <button data-step="enrollment-personal-information" class="<?= (isset($_SESSION['enrollmentPage']) && $_SESSION['enrollmentPage'] == 2) ? 'aside-selected' : '' ?>">
             <h1>Personal Information <?= markedAsComplete(2); ?></h1>
         </button>
-        <button data-step="enrollment-family-information" class="<?= (isset($_SESSION['enrollmentPage']) && $_SESSION['enrollmentPage'] == 3) ? 'aside-selected' : ''?>">
+        <button data-step="enrollment-family-information" class="<?= (isset($_SESSION['enrollmentPage']) && $_SESSION['enrollmentPage'] == 3) ? 'aside-selected' : '' ?>">
             <h1>Family Background <?= markedAsComplete(3); ?></h1>
         </button>
-        <button data-step="enrollment-education-information" class="<?= (isset($_SESSION['enrollmentPage']) && $_SESSION['enrollmentPage'] == 4) ? 'aside-selected' : ''?>">
+        <button data-step="enrollment-education-information" class="<?= (isset($_SESSION['enrollmentPage']) && $_SESSION['enrollmentPage'] == 4) ? 'aside-selected' : '' ?>">
             <h1>Educational History <?= markedAsComplete(4); ?></h1>
         </button>
-        <button data-step="enrollment-medical-information" class="<?= (isset($_SESSION['enrollmentPage']) && $_SESSION['enrollmentPage'] == 5) ? 'aside-selected' : ''?>">
+        <button data-step="enrollment-medical-information" class="<?= (isset($_SESSION['enrollmentPage']) && $_SESSION['enrollmentPage'] == 5) ? 'aside-selected' : '' ?>">
             <h1>Medical Background <?= markedAsComplete(5); ?></h1>
         </button>
         <section class="enrollment-information-control-section">
@@ -78,7 +78,26 @@
             <b>
                 <p><?= $_SESSION['admission_FirstName'] . ' ' . $_SESSION['admission_MiddleName'] . ' ' . $_SESSION['admission_LastName'] . ' ' . $_SESSION['admission_Suffix'] ?></p>
                 <p><?= 'CvSU - ' . $_SESSION['admission_Branch'] ?></p>
-                <p><?= $_SESSION['admission_Program'] ?></p>
+                <p><?php
+
+                    $programNames = [
+                        'BSCS' => 'Bachelor of Science in Computer Science',
+                        'BSIT' => 'Bachelor of Science in Information Technology',
+                        'BSCE' => 'Bachelor of Early Childhood Education',
+                        'BSE_ENGLISH' => 'Bachelor of Secondary Education Major in English',
+                        'BSE_MATH' => 'Bachelor of Secondary Education Major in Mathematics',
+                        'BSE_SCIENCE' => 'Bachelor of Secondary Education Major in Science',
+                        'BSBA_FIN' => 'Bachelor of Science in Business Administration Major in Finance',
+                        'BSBA_MARKETING' => 'Bachelor of Science in Business Administration Major in Marketing Management',
+                        'BSBA_HR' => 'Bachelor of Science in Business Administration Major in Human Resource Management',
+                        'BSHM' => 'Bachelor of Science in Hospitality Management',
+                        'BSTM' => 'Bachelor of Science in Tourism Management',
+                        'BSPSY' => 'Bachelor of Science in Psychology',
+                    ];
+
+                    echo $programNames[$_SESSION['admission_Program']] ?? 'Unknown Program'; 
+                    
+                    ?></p>
             </b>
             <br>
             <p>Do you want to proceed and get your control number now?</p>

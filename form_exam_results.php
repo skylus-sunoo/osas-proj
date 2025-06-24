@@ -38,6 +38,24 @@ $html = file_get_contents("form_exam_results.html");
 $rowsHtml = '';
 foreach ($results as $row) {
     $controlNumber = str_pad($row['admission_ControlNumber'], 5, '0', STR_PAD_LEFT);
+
+    $programNames = [
+        'BSCS' => 'Bachelor of Science in Computer Science',
+        'BSIT' => 'Bachelor of Science in Information Technology',
+        'BSCE' => 'Bachelor of Early Childhood Education',
+        'BSE_ENGLISH' => 'Bachelor of Secondary Education Major in English',
+        'BSE_MATH' => 'Bachelor of Secondary Education Major in Mathematics',
+        'BSE_SCIENCE' => 'Bachelor of Secondary Education Major in Science',
+        'BSBA_FIN' => 'Bachelor of Science in Business Administration Major in Finance',
+        'BSBA_MARKETING' => 'Bachelor of Science in Business Administration Major in Marketing Management',
+        'BSBA_HR' => 'Bachelor of Science in Business Administration Major in Human Resource Management',
+        'BSHM' => 'Bachelor of Science in Hospitality Management',
+        'BSTM' => 'Bachelor of Science in Tourism Management',
+        'BSPSY' => 'Bachelor of Science in Psychology',
+    ];
+                                
+    $row['admission_Program'] = $programNames[$row['admission_Program']] ?? 'Unknown Program';
+
     $rowsHtml .= "<tr>
                     <td class='results-table' style='text-align: center;'>" . $controlNumber . "</td>
                     <td class='results-table'>" . $row['admission_Program'] . "</td>
