@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admission</title>
     <link rel="stylesheet" href="../../../assets/css/public_admission.css">
+    <style>
+        a {
+            color: #007bff;
+        }
+    </style>
 </head>
 
 <body class="public-body">

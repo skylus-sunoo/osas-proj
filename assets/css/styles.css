@@ -45,6 +45,10 @@ body {
     color: white;
 }
 
+a:hover {
+    color: var(--primary-hex-yellow);
+}
+
 .flex-center {
     display: flex;
     align-items: center;

@@ -1,40 +1,50 @@
+/* why does the official cards border overflow by a tiny amount to the left? */
+
+.officials-wrapper {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    /* flex-wrap: wrap; */
+}
 
 .officials-card {
     background: rgba(var(--primary-rgb-blue-dark), 0.5);
-    border-color: rgba(219, 219, 219, 0.5)  ;
+    border-color: rgba(219, 219, 219, 0.5);
     border-style: solid;
     border-width: 2px;
-    margin-bottom: 20px;
     border-radius: 30px;
     color: white;
 
-    padding-inline: 1.5rem;
     padding-top: 2rem;
     padding-bottom: 1rem;
 
-    display: flex;
-    justify-content: center; /* centers image horizontally */
-    align-items: center;     /* centers image vertically (optional) */
-    margin-left:20%;
-    margin-right:20%;
-    margin-top: 30px;
+    margin: 1rem;
 
-    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    justify-content: center;
+    /* centers image horizontally */
+    align-items: center;
+    /* centers image vertically (optional) */
 }
 
 .officials-card img {
     width: 150px;
     height: 150px;
-    border-radius: 50%;        /* Crop to circle */
-    object-fit: cover;         /* Ensure the image fills the area */
-    border: 3px solid white;   /* Optional: nice clean border */
+    border-radius: 50%;
+    /* Crop to circle */
+    object-fit: cover;
+    /* Ensure the image fills the area */
+    border: 3px solid white;
+    /* Optional: nice clean border */
     display: block;
 }
 
 .officials-card h1 {
-    color:orange
+    color: orange
 }
 
 .officials-card h2 {
-    color:white
+    color: white
 }

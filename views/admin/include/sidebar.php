@@ -52,17 +52,17 @@
                 Incidents
             </a>
         </li>
-        <li>
+        <!-- <li>
             <a href="#" class="font-teko">
                 <span class="font-MaterialSymbolsOutlined">calendar_month</span>
                 Events
             </a>
-        </li>
+        </li> -->
         <h4>
             <span>Account</span>
             <div class="menu-separator"></div>
         </h4>
-        <li>
+        <!-- <li>
             <a href="home_profile.php" class="font-teko">
                 <span class="font-MaterialSymbolsOutlined">account_circle</span>
                 Profile
@@ -73,7 +73,7 @@
                 <span class="font-MaterialSymbolsOutlined">approval_delegation</span>
                 Requests
             </a>
-        </li>
+        </li> -->
         <li>
             <a href="#" class="font-teko" id="btn-logout">
                 <span class="font-MaterialSymbolsOutlined">logout</span>
@@ -81,15 +81,15 @@
             </a>
         </li>
     </ul>
-    <div id="sidebar-user-account">
-        <!-- <div id="sidebar-user-profile">
+    <!-- <div id="sidebar-user-account">
+        <div id="sidebar-user-profile">
             <img src="data:image/png;base64,<?php echo $_SESSION['user_Picture']; ?>" id="sidebar-profile" alt="Profile Picture">
             <div id="sidebar-user-detail">
                 <h4 class="font-teko"><?php echo $_SESSION['user_FullName']; ?></h4>
                 <p class="font-teko"><?php echo $_SESSION['user_Email']; ?></p>
             </div>
-        </div> -->
-    </div>
+        </div>
+    </div> -->
 </aside>
 
 <script type="text/javascript">

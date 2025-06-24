@@ -1,5 +1,3 @@
-
-
 .home-news-list {
     display: flex;
     flex-direction: column;
@@ -55,8 +53,8 @@
 
 .home-news-list-grid {
     display: grid;
-    /* grid-template-columns: 25% 25% 25% 25%; */
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
 }
 
 .home-news-list-item {

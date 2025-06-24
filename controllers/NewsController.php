@@ -119,16 +119,18 @@ class NewsController
         $startRow = ($currentPage - 1) * $itemsPerPage;
 
         // Fetch paginated news list data
-        $newsList = fetchDataLimited(TB_NEWS, '*', [], $startRow, $itemsPerPage);
+        global $connections;
 
-        // Custom comparison function to sort by 'news_Date'
-        usort($newsList, function ($a, $b) {
-            $dateA = strtotime($a['news_Date']);
-            $dateB = strtotime($b['news_Date']);
+        $stmt = mysqli_prepare($connections, "SELECT * FROM `" . TB_NEWS . "` ORDER BY `news_Date` DESC LIMIT ?, ?");
+        mysqli_stmt_bind_param($stmt, "ii", $startRow, $itemsPerPage);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
-            // Compare the two dates
-            return $dateB - $dateA ;  // Descending order: latest date first
-        });
+        $newsList = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $newsList[] = $row;
+        }
+        mysqli_stmt_close($stmt);
 
         // Fetch the total number of rows for pagination
         $totalAdmissions = countData(TB_NEWS);  // Fetch all records to count total

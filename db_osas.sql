@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2025 at 04:15 PM
+-- Generation Time: Jun 24, 2025 at 09:03 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,7 +41,7 @@ CREATE TABLE `tb_admin_exam` (
 --
 
 INSERT INTO `tb_admin_exam` (`exam_Date`, `exam_DateCalendar`, `exam_DateMeridiem`, `exam_Capacity`, `exam_Occupied`, `exam_Status`) VALUES
-('May 22, 2025 AM', '2025-05-22', 'AM', 5, 0, NULL);
+('May 24, 2025 AM', '2025-05-24', 'AM', 5, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -86,7 +86,8 @@ CREATE TABLE `tb_admission_control` (
 --
 
 INSERT INTO `tb_admission_control` (`admission_ControlNumber`, `admission_ID`, `admission_Appointment`, `admission_Picture`, `admission_Folder`, `admission_Certificate`, `admission_Exam`, `admission_Result`) VALUES
-(1, 35, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 36, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, 9, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -119,8 +120,14 @@ CREATE TABLE `tb_admission_education` (
 --
 
 INSERT INTO `tb_admission_education` (`admission_ID`, `admission_ElementaryName`, `admission_ElementaryAddress`, `admission_ElementaryYear`, `admission_ElementaryType`, `admission_HighschoolName`, `admission_HighschoolAddress`, `admission_HighschoolYear`, `admission_HighschoolType`, `admission_SeniorName`, `admission_SeniorAddress`, `admission_SeniorYear`, `admission_SeniorType`, `admission_VocationalName`, `admission_VocationalAddress`, `admission_VocationalYear`, `admission_VocationalType`) VALUES
-(35, 'Pintong Gubat Elementary School', '8XCM+RQ4, Paliparan Rd, Dasmariñas, Cavite', 2017, 'Public', 'Paliparan II Integrated High School', '8X3V+686, Paliparan 2, Dasmariñas, 4114 Cavite', 2021, 'Public', 'Philippine Christian University - Dasmarinas', '7XV6+3X2, Aguinaldo Hwy, Dasmariñas, 4114 Cavite', 2023, 'Private', NULL, NULL, NULL, NULL),
-(38, 'PES', 'Parklane', 2017, 'Public', 'FEBIHS', 'Dasma', 2021, 'Public', 'EAC-C', 'Burol', 2023, 'Private', NULL, NULL, NULL, NULL);
+(1, 'Elementary', 'Address', 2017, 'Public', 'Highschool', 'Address', 2021, 'Public', 'Senior', 'Address', 2023, NULL, NULL, NULL, NULL, NULL),
+(5, 'Elementary', 'Address', 2017, 'Public', 'Highschool', 'Address', 2021, 'Public', 'Senior', 'Address', 2023, NULL, NULL, NULL, NULL, NULL),
+(9, 'Parklane Elementary School', '8WR9+798, San Francisco, General Trias, Cavite', 2017, 'Public', 'Francisco E. Barzaga Integrated High School', '8WJM+MJ6, Dasmarinas City, Cavite', 2021, 'Public', 'Emilio Aguinaldo College - Cavite', '8WGW+J9M, Congressional East Ave, Burol Main, Dasmarinas City, Cavite', 2023, 'Private', NULL, NULL, NULL, NULL),
+(10, 'Elementary', 'Address', 2017, 'Public', 'Highschool', 'Address', 2021, 'Public', 'Senior', 'Address', 2023, NULL, NULL, NULL, NULL, NULL),
+(14, 'Elementary', 'Address', 2017, 'Public', 'Highschool', 'Address', 2021, 'Public', 'Senior', 'Address', 2023, NULL, NULL, NULL, NULL, NULL),
+(24, 'Elementary', 'Address', 2017, 'Public', 'Highschool', 'Address', 2021, 'Public', 'Senior', 'Address', 2023, NULL, NULL, NULL, NULL, NULL),
+(31, 'Elementary', 'Address', 2017, 'Public', 'Highschool', 'Address', 2021, 'Public', 'Senior', 'Address', 2023, NULL, NULL, NULL, NULL, NULL),
+(36, 'Pintong Gubat Elementary School', '8XCM+RQ4, Paliparan Rd, Dasmariñas, Cavite', 2017, 'Public', 'Paliparan II Integrated High School', '8X3V+686, Paliparan 2, Dasmariñas, 4114 Cavite', 2021, 'Public', 'Philippine Christian University - Dasmarinas', '7XV6+3X2, Aguinaldo Hwy, Dasmariñas, 4114 Cavite', 2023, 'Private', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -149,8 +156,44 @@ CREATE TABLE `tb_admission_family` (
 --
 
 INSERT INTO `tb_admission_family` (`admission_ID`, `admission_FatherName`, `admission_FatherNumber`, `admission_FatherOccupation`, `admission_MotherName`, `admission_MotherNumber`, `admission_MotherOccupation`, `admission_Income`, `admission_Siblings`, `admission_BirthOrder`, `admission_GuardianName`, `admission_GuardianNumber`, `admission_GuardianOccupation`) VALUES
-(35, 'Joseph Bosul Skidmore', 9178354163, 'Sales Agent', 'Erly Enraca Skidmore', 9472902443, 'Housewife', '11,000-20,000', 1, 'Eldest', 'Erly Enraca Skidmore', 9472902443, 'Housewife'),
-(38, 'Symon De Jesus', 9958723566, 'Rider', 'Rosalyn De Jesus', 9958723566, 'VA', '21,000-30,000', 1, 'Eldest', 'Jose De Jesus', 9958723566, 'Driver');
+(1, 'Father', 9932022572, NULL, 'Mother', 9911285549, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9960360032, ''),
+(2, 'Father', 9967943518, NULL, 'Mother', 9958637497, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9989356933, ''),
+(3, 'Father', 9970872178, NULL, 'Mother', 9986290093, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9918833937, ''),
+(4, 'Father', 9935299410, NULL, 'Mother', 9919995241, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9994077978, ''),
+(5, 'Father', 9910404170, NULL, 'Mother', 9969786921, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9917722096, ''),
+(6, 'Father', 9979249723, NULL, 'Mother', 9943082330, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9977662483, ''),
+(7, 'Father', 9959065430, NULL, 'Mother', 9962339703, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9934502228, ''),
+(8, 'Father', 9985492036, NULL, 'Mother', 9923953497, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9963291383, ''),
+(9, 'Symon De Jesus', 9958723566, 'Rider', 'Rosalyn De Jesus', 9958723566, NULL, '21,000-30,000', 1, 'Eldest', 'Jose De Jesus', 9958723566, 'Driver'),
+(10, 'Father', 9944596427, NULL, 'Mother', 9933107991, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9931750678, ''),
+(11, 'Father', 9959429420, NULL, 'Mother', 9901895067, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9931187081, ''),
+(12, 'Father', 9950250208, NULL, 'Mother', 9957689800, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9937698379, ''),
+(13, 'Father', 9915422500, NULL, 'Mother', 9964017366, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9973819333, ''),
+(14, 'Father', 9977044569, NULL, 'Mother', 9963764852, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9987690554, ''),
+(15, 'Father', 9947158220, NULL, 'Mother', 9972719442, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9922122552, ''),
+(16, 'Father', 9992454437, NULL, 'Mother', 9995904532, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9902159353, ''),
+(17, 'Father', 9923083172, NULL, 'Mother', 9908937806, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9975439518, ''),
+(18, 'Father', 9950384177, NULL, 'Mother', 9925602332, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9976859135, ''),
+(19, 'Father', 9907488680, NULL, 'Mother', 9906865999, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9911863960, ''),
+(20, 'Father', 9938721808, NULL, 'Mother', 9958017162, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9973920389, ''),
+(21, 'Father', 9995550463, NULL, 'Mother', 9955991154, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9993304382, ''),
+(22, 'Father', 9998548451, NULL, 'Mother', 9912829112, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9968500213, ''),
+(23, 'Father', 9904013731, NULL, 'Mother', 9914568022, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9960798919, ''),
+(24, 'Father', 9960290534, NULL, 'Mother', 9919055918, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9914407988, ''),
+(25, 'Father', 9914872191, NULL, 'Mother', 9931136995, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9911068406, ''),
+(26, 'Father', 9961931050, NULL, 'Mother', 9976450033, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9996457020, ''),
+(27, 'Father', 9952935004, NULL, 'Mother', 9975303966, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9917714818, ''),
+(28, 'Father', 9962662197, NULL, 'Mother', 9960166536, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9912846091, ''),
+(29, 'Father', 9983730850, NULL, 'Mother', 9980115982, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9949387362, ''),
+(30, 'Father', 9906588869, NULL, 'Mother', 9984782263, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9904144713, ''),
+(31, 'Father', 9966376778, NULL, 'Mother', 9919449756, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9998118451, ''),
+(32, 'Father', 9932242987, NULL, 'Mother', 9966859589, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9937568984, ''),
+(33, 'Father', 9987266160, NULL, 'Mother', 9923623850, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9956320775, ''),
+(34, 'Father', 9910732329, NULL, 'Mother', 9984699323, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9991299631, ''),
+(35, 'Father', 9902400189, NULL, 'Mother', 9938102057, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9983309720, ''),
+(36, 'Joseph Bosul Skidmore', 9178354163, 'Sales Agent', 'Erly Enraca Skidmore', 9472902443, 'Housewife', '11,000-20,000', 1, 'Eldest', 'Erly Enraca Skidmore', 9472902443, 'Housewife'),
+(37, 'Father', 9902242433, NULL, 'Mother', 9961283007, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9999687741, ''),
+(38, 'Father', 9914589687, NULL, 'Mother', 9973885214, NULL, '11,000-20,000', 1, 'Eldest', 'Guardian', 9925657016, '');
 
 -- --------------------------------------------------------
 
@@ -175,8 +218,8 @@ CREATE TABLE `tb_admission_info` (
 
 INSERT INTO `tb_admission_info` (`admission_ID`, `admission_Branch`, `admission_Entry`, `admission_TypeApplicant`, `admission_Strand`, `admission_TypeStudent`, `admission_LRN`, `admission_Program`) VALUES
 (1, 'Silang', NULL, NULL, NULL, NULL, NULL, NULL),
-(35, 'Silang', 'New', 'Filipino', 'STEM', 'GR12', 107923130246, 'BSCS'),
-(38, 'Silang', 'New', 'Filipino', 'ICT', 'SHS', 107963100122, 'BSCS');
+(9, 'Silang', 'New', 'Filipino', 'TVL-ICT', 'SHS', 107963100122, 'BSCS'),
+(36, 'Silang', 'New', 'Filipino', 'STEM', 'GR12', 107923130246, 'BSCS');
 
 -- --------------------------------------------------------
 
@@ -203,8 +246,20 @@ CREATE TABLE `tb_admission_medical` (
 --
 
 INSERT INTO `tb_admission_medical` (`admission_ID`, `admission_Medication`, `admission_Allergy`, `admission_Scoliosis`, `admission_Asthma`, `admission_Hypertension`, `admission_Diabetes`, `admission_Insomnia`, `admission_Vertigo`, `admission_Others`, `admission_PWD`) VALUES
-(35, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
-(38, NULL, 'Yes', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No');
+(2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes'),
+(4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes'),
+(7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes'),
+(9, NULL, 'Yes', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
+(11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes'),
+(13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes'),
+(17, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes'),
+(19, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes'),
+(22, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes'),
+(27, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes'),
+(30, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes'),
+(34, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes'),
+(36, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'No'),
+(38, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes');
 
 -- --------------------------------------------------------
 
@@ -235,8 +290,44 @@ CREATE TABLE `tb_admission_personal` (
 --
 
 INSERT INTO `tb_admission_personal` (`admission_ID`, `admission_FirstName`, `admission_MiddleName`, `admission_LastName`, `admission_Suffix`, `admission_Region`, `admission_Province`, `admission_ContactNumber`, `admission_LandlineNumber`, `admission_CivilStatus`, `admission_Sex`, `admission_BirthDate`, `admission_BirthPlace`, `admission_Religion`, `admission_Indigenous`) VALUES
-(35, 'John Patrick', 'Enraca', 'Skidmore', NULL, 'IV_A', 'Cavite', 9918285766, NULL, 'Single', 'Male', '2005-11-23', 'Trece Martires', 'Roman Catholic', 'No'),
-(38, 'Seb', 'Silva', 'De Jesus', NULL, 'IV_A', 'Cavite', 9958723566, NULL, 'Single', 'Male', '2004-12-04', 'Pasay, Manila', 'Catholic', 'No');
+(1, '', NULL, '', NULL, 'IV_A', 'Cavite', 9965733045, NULL, 'Single', 'Male', '2004-07-25', '', NULL, 'No'),
+(2, '', NULL, '', NULL, 'IV_A', 'Cavite', 9996697222, NULL, 'Single', 'Male', '2003-11-25', '', NULL, 'No'),
+(3, '', NULL, '', NULL, 'IV_A', 'Cavite', 9986286981, NULL, 'Single', 'Male', '2005-10-17', '', NULL, 'No'),
+(4, '', NULL, '', NULL, 'IV_A', 'Cavite', 9941343241, NULL, 'Single', 'Male', '2005-04-11', '', NULL, 'No'),
+(5, '', NULL, '', NULL, 'IV_A', 'Cavite', 9947855266, NULL, 'Single', 'Male', '2005-12-30', '', NULL, 'No'),
+(6, '', NULL, '', NULL, 'IV_A', 'Cavite', 9915246609, NULL, 'Single', 'Male', '2005-03-02', '', NULL, 'No'),
+(7, '', NULL, '', NULL, 'IV_A', 'Cavite', 9932667254, NULL, 'Single', 'Male', '2004-11-02', '', NULL, 'No'),
+(8, '', NULL, '', NULL, 'IV_A', 'Cavite', 9917596444, NULL, 'Single', 'Male', '2005-09-09', '', NULL, 'No'),
+(9, 'Sebastiene Rhodney', 'Silva', 'De Jesus', NULL, 'IV_A', 'Cavite', 9958723566, NULL, 'Single', 'Male', '2004-12-04', 'Pasay, Manila', 'Roman Catholic', 'No'),
+(10, '', NULL, '', NULL, 'IV_A', 'Cavite', 9989980463, NULL, 'Single', 'Male', '2004-12-09', '', NULL, 'No'),
+(11, '', NULL, '', NULL, 'IV_A', 'Cavite', 9997112986, NULL, 'Single', 'Male', '2004-08-16', '', NULL, 'No'),
+(12, '', NULL, '', NULL, 'IV_A', 'Cavite', 9915623546, NULL, 'Single', 'Male', '2005-04-24', '', NULL, 'No'),
+(13, '', NULL, '', NULL, 'IV_A', 'Cavite', 9986778776, NULL, 'Single', 'Male', '2003-09-10', '', NULL, 'No'),
+(14, '', NULL, '', NULL, 'IV_A', 'Cavite', 9987023245, NULL, 'Single', 'Male', '2005-07-07', '', NULL, 'No'),
+(15, '', NULL, '', NULL, 'IV_A', 'Cavite', 9974779902, NULL, 'Single', 'Male', '2004-07-03', '', NULL, 'No'),
+(16, '', NULL, '', NULL, 'IV_A', 'Cavite', 9912829779, NULL, 'Single', 'Male', '2005-12-22', '', NULL, 'No'),
+(17, '', NULL, '', NULL, 'IV_A', 'Cavite', 9939809193, NULL, 'Single', 'Male', '2004-05-14', '', NULL, 'No'),
+(18, '', NULL, '', NULL, 'IV_A', 'Cavite', 9960556628, NULL, 'Single', 'Male', '2003-12-01', '', NULL, 'No'),
+(19, '', NULL, '', NULL, 'IV_A', 'Cavite', 9983355568, NULL, 'Single', 'Male', '2003-06-24', '', NULL, 'No'),
+(20, '', NULL, '', NULL, 'IV_A', 'Cavite', 9935107960, NULL, 'Single', 'Male', '2005-08-22', '', NULL, 'No'),
+(21, '', NULL, '', NULL, 'IV_A', 'Cavite', 9925473099, NULL, 'Single', 'Male', '2005-10-09', '', NULL, 'No'),
+(22, '', NULL, '', NULL, 'IV_A', 'Cavite', 9922041617, NULL, 'Single', 'Male', '2005-12-11', '', NULL, 'No'),
+(23, '', NULL, '', NULL, 'IV_A', 'Cavite', 9933788794, NULL, 'Single', 'Male', '2003-05-29', '', NULL, 'No'),
+(24, '', NULL, '', NULL, 'IV_A', 'Cavite', 9902819122, NULL, 'Single', 'Male', '2005-03-10', '', NULL, 'No'),
+(25, '', NULL, '', NULL, 'IV_A', 'Cavite', 9912729232, NULL, 'Single', 'Male', '2003-09-26', '', NULL, 'No'),
+(26, '', NULL, '', NULL, 'IV_A', 'Cavite', 9955188798, NULL, 'Single', 'Male', '2003-02-10', '', NULL, 'No'),
+(27, '', NULL, '', NULL, 'IV_A', 'Cavite', 9937756298, NULL, 'Single', 'Male', '2004-05-04', '', NULL, 'No'),
+(28, '', NULL, '', NULL, 'IV_A', 'Cavite', 9923215097, NULL, 'Single', 'Male', '2003-05-18', '', NULL, 'No'),
+(29, '', NULL, '', NULL, 'IV_A', 'Cavite', 9902806597, NULL, 'Single', 'Male', '2003-11-10', '', NULL, 'No'),
+(30, '', NULL, '', NULL, 'IV_A', 'Cavite', 9944387697, NULL, 'Single', 'Male', '2003-03-01', '', NULL, 'No'),
+(31, '', NULL, '', NULL, 'IV_A', 'Cavite', 9913518696, NULL, 'Single', 'Male', '2004-03-28', '', NULL, 'No'),
+(32, '', NULL, '', NULL, 'IV_A', 'Cavite', 9934430394, NULL, 'Single', 'Male', '2005-09-17', '', NULL, 'No'),
+(33, '', NULL, '', NULL, 'IV_A', 'Cavite', 9931595885, NULL, 'Single', 'Male', '2003-11-06', '', NULL, 'No'),
+(34, '', NULL, '', NULL, 'IV_A', 'Cavite', 9954688245, NULL, 'Single', 'Male', '2005-02-06', '', NULL, 'No'),
+(35, '', NULL, '', NULL, 'IV_A', 'Cavite', 9978653576, NULL, 'Single', 'Male', '2004-12-19', '', NULL, 'No'),
+(36, 'John Patrick', 'Enraca', 'Skidmore', NULL, 'IV_A', 'Cavite', 9918285766, NULL, 'Single', 'Male', '2005-11-23', 'Trece Martires', 'Roman Catholic', 'No'),
+(37, '', NULL, '', NULL, 'IV_A', 'Cavite', 9929203146, NULL, 'Single', 'Male', '2003-07-15', '', NULL, 'No'),
+(38, '', NULL, '', NULL, 'IV_A', 'Cavite', 9910055005, NULL, 'Single', 'Male', '2005-10-07', '', NULL, 'No');
 
 -- --------------------------------------------------------
 
@@ -258,41 +349,41 @@ INSERT INTO `tb_admission_user` (`admission_ID`, `admission_Email`, `admission_P
 (1, 'jamal.abdulla@gmail.com', '$2y$10$8vwrFngWJ.3mv.K1UnGVdOTsSLI02ktH146yqyIzyeBBT5FX9/wU6'),
 (2, 'rainerjack.altaraz@gmail.com', '$2y$10$Y/xAvfKFjUJAMonXAwUvt.qS0JMEGevo6zryMFJlqDd8cgo7/Hk.K'),
 (3, 'carljoshua.cadungog@gmail.com', '$2y$10$x/HxN4gAF3WSPOdExn.vw.Ejq69Y6UB22/vWyPuSSQKgvVB56tgQi'),
-(4, 'marilyn.cantada@gmail.com', '$2y$10$8EbliNa1S510jrpuY7ADEuVBOd9wSOu3ABmKuj5QiaDaTcb/2ru1G'),
-(5, 'erikamae.caraan@gmail.com', '$2y$10$N72AYiC1.Vc4MH29M8kN/euE8QK/Mzpm0MgrZYBHvUonx1pqk5v4u'),
-(6, 'zedrickdenzel.claridad@gmail.com', '$2y$10$yGyNh/CqPmm9WaiBjgFlD.zEISpYwxkewVT.Vw15t.XFElWj1HoH.'),
-(7, 'kentraven.deleon@gmail.com', '$2y$10$rJOZ.xVfp5hd4cy4gqJD9.bqcIoxr1zQ.l/lnyUY.VgurSNT1B0JG'),
-(8, 'sebestienerhodney@gmail.com', '$2y$10$92XNZ8kgRukMZ/.8gQqVe.Zw1lQMr2NlzjBxKR0llbTGzL95ui3A.'),
-(9, 'jasmin.ebon@gmail.com', '$2y$10$5zjpRjDI403YtR6nQsA0aeSOxWPKkdVjzdQAsnLQUxpwgEIJm6Lk6'),
-(10, 'christine.ermino@gmail.com', '$2y$10$Bg3l61DX5Lkni0HU2ZXf/u808TlaY8bH4.ONnN1uO4ifBsBvoKmNO'),
-(11, 'charlesaldrin.galon@gmail.com', '$2y$10$SDeIpuNlwKKA.l4rzuTxCOZwsr5LjoZqErfnF7uAUnA0.eXdXeFsG'),
-(12, 'kaishaun.gonzaga@gmail.com', '$2y$10$zvqwd9WdCYPo4wDai0aFwe5IYdOxLpeVX.1q9MjmCY8u//6TYNdUK'),
-(13, 'ivan.joson@gmail.com', '$2y$10$FUsj/U5YWSP2pMBpuVONKelHzeH74wYbYgSuVAJZhC0nsVznB/W.e'),
-(14, 'tairadanielle.julia@gmail.com', '$2y$10$WCPXoIkUYFvNU8HNMhIV7.OYVUQ3Lik2OuUK/8kOy3Gz0LYd7kqdu'),
-(15, 'krysteljoy.kapangyarihan@gmail.com', '$2y$10$sxreUdCs68nCrpTZ.jtU5Oi/AIOkBGsnviLK3s40.xbWtCxf6rJO2'),
-(16, 'anyahermione.loyola@gmail.com', '$2y$10$kmmnDLb8nsThgZX/MusF.O.myEoWf67S3Ux8ywUMUGfa5xKn3DyQS'),
-(17, 'christianjames.maano@gmail.com', '$2y$10$Yqs9RNgtJeqaTaEgwrm07e9Qz2rvjq6xhqf6TqDezVtvEKjAKzPN6'),
-(18, 'markariel.macawili@gmail.com', '$2y$10$YFVudH4qWI7J9GQLSeQQAesc/yGAO9KnaspABlbzzgzRZY6vxdBaK'),
-(19, 'kurtkevin.mallari@gmail.com', '$2y$10$ZbpYpXAN1oBddFhYnQMz3eF0krbsYOoyiWE8Z4.EZle8VwbnF2Lq.'),
-(20, 'joshua.mamorno@gmail.com', '$2y$10$KAA3m/CW4bylhEVlEZSpqONDHDrBDUzaoK1bLStOYk0AZwfjN9QHa'),
-(21, 'lovedivine.manzano@gmail.com', '$2y$10$5eQL53KUnIW0nZXaEEPkM.uRTPd58dJS1nKTLepPax8iTARyqySVq'),
-(22, 'francisjoshua.mapanoo@gmail.com', '$2y$10$.sDQOVzcsRdGUNx2.6KJ9eBOORX6Nsa2cFJXGhnv/L3RK13k6xTq6'),
-(23, 'markjason.mendoza@gmail.com', '$2y$10$bZkw1xhRF5soVmx.KpxFHOPV4O7Uj52eMQXXL5Mp8EW4wMtXY3ag.'),
-(24, 'ralphchryslerjohn.mendoza@gmail.com', '$2y$10$Zdbc6KgZii/ocpyAVuBa0e5GC9Knt6.YQJ4Olojew24LxRFUYAwNy'),
-(25, 'mikejester.miano@gmail.com', '$2y$10$WjKDeQpTd5GyLexvW13nJOiOYI8QzxLKzVjsY/wi0RJSa0eNmS8oC'),
-(26, 'johncarlo.montemayor@gmail.com', '$2y$10$oCruSa6vp/Eb6nq.rcDrd.VB8picR4Q84rL8sWtod2BQYnZoIOQpa'),
-(27, 'ronaldtyrone.pangilinan@gmail.com', '$2y$10$CepSiOy.Q1OapvnX26larewlLLyJhQTrcB7mnI/CmUynVnc6fhJLC'),
-(28, 'markaljon.pilar@gmail.com', '$2y$10$/6iThkSLOHzOWd6MJmHNXeX3wvFia3Cb1K1iVkm8bMlpynQvMJXdO'),
-(29, 'johncena.piquero@gmail.com', '$2y$10$.9aktQHcbdRTdnPn6oNq8u8ikpaP2zjgQAhDkaJs1BmM3ERv1a4qm'),
-(30, 'freddieboy.poblete@gmail.com', '$2y$10$YzQIg2anhcZ2NsdR/idY8eYvPJbcneuBoLahLlyDCEvDg0nXNwZPC'),
-(31, 'christianjay.ramos@gmail.com', '$2y$10$2NivbEGvmCXB5TUtcI71GeVXspGeb2xjhgdLfQp2ccg33bov4iRU.'),
-(32, 'mikhaelajoline.ramos@gmail.com', '$2y$10$Np3UuiQLiYyXXpxVeSeGiO19tulbZlGNvqG8rMD1HoNruRnjb39ku'),
-(33, 'divinevalerie.reyes@gmail.com', '$2y$10$3nU.4iTz.xM2MhfgRjLmzOlAoRYVM85g/B4O2FB1vrvb3e2ofTNQO'),
-(34, 'daveulrich.santos@gmail.com', '$2y$10$iUd8nVYtUOrpolD3tr7HduSH7AXofWOpLkN9vfTMmrgEAbI3j7.AS'),
-(35, 'johnpatrick.skidmore@gmail.com', '$2y$10$o5M5Knkw1lHyrMEmUBHU7.uLnWp4de5hr60bhVGJeJtcAOXJK7mrq'),
-(36, 'ghia.tabago@gmail.com', '$2y$10$6s./Kd8lsk0QqALHn9Kz8.N71VkjXu4P99NSNsVVXZbXIKpvrkDVS'),
-(37, 'cedrick.toledana@gmail.com', '$2y$10$vP6aAWKYRzl5EnUMlCohGO6G1AnlumOf0cMJ2hPhEl3mbhbkjqB4.'),
-(38, 'seb@gmail.com', '$2y$10$RwWgAB.Gx4o3txvyUktKReg863udyYJ06ABKVyCpRr.WFy8X24JiS');
+(4, 'drixenpaul.calzado@gmail.com', '$2y$10$lzNM/y/Gj129bKCr0IVmVu9zyHkphFpy21yWdJsaxdGCCyhum6JPa'),
+(5, 'marilyn.cantada@gmail.com', '$2y$10$8EbliNa1S510jrpuY7ADEuVBOd9wSOu3ABmKuj5QiaDaTcb/2ru1G'),
+(6, 'erikamae.caraan@gmail.com', '$2y$10$N72AYiC1.Vc4MH29M8kN/euE8QK/Mzpm0MgrZYBHvUonx1pqk5v4u'),
+(7, 'zedrickdenzel.claridad@gmail.com', '$2y$10$yGyNh/CqPmm9WaiBjgFlD.zEISpYwxkewVT.Vw15t.XFElWj1HoH.'),
+(8, 'kentraven.deleon@gmail.com', '$2y$10$rJOZ.xVfp5hd4cy4gqJD9.bqcIoxr1zQ.l/lnyUY.VgurSNT1B0JG'),
+(9, 'sebestienerhodney.dejesus@gmail.com', '$2y$10$92XNZ8kgRukMZ/.8gQqVe.Zw1lQMr2NlzjBxKR0llbTGzL95ui3A.'),
+(10, 'jasmin.ebon@gmail.com', '$2y$10$5zjpRjDI403YtR6nQsA0aeSOxWPKkdVjzdQAsnLQUxpwgEIJm6Lk6'),
+(11, 'christine.ermino@gmail.com', '$2y$10$Bg3l61DX5Lkni0HU2ZXf/u808TlaY8bH4.ONnN1uO4ifBsBvoKmNO'),
+(12, 'charlesaldrin.galon@gmail.com', '$2y$10$SDeIpuNlwKKA.l4rzuTxCOZwsr5LjoZqErfnF7uAUnA0.eXdXeFsG'),
+(13, 'kaishaun.gonzaga@gmail.com', '$2y$10$zvqwd9WdCYPo4wDai0aFwe5IYdOxLpeVX.1q9MjmCY8u//6TYNdUK'),
+(14, 'ivan.joson@gmail.com', '$2y$10$FUsj/U5YWSP2pMBpuVONKelHzeH74wYbYgSuVAJZhC0nsVznB/W.e'),
+(15, 'tairadanielle.julia@gmail.com', '$2y$10$WCPXoIkUYFvNU8HNMhIV7.OYVUQ3Lik2OuUK/8kOy3Gz0LYd7kqdu'),
+(16, 'krysteljoy.kapangyarihan@gmail.com', '$2y$10$sxreUdCs68nCrpTZ.jtU5Oi/AIOkBGsnviLK3s40.xbWtCxf6rJO2'),
+(17, 'anyahermione.loyola@gmail.com', '$2y$10$kmmnDLb8nsThgZX/MusF.O.myEoWf67S3Ux8ywUMUGfa5xKn3DyQS'),
+(18, 'christianjames.maano@gmail.com', '$2y$10$Yqs9RNgtJeqaTaEgwrm07e9Qz2rvjq6xhqf6TqDezVtvEKjAKzPN6'),
+(19, 'markariel.macawili@gmail.com', '$2y$10$YFVudH4qWI7J9GQLSeQQAesc/yGAO9KnaspABlbzzgzRZY6vxdBaK'),
+(20, 'kurtkevin.mallari@gmail.com', '$2y$10$ZbpYpXAN1oBddFhYnQMz3eF0krbsYOoyiWE8Z4.EZle8VwbnF2Lq.'),
+(21, 'joshua.mamorno@gmail.com', '$2y$10$KAA3m/CW4bylhEVlEZSpqONDHDrBDUzaoK1bLStOYk0AZwfjN9QHa'),
+(22, 'lovedivine.manzano@gmail.com', '$2y$10$5eQL53KUnIW0nZXaEEPkM.uRTPd58dJS1nKTLepPax8iTARyqySVq'),
+(23, 'francisjoshua.mapanoo@gmail.com', '$2y$10$.sDQOVzcsRdGUNx2.6KJ9eBOORX6Nsa2cFJXGhnv/L3RK13k6xTq6'),
+(24, 'markjason.mendoza@gmail.com', '$2y$10$bZkw1xhRF5soVmx.KpxFHOPV4O7Uj52eMQXXL5Mp8EW4wMtXY3ag.'),
+(25, 'ralphchryslerjohn.mendoza@gmail.com', '$2y$10$Zdbc6KgZii/ocpyAVuBa0e5GC9Knt6.YQJ4Olojew24LxRFUYAwNy'),
+(26, 'mikejester.miano@gmail.com', '$2y$10$WjKDeQpTd5GyLexvW13nJOiOYI8QzxLKzVjsY/wi0RJSa0eNmS8oC'),
+(27, 'johncarlo.montemayor@gmail.com', '$2y$10$oCruSa6vp/Eb6nq.rcDrd.VB8picR4Q84rL8sWtod2BQYnZoIOQpa'),
+(28, 'ronaldtyrone.pangilinan@gmail.com', '$2y$10$CepSiOy.Q1OapvnX26larewlLLyJhQTrcB7mnI/CmUynVnc6fhJLC'),
+(29, 'markaljon.pilar@gmail.com', '$2y$10$/6iThkSLOHzOWd6MJmHNXeX3wvFia3Cb1K1iVkm8bMlpynQvMJXdO'),
+(30, 'johncena.piquero@gmail.com', '$2y$10$.9aktQHcbdRTdnPn6oNq8u8ikpaP2zjgQAhDkaJs1BmM3ERv1a4qm'),
+(31, 'freddieboy.poblete@gmail.com', '$2y$10$YzQIg2anhcZ2NsdR/idY8eYvPJbcneuBoLahLlyDCEvDg0nXNwZPC'),
+(32, 'christianjay.ramos@gmail.com', '$2y$10$2NivbEGvmCXB5TUtcI71GeVXspGeb2xjhgdLfQp2ccg33bov4iRU.'),
+(33, 'mikhaelajoline.ramos@gmail.com', '$2y$10$Np3UuiQLiYyXXpxVeSeGiO19tulbZlGNvqG8rMD1HoNruRnjb39ku'),
+(34, 'divinevalerie.reyes@gmail.com', '$2y$10$3nU.4iTz.xM2MhfgRjLmzOlAoRYVM85g/B4O2FB1vrvb3e2ofTNQO'),
+(35, 'daveulrich.santos@gmail.com', '$2y$10$iUd8nVYtUOrpolD3tr7HduSH7AXofWOpLkN9vfTMmrgEAbI3j7.AS'),
+(36, 'johnpatrick.skidmore@gmail.com', '$2y$10$o5M5Knkw1lHyrMEmUBHU7.uLnWp4de5hr60bhVGJeJtcAOXJK7mrq'),
+(37, 'ghia.tabago@gmail.com', '$2y$10$6s./Kd8lsk0QqALHn9Kz8.N71VkjXu4P99NSNsVVXZbXIKpvrkDVS'),
+(38, 'cedrick.toledana@gmail.com', '$2y$10$vP6aAWKYRzl5EnUMlCohGO6G1AnlumOf0cMJ2hPhEl3mbhbkjqB4.');
 
 -- --------------------------------------------------------
 
@@ -477,7 +568,7 @@ ALTER TABLE `tb_admin_user`
 -- AUTO_INCREMENT for table `tb_admission_control`
 --
 ALTER TABLE `tb_admission_control`
-  MODIFY `admission_ControlNumber` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `admission_ControlNumber` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tb_admission_user`

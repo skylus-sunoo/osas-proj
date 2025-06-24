@@ -11,8 +11,8 @@
         <div class="footer-links">
             <h5>Quick Links</h5>
             <ul>
-                <li><a href="/about">About OSAS</a></li>
-                <li><a href="/services">Services</a></li>
+                <!-- <li><a href="/about">About OSAS</a></li>
+                <li><a href="/services">Services</a></li> -->
                 <li><a href="/dashboard/news_updates">News & Updates</a></li>
                 <li><a href="/dashboard/downloads">Downloadable Forms</a></li>
             </ul>

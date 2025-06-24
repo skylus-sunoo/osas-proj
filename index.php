@@ -86,7 +86,7 @@ $router->add("/admin/news_clear", function () {
     $controller->handleAdminRedirect();
 
     unset($_SESSION['news_ID']);
-    
+
     goToPage("/admin/news?single=true");
 });
 
@@ -226,7 +226,9 @@ $router->add("/admission/application", function () {
 $router->add("/admission/enrollment", function () {
     $controller = new AdmissionController();
     $controller->handleEnrollmentRedirect();
-    include_once 'views/public/include/footer.php';
+    if (isLoggedIn()) {
+        include_once 'views/public/include/footer.php';
+    }
 });
 
 $router->add("/admission/download", function () {

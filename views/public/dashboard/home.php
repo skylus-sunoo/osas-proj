@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - CVSU Silang</title>
     <link rel="stylesheet" href="../../../assets/css/public_home.css">
+    <style>
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body class="public-body font-NotoSans">
@@ -18,7 +24,7 @@
 
                 <p>
                     ADMISSION PROCEDURES: Senior high graduate and ALS passers undergo online application using the link
-                    (<a href="https://registrar.cvsu.edu.ph/osas/" target="_blank" style="color:#ffcc00;">https://registrar.cvsu.edu.ph/osas/</a>)
+                    (<a href="https://registrar.cvsu.edu.ph/osas/" target="_blank">https://registrar.cvsu.edu.ph/osas/</a>)
                     to encode completely the needed information in the application form. Ensure that all sections are
                     <span class="dots">...</span>
                     <span class="more-text">
@@ -38,7 +44,7 @@
 
                 <p>
                     ADMISSION PROCEDURES: Senior high graduate and ALS passers undergo online application using the link
-                    (<a href="https://registrar.cvsu.edu.ph/osas/" target="_blank" style="color:#ffcc00;">https://registrar.cvsu.edu.ph/osas/</a>)
+                    (<a href="https://registrar.cvsu.edu.ph/osas/" target="_blank">https://registrar.cvsu.edu.ph/osas/</a>)
                     to encode completely the needed information in the application form. Ensure that all sections are
                     <span class="dots">...</span>
                     <span class="more-text">

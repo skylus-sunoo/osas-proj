@@ -41,62 +41,56 @@
             <hr>
         </div>
 
-        <div class="officials-card">
-            <img src="../../../assets/img/favicon/skid.jpg">
-            <div>
-                <h1> Main Programmer </h1> <br>
-                <h2> John Patrick E. Skidmore </h2>
+        <div class="officials-wrapper">
+            <div class="officials-card">
+                <img src="../../../assets/img/favicon/skid.jpg">
+                <div>
+                    <h1> Main Programmer </h1>
+                    <h2> John Patrick E. Skidmore </h2>
+                </div>
             </div>
-
-        </div>
-
-        <div class="officials-card">
-            <img src="../../../assets/img/favicon/cj.jpg">
-            <div>
-                <h1> Programmer </h1> <br>
-                <h2> Christian Jay S. Ramos </h2>
+            <div class="officials-card">
+                <img src="../../../assets/img/favicon/cj.jpg">
+                <div>
+                    <h1> Programmer </h1>
+                    <h2> Christian Jay S. Ramos </h2>
+                </div>
             </div>
-
-        </div>
-        <div class="officials-card">
-            <img src="../../../assets/img/favicon/drix.jpg">
-            <div>
-                <h1> Assistant Programmer </h1> <br>
-                <h2> Drixen Paul R. Calzado </h2>
+            <div class="officials-card">
+                <img src="../../../assets/img/favicon/drix.jpg">
+                <div>
+                    <h1> Assistant Programmer </h1>
+                    <h2> Drixen Paul R. Calzado </h2>
+                </div>
             </div>
-
-        </div>
-        <div class="officials-card">
-            <img src="../../../assets/img/favicon/seb.jpg">
-            <div>
-                <h1> Assistant Programmer </h1> <br>
-                <h2> Sebastiene Rhodney S. De Jesus </h2>
+            <div class="officials-card">
+                <img src="../../../assets/img/favicon/seb.jpg">
+                <div>
+                    <h1> Assistant Programmer </h1>
+                    <h2> Sebastiene Rhodney S. De Jesus </h2>
+                </div>
             </div>
-
-        </div>
-        <div class="officials-card">
-            <img src="../../../assets/img/favicon/ty.jpg">
-            <div>
-                <h1> UI Designer / Documentation Specialist </h1> <br>
-                <h2> Ronald Tyrone T. Pangilinan </h2>
+            <div class="officials-card">
+                <img src="../../../assets/img/favicon/ty.jpg">
+                <div>
+                    <h1> UI Designer / Documentation Specialist </h1>
+                    <h2> Ronald Tyrone T. Pangilinan </h2>
+                </div>
             </div>
-
-        </div>
-        <div class="officials-card">
-            <img src="../../../assets/img/favicon/fred.jpg">
-            <div>
-                <h1> Researcher </h1> <br>
-                <h2> Freddie Boy Poblete </h2>
+            <div class="officials-card">
+                <img src="../../../assets/img/favicon/fred.jpg">
+                <div>
+                    <h1> Researcher </h1>
+                    <h2> Freddie Boy Poblete </h2>
+                </div>
             </div>
-
-        </div>
-        <div class="officials-card">
-            <img src="../../../assets/img/favicon/francis.jpg">
-            <div>
-                <h1> Quality Assurance Tester </h1> <br>
-                <h2> Francis Joshua Mapanoo </h2>
+            <div class="officials-card">
+                <img src="../../../assets/img/favicon/francis.jpg">
+                <div>
+                    <h1> Quality Assurance Tester </h1>
+                    <h2> Francis Joshua Mapanoo </h2>
+                </div>
             </div>
-
         </div>
     </main>
 </body>
