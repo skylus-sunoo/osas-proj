@@ -14,16 +14,18 @@ $dompdf = new Dompdf($options);
 $dompdf->setPaper("A4", "portrait");
 
 $sql = "SELECT 
-                    c.admission_ControlNumber,
-                    i.admission_Program
-                FROM 
-                    tb_admission_control AS c
-                INNER JOIN 
-                    tb_admission_info AS i
-                ON 
-                    c.admission_ID = i.admission_ID
-                WHERE
-                    c.admission_Result = 'PASSED';";
+            c.admission_ControlNumber,
+            i.admission_Program
+        FROM 
+            tb_admission_control AS c
+        INNER JOIN 
+            tb_admission_info AS i
+        ON 
+            c.admission_ID = i.admission_ID
+        WHERE
+            c.admission_Result = 'PASSED'
+        ORDER BY 
+            c.admission_ID DESC";
 
 // $sql = "SELECT * FROM tb_admission_user;";
 
@@ -59,7 +61,7 @@ $html = str_replace([
 
 $dompdf->loadHtml($html);
 $dompdf->render();
-$dompdf->addInfo("Title", $_SESSION['admission_LastName'] . ', ' . $_SESSION['admission_FirstName'] . ' ' . $_SESSION['admission_MiddleName'] . ' ' . $_SESSION['admission_Suffix'] . ' - Application Form');
+$dompdf->addInfo("Title", 'LIST OF QUALIFIED APPLICANTS OF CVSU SILANG CAMPUS FOR ACADEMIC YEAR ' . $sy);
 $dompdf->stream("CvSU_Application_Form.pdf", [
     "Attachment" => false,
 ]);
