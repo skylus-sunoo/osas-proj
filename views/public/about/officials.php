@@ -91,6 +91,13 @@
                     <h2> Francis Joshua Mapanoo </h2>
                 </div>
             </div>
+            <div class="officials-card">
+                <img src="../../../assets/img/favicon/jaz.jpg">
+                <div>
+                    <h1> Business Analyst </h1>
+                    <h2> Jazler Jhon Desamparado </h2>
+                </div>
+            </div>
         </div>
     </main>
 </body>
