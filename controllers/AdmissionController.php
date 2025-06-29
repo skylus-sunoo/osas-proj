@@ -94,7 +94,8 @@ class AdmissionController
             5 => "An account with this LRN already exists.",
             6 => "LRN must contain exactly 12 digits.",
             7 => "Please input a valid year with 4 digits.",
-            8 => "Application information are not yet completed."
+            8 => "Application information are not yet completed.",
+            9 => "Passwords must be at least 8 letters and a digit."
         ];
 
         if (isset($_SESSION['error']) && isset($errorMessages[$_SESSION['error']])) {
@@ -149,6 +150,12 @@ class AdmissionController
 
         if ($password !== $confirmPassword) {
             $_SESSION['error'] = 3;
+            goToPage('/admission/enrollment');
+            return;
+        }
+
+        if (strlen($password) < 8 || !preg_match('/\d/', $password)) {
+            $_SESSION['error'] = 9;
             goToPage('/admission/enrollment');
             return;
         }

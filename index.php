@@ -3,7 +3,20 @@
 declare(strict_types=1);
 ?>
 
-<link rel="apple-touch-icon" sizes="180x180" href="../../../assets/img/favicon/apple-touch-icon.png">
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/assets/img/favicon/site.webmanifest">
+
+    <link rel="preload" href="/assets/css/styles.css" as="style" />
+    <link rel="stylesheet" href="/assets/css/styles.css">
+
+    <link rel="preload" href="/assets/fonts/fonts.css" as="style" />
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
+</head>
+
+<!-- <link rel="apple-touch-icon" sizes="180x180" href="../../../assets/img/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../../assets/img/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../../../assets/img/favicon/favicon-16x16.png">
 <link rel="manifest" href="../../../assets/img/favicon/site.webmanifest">
@@ -15,7 +28,7 @@ declare(strict_types=1);
 <link rel="stylesheet" href="/assets/css/styles.css">
 
 <link rel="preload" href="/assets/fonts/fonts.css" as="style" />
-<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/fonts/fonts.css"> -->
 
 <?php
 session_start();
@@ -226,7 +239,7 @@ $router->add("/admission/application", function () {
 $router->add("/admission/enrollment", function () {
     $controller = new AdmissionController();
     $controller->handleEnrollmentRedirect();
-    if (isLoggedIn()) {
+    if (isLoggedIn() && isset($_SESSION['admission_Branch'])) {
         include_once 'views/public/include/footer.php';
     }
 });

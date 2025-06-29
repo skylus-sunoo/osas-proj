@@ -26,7 +26,7 @@
             <form action="/admission/enrollment" method="POST">
                 <select name="branch" id="branch">
                     <option value="Silang">CvSU Silang Campus</option>
-                    <option value="Indang">CvSU Indang Campus (Main Campus)</option>
+                    <!-- <option value="Indang">CvSU Indang Campus (Main Campus)</option>
                     <option value="Bacoor">CvSU Bacoor Campus</option>
                     <option value="Carmona">CvSU Carmona Campus</option>
                     <option value="Cavite City">CvSU Cavite City Campus</option>
@@ -36,7 +36,7 @@
                     <option value="Maragondon">CvSU Maragondon Campus</option>
                     <option value="Naic">CvSU Naic Campus</option>
                     <option value="Rosario">CvSU Rosario Campus (CCAT)</option>
-                    <option value="Trece Martires">CvSU Trece Martires Campus</option>
+                    <option value="Trece Martires">CvSU Trece Martires Campus</option> -->
                 </select>
                 <br> <br>
                 <button type="submit" class="primary-button"> <b> SAVE ADMISSION INFORMATION </b></button>

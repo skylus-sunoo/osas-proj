@@ -26,7 +26,7 @@
 
             <div class="tab-buttons">
                 <button id="loginTab" class="active" onclick="showForm('login')">Login</button>
-                <button id="signupTab" onclick="showForm('signup')">Sign Up</button>
+                <!-- <button id="signupTab" onclick="showForm('signup')">Sign Up</button> -->
             </div>
 
             <section id="loginForm" class="login-form form-section active">
