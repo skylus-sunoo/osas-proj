@@ -2,6 +2,8 @@
 
 A comprehensive web-based enrollment and admission management system designed for Cavite State University (CvSU) Silang Campus. The system streamlines the application process for incoming students and provides administrators with robust tools to track, verify, and evaluate applications.
 
+![Public Home](images/public_home.png)
+
 ---
 
 ## Public Interface (Student Portal)
@@ -13,6 +15,8 @@ The public-facing portal is designed to guide prospective students through the u
 * **Application Tutorial:** A dedicated guide providing step-by-step instructions on the admission process.
 * **Course Offerings:** A directory of academic programs currently available at the branch.
 
+![Campus News](images/public_news.png)
+
 ### Student Enrollment Workflow
 1.  **Authentication:** The applicant signs into the system.
 2.  **Data Entry:** The applicant completes the admission forms, which are categorized into Personal, Family, Educational, and Medical information.
@@ -21,11 +25,15 @@ The public-facing portal is designed to guide prospective students through the u
 5.  **Examination Phase:** The applicant is assigned an exam date and takes the entrance examination.
 6.  **Results:** The applicant checks the portal for their final admission status (Passed/Failed).
 
+![Public Enrollment Form](images/public_enrollment.png)
+
 ---
 
 ## Administrator Interface
 
 The admin side provides university staff with the necessary backend controls to manage the entire enrollment lifecycle efficiently.
+
+![Admin Dashboard](images/admin_dashboard.png)
 
 ### Admin Modules
 
@@ -37,3 +45,8 @@ The admin side provides university staff with the necessary backend controls to 
 | **Examination Scheduling** | Enables admins to create exam dates, set venue capacities, and distribute schedules to verified applicants. |
 | **Results Encoding** | The module where administrators input and update the final exam results for each student. |
 | **Incident Reporting** | A logging functionality used to document and track any operational or system incidents that occur during the enrollment period. |
+
+![Admin Admission Tracking](images/admin_admission.png)
+![Admin Requirements Management](images/admin_requirements.png)
+![Admin Examination Scheduling](images/admin_examinations.png)
+![Admin Incidents](images/admin_incidents.png)
